@@ -13,31 +13,38 @@ import "./IRestakeManager.sol";
 
 abstract contract RestakeManagerStorageV1 is IRestakeManager {    
     /// @dev reference to the RoleManager contract
+    // 管理角色
     IRoleManager public roleManager;
 
     /// @dev reference to the ezETH token contract
+    // LRT token
     IEzEthToken public ezETH;
 
     /// @dev reference to the strategyManager contract in EigenLayer
+    // EigenLayer 的 strategyManager
     IStrategyManager public strategyManager;
 
     /// @dev reference to the delegationManager contract in EigenLayer
+    // EigenLayer 的 delegationManager
     IDelegationManager public delegationManager;
 
     /// @dev data stored for a withdrawal
+    // 待提现
     struct PendingWithdrawal {
-        uint256 ezETHToBurn;
-        address withdrawer;
-        IERC20 tokenToWithdraw;
-        uint256 tokenAmountToWithdraw;
-        IOperatorDelegator operatorDelegator;
-        bool completed;
+        uint256 ezETHToBurn;                     // 待销毁的 LRT
+        address withdrawer;                      // 提现地址
+        IERC20 tokenToWithdraw;                  // 提现的 token 合约地址
+        uint256 tokenAmountToWithdraw;           // 提现金额
+        IOperatorDelegator operatorDelegator;    // 代理操作者
+        bool completed;                          // 是否完成
     }
 
     /// @dev mapping of pending withdrawals, indexed by the withdrawal root from EigenLayer
-    mapping(bytes32 => PendingWithdrawal) public pendingWithdrawals;   
+    // 待提现列表
+    mapping(bytes32 => PendingWithdrawal) public pendingWithdrawals;
 
     /// @dev Stores the list of OperatorDelegators
+    // 代理操作者列表
     IOperatorDelegator[] public operatorDelegators;
 
     /// @dev Mapping to store the allocations to each operatorDelegator
@@ -45,18 +52,23 @@ abstract contract RestakeManagerStorageV1 is IRestakeManager {
     mapping(IOperatorDelegator => uint256) public operatorDelegatorAllocations;
 
     /// @dev Stores the list of collateral tokens
+    // 抵押品token 列表
     IERC20[] public collateralTokens;
 
     /// @dev Reference to the oracle contract
+    // 项目自己的 Oracle
     IRenzoOracle public renzoOracle;
 
     /// @dev Controls pause state of contract
+    // 是否暂停
     bool public paused;
 
     /// @dev The max amount of TVL allowed.  If this is set to 0, no max TVL is enforced
+    // 允许的 最大 锁定总量
     uint256 public maxDepositTVL;
 
     /// @dev Reference to the deposit queue contract
+    // 质押队列
     IDepositQueue public depositQueue;
 }
 
