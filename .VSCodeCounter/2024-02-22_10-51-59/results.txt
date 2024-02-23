@@ -1,0 +1,58 @@
+Date : 2024-02-22 10:51:59
+Directory : /Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts
+Total : 24 files,  1153 codes, 973 comments, 415 blanks, all 2541 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Solidity |         24 |      1,153 |        973 |        415 |      2,541 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                   |         24 |      1,153 |        973 |        415 |      2,541 |
+| . (Files)                                                                                                           |          4 |        515 |        177 |        145 |        837 |
+| Delegation                                                                                                          |          1 |         25 |          1 |         11 |         37 |
+| Deposits                                                                                                            |          1 |          5 |          1 |          2 |          8 |
+| EigenLayer                                                                                                          |         14 |        528 |        744 |        212 |      1,484 |
+| EigenLayer/interfaces                                                                                               |         11 |        294 |        589 |        154 |      1,037 |
+| EigenLayer/libraries                                                                                                |          3 |        234 |        155 |         58 |        447 |
+| Errors                                                                                                              |          1 |         29 |         29 |         29 |         87 |
+| Oracle                                                                                                              |          1 |          9 |          1 |          2 |         12 |
+| Permissions                                                                                                         |          1 |         36 |         19 |         10 |         65 |
+| token                                                                                                               |          1 |          6 |          1 |          4 |         11 |
++---------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                                            | language | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| /Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/Delegation/IOperatorDelegator.sol                  | Solidity |         25 |          1 |         11 |         37 |
+| /Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/Deposits/IDepositQueue.sol                         | Solidity |          5 |          1 |          2 |          8 |
+| /Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/EigenLayer/interfaces/IBeaconChainOracle.sol       | Solidity |         14 |         39 |         10 |         63 |
+| /Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/EigenLayer/interfaces/IDelayedWithdrawalRouter.sol | Solidity |         22 |         27 |         13 |         62 |
+| /Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/EigenLayer/interfaces/IDelegationManager.sol       | Solidity |         20 |         47 |         15 |         82 |
+| /Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/EigenLayer/interfaces/IDelegationTerms.sol         | Solidity |         15 |          7 |          5 |         27 |
+| /Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/EigenLayer/interfaces/IEigenPod.sol                | Solidity |         59 |         70 |         23 |        152 |
+| /Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/EigenLayer/interfaces/IEigenPodManager.sol         | Solidity |         20 |         50 |         15 |         85 |
+| /Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/EigenLayer/interfaces/IPausable.sol                | Solidity |         11 |         36 |         10 |         57 |
+| /Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/EigenLayer/interfaces/IPauserRegistry.sol          | Solidity |          5 |          8 |          3 |         16 |
+| /Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/EigenLayer/interfaces/ISlasher.sol                 | Solidity |         29 |         90 |         21 |        140 |
+| /Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/EigenLayer/interfaces/IStrategy.sol                | Solidity |         15 |         62 |         13 |         90 |
+| /Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/EigenLayer/interfaces/IStrategyManager.sol         | Solidity |         84 |        153 |         26 |        263 |
+| /Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/EigenLayer/libraries/BeaconChainProofs.sol         | Solidity |        137 |         76 |         50 |        263 |
+| /Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/EigenLayer/libraries/Endian.sol                    | Solidity |         17 |          9 |          2 |         28 |
+| /Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/EigenLayer/libraries/Merkle.sol                    | Solidity |         80 |         70 |          6 |        156 |
+| /Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/Errors/Errors.sol                                  | Solidity |         29 |         29 |         29 |         87 |
+| /Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/IRestakeManager.sol                                | Solidity |         15 |          1 |          4 |         20 |
+| /Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/Lock.sol                                           | Solidity |         20 |          5 |         10 |         35 |
+| /Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/Oracle/IRenzoOracle.sol                            | Solidity |          9 |          1 |          2 |         12 |
+| /Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/Permissions/IRoleManager.sol                       | Solidity |         36 |         19 |         10 |         65 |
+| /Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/RestakeManager.sol                                 | Solidity |        445 |        156 |        115 |        716 |
+| /Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/RestakeManagerStorage.sol                          | Solidity |         35 |         15 |         16 |         66 |
+| /Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/token/IEzEthToken.sol                              | Solidity |          6 |          1 |          4 |         11 |
+| Total                                                                                                               |          |      1,153 |        973 |        415 |      2,541 |
++---------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
