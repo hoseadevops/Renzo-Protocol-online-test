@@ -2,10 +2,50 @@
 'npx hardhat clean --global' running (wd: /Users/hosea/work/audit/evaluate/Renzo-Protocol-online)
 'npx hardhat compile --force' running (wd: /Users/hosea/work/audit/evaluate/Renzo-Protocol-online)
 INFO:Detectors:
+DepositQueue.stakeEthFromQueue(IOperatorDelegator,bytes,bytes,bytes32) (contracts/Deposits/DepositQueue.sol#140-146) sends eth to arbitrary user
+	Dangerous calls:
+	- restakeManager.stakeEthInOperatorDelegator{value: 32000000000000000000}(operatorDelegator,pubkey,signature,depositDataRoot) (contracts/Deposits/DepositQueue.sol#143)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#functions-that-send-ether-to-arbitrary-destinations
+INFO:Detectors:
+MathUpgradeable.mulDiv(uint256,uint256,uint256) (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#55-134) performs a multiplication on the result of a division:
+	- denominator = denominator / twos (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#101)
+	- inverse = (3 * denominator) ^ 2 (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#116)
+MathUpgradeable.mulDiv(uint256,uint256,uint256) (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#55-134) performs a multiplication on the result of a division:
+	- denominator = denominator / twos (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#101)
+	- inverse *= 2 - denominator * inverse (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#120)
+MathUpgradeable.mulDiv(uint256,uint256,uint256) (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#55-134) performs a multiplication on the result of a division:
+	- denominator = denominator / twos (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#101)
+	- inverse *= 2 - denominator * inverse (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#121)
+MathUpgradeable.mulDiv(uint256,uint256,uint256) (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#55-134) performs a multiplication on the result of a division:
+	- denominator = denominator / twos (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#101)
+	- inverse *= 2 - denominator * inverse (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#122)
+MathUpgradeable.mulDiv(uint256,uint256,uint256) (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#55-134) performs a multiplication on the result of a division:
+	- denominator = denominator / twos (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#101)
+	- inverse *= 2 - denominator * inverse (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#123)
+MathUpgradeable.mulDiv(uint256,uint256,uint256) (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#55-134) performs a multiplication on the result of a division:
+	- denominator = denominator / twos (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#101)
+	- inverse *= 2 - denominator * inverse (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#124)
+MathUpgradeable.mulDiv(uint256,uint256,uint256) (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#55-134) performs a multiplication on the result of a division:
+	- denominator = denominator / twos (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#101)
+	- inverse *= 2 - denominator * inverse (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#125)
+MathUpgradeable.mulDiv(uint256,uint256,uint256) (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#55-134) performs a multiplication on the result of a division:
+	- prod0 = prod0 / twos (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#104)
+	- result = prod0 * inverse (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#131)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply
+INFO:Detectors:
+DepositQueue.sweepERC20(IERC20) (contracts/Deposits/DepositQueue.sol#150-173) ignores return value by token.approve(address(restakeManager),balance - feeAmount) (contracts/Deposits/DepositQueue.sol#164)
+RenzoOracle.lookupTokenValue(IERC20,uint256) (contracts/Oracle/RenzoOracle.sol#67-77) ignores return value by (price,timestamp) = oracle.latestRoundData() (contracts/Oracle/RenzoOracle.sol#71)
+RenzoOracle.lookupTokenAmountFromValue(IERC20,uint256) (contracts/Oracle/RenzoOracle.sol#81-91) ignores return value by (price,timestamp) = oracle.latestRoundData() (contracts/Oracle/RenzoOracle.sol#85)
 RestakeManager.deposit(IERC20,uint256,uint256) (contracts/RestakeManager.sol#494-570) ignores return value by operatorDelegator.deposit(_collateralToken,_amount) (contracts/RestakeManager.sol#556)
 RestakeManager.depositTokenRewardsFromProtocol(IERC20,uint256) (contracts/RestakeManager.sol#639-669) ignores return value by operatorDelegator.deposit(_token,_amount) (contracts/RestakeManager.sol#668)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return
 INFO:Detectors:
+OperatorDelegator.stakeEth(bytes,bytes,bytes32) (contracts/Delegation/OperatorDelegator.sol#249-255) should emit an event for: 
+	- stakedButNotVerifiedEth += msg.value (contracts/Delegation/OperatorDelegator.sol#254) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic
+INFO:Detectors:
+OperatorDelegator.getStrategyIndex(IStrategy) (contracts/Delegation/OperatorDelegator.sol#146-158) has external calls inside a loop: strategyManager.stakerStrategyList(address(this),i) == _strategy (contracts/Delegation/OperatorDelegator.sol#151)
+RenzoOracle.lookupTokenValue(IERC20,uint256) (contracts/Oracle/RenzoOracle.sol#67-77) has external calls inside a loop: (price,timestamp) = oracle.latestRoundData() (contracts/Oracle/RenzoOracle.sol#71)
 RestakeManager.calculateTVLs() (contracts/RestakeManager.sol#296-362) has external calls inside a loop: operatorBalance = operatorDelegators[i].getTokenBalanceFromStrategy(collateralTokens[j]) (contracts/RestakeManager.sol#325-326)
 RestakeManager.calculateTVLs() (contracts/RestakeManager.sol#296-362) has external calls inside a loop: operatorValues[j] = renzoOracle.lookupTokenValue(collateralTokens[j],operatorBalance) (contracts/RestakeManager.sol#329-332)
 RestakeManager.calculateTVLs() (contracts/RestakeManager.sol#296-362) has external calls inside a loop: operatorEthBalance = operatorDelegators[i].getStakedETHBalance() (contracts/RestakeManager.sol#341)
@@ -14,16 +54,88 @@ RestakeManager.getTotalRewardsEarned() (contracts/RestakeManager.sol#676-704) ha
 RestakeManager.getTotalRewardsEarned() (contracts/RestakeManager.sol#676-704) has external calls inside a loop: totalRewards += address(operatorDelegators[i_scope_0].eigenPod()).balance + operatorDelegators[i_scope_0].pendingUnstakedDelayedWithdrawalAmount() (contracts/RestakeManager.sol#699)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop
 INFO:Detectors:
+Reentrancy in OperatorDelegator.initialize(IRoleManager,IStrategyManager,IRestakeManager,IDelegationManager,IEigenPodManager) (contracts/Delegation/OperatorDelegator.sol#65-91):
+	External calls:
+	- eigenPodManager.createPod() (contracts/Delegation/OperatorDelegator.sol#87)
+	State variables written after the call(s):
+	- eigenPod = IEigenPod(eigenPodManager.ownerToPod(address(this))) (contracts/Delegation/OperatorDelegator.sol#90)
+Reentrancy in OperatorDelegator.receive() (contracts/Delegation/OperatorDelegator.sol#301-320):
+	External calls:
+	- msg.sender == address(eigenPod.delayedWithdrawalRouter()) (contracts/Delegation/OperatorDelegator.sol#305)
+	State variables written after the call(s):
+	- pendingUnstakedDelayedWithdrawalAmount -= msg.value (contracts/Delegation/OperatorDelegator.sol#308)
+	- pendingUnstakedDelayedWithdrawalAmount = 0 (contracts/Delegation/OperatorDelegator.sol#311)
+Reentrancy in DepositQueue.receive() (contracts/Deposits/DepositQueue.sol#120-136):
+	External calls:
+	- (success) = feeAddress.call{value: feeAmount}() (contracts/Deposits/DepositQueue.sol#125)
+	State variables written after the call(s):
+	- totalEarned[address(0x0)] = totalEarned[address(0x0)] + msg.value - feeAmount (contracts/Deposits/DepositQueue.sol#132)
+Reentrancy in OperatorDelegator.stakeEth(bytes,bytes,bytes32) (contracts/Delegation/OperatorDelegator.sol#249-255):
+	External calls:
+	- eigenPodManager.stake{value: msg.value}(pubkey,signature,depositDataRoot) (contracts/Delegation/OperatorDelegator.sol#251)
+	State variables written after the call(s):
+	- stakedButNotVerifiedEth += msg.value (contracts/Delegation/OperatorDelegator.sol#254)
+Reentrancy in OperatorDelegator.startDelayedWithdrawUnstakedETH() (contracts/Delegation/OperatorDelegator.sol#283-294):
+	External calls:
+	- eigenPod.withdrawBeforeRestaking() (contracts/Delegation/OperatorDelegator.sol#290)
+	State variables written after the call(s):
+	- pendingUnstakedDelayedWithdrawalAmount += (beforeEigenPodBalance - address(eigenPod).balance) (contracts/Delegation/OperatorDelegator.sol#293)
+Reentrancy in DepositQueue.sweepERC20(IERC20) (contracts/Deposits/DepositQueue.sol#150-173):
+	External calls:
+	- IERC20(token).safeTransfer(feeAddress,feeAmount) (contracts/Deposits/DepositQueue.sol#158)
+	- token.approve(address(restakeManager),balance - feeAmount) (contracts/Deposits/DepositQueue.sol#164)
+	- restakeManager.depositTokenRewardsFromProtocol(token,balance - feeAmount) (contracts/Deposits/DepositQueue.sol#165)
+	State variables written after the call(s):
+	- totalEarned[address(token)] = totalEarned[address(token)] + balance - feeAmount (contracts/Deposits/DepositQueue.sol#168)
+Reentrancy in OperatorDelegator.verifyWithdrawalCredentials(uint64,uint40,BeaconChainProofs.ValidatorFieldsAndBalanceProofs,bytes32[]) (contracts/Delegation/OperatorDelegator.sol#260-276):
+	External calls:
+	- eigenPod.verifyWithdrawalCredentialsAndBalance(oracleBlockNumber,validatorIndex,proofs,validatorFields) (contracts/Delegation/OperatorDelegator.sol#266-271)
+	State variables written after the call(s):
+	- stakedButNotVerifiedEth -= (validatorCurrentBalanceGwei * GWEI_TO_WEI) (contracts/Delegation/OperatorDelegator.sol#275)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2
+INFO:Detectors:
+Reentrancy in DepositQueue.stakeEthFromQueue(IOperatorDelegator,bytes,bytes,bytes32) (contracts/Deposits/DepositQueue.sol#140-146):
+	External calls:
+	- restakeManager.stakeEthInOperatorDelegator{value: 32000000000000000000}(operatorDelegator,pubkey,signature,depositDataRoot) (contracts/Deposits/DepositQueue.sol#143)
+	Event emitted after the call(s):
+	- ETHStakedFromQueue(operatorDelegator,pubkey,32000000000000000000,address(this).balance) (contracts/Deposits/DepositQueue.sol#145)
+Reentrancy in DepositQueue.sweepERC20(IERC20) (contracts/Deposits/DepositQueue.sol#150-173):
+	External calls:
+	- IERC20(token).safeTransfer(feeAddress,feeAmount) (contracts/Deposits/DepositQueue.sol#158)
+	Event emitted after the call(s):
+	- ProtocolFeesPaid(token,feeAmount,feeAddress) (contracts/Deposits/DepositQueue.sol#160)
+Reentrancy in DepositQueue.sweepERC20(IERC20) (contracts/Deposits/DepositQueue.sol#150-173):
+	External calls:
+	- IERC20(token).safeTransfer(feeAddress,feeAmount) (contracts/Deposits/DepositQueue.sol#158)
+	- token.approve(address(restakeManager),balance - feeAmount) (contracts/Deposits/DepositQueue.sol#164)
+	- restakeManager.depositTokenRewardsFromProtocol(token,balance - feeAmount) (contracts/Deposits/DepositQueue.sol#165)
+	Event emitted after the call(s):
+	- RewardsDeposited(IERC20(address(token)),balance - feeAmount) (contracts/Deposits/DepositQueue.sol#171)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3
+INFO:Detectors:
 Lock.constructor(uint256) (contracts/Lock.sol#13-21) uses timestamp for comparisons
 	Dangerous comparisons:
 	- require(bool,string)(block.timestamp < _unlockTime,Unlock time should be in the future) (contracts/Lock.sol#14-17)
 Lock.withdraw() (contracts/Lock.sol#23-33) uses timestamp for comparisons
 	Dangerous comparisons:
 	- require(bool,string)(block.timestamp >= unlockTime,You can't withdraw yet) (contracts/Lock.sol#27)
+RenzoOracle.lookupTokenValue(IERC20,uint256) (contracts/Oracle/RenzoOracle.sol#67-77) uses timestamp for comparisons
+	Dangerous comparisons:
+	- timestamp < block.timestamp - MAX_TIME_WINDOW (contracts/Oracle/RenzoOracle.sol#72)
+RenzoOracle.lookupTokenAmountFromValue(IERC20,uint256) (contracts/Oracle/RenzoOracle.sol#81-91) uses timestamp for comparisons
+	Dangerous comparisons:
+	- timestamp < block.timestamp - MAX_TIME_WINDOW (contracts/Oracle/RenzoOracle.sol#86)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp
 INFO:Detectors:
 AddressUpgradeable._revert(bytes,string) (@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#231-243) uses assembly
 	- INLINE ASM (@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#236-239)
+StringsUpgradeable.toString(uint256) (@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol#19-39) uses assembly
+	- INLINE ASM (@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol#25-27)
+	- INLINE ASM (@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol#31-33)
+MathUpgradeable.mulDiv(uint256,uint256,uint256) (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#55-134) uses assembly
+	- INLINE ASM (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#62-66)
+	- INLINE ASM (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#85-92)
+	- INLINE ASM (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#99-108)
 Address._revert(bytes,string) (@openzeppelin/contracts/utils/Address.sol#231-243) uses assembly
 	- INLINE ASM (@openzeppelin/contracts/utils/Address.sol#236-239)
 Merkle.processInclusionProofKeccak(bytes,bytes32,uint256) (contracts/EigenLayer/libraries/Merkle.sol#48-71) uses assembly
@@ -37,14 +149,23 @@ INFO:Detectors:
 Different versions of Solidity are used:
 	- Version used: ['0.8.19', '=0.8.19', '^0.8.0', '^0.8.1', '^0.8.2', '^0.8.9']
 	- 0.8.19 (contracts/Delegation/IOperatorDelegator.sol#2)
+	- 0.8.19 (contracts/Delegation/OperatorDelegator.sol#2)
+	- 0.8.19 (contracts/Delegation/OperatorDelegatorStorage.sol#2)
+	- 0.8.19 (contracts/Deposits/DepositQueue.sol#2)
+	- 0.8.19 (contracts/Deposits/DepositQueueStorage.sol#2)
 	- 0.8.19 (contracts/Deposits/IDepositQueue.sol#2)
 	- 0.8.19 (contracts/Errors/Errors.sol#2)
 	- 0.8.19 (contracts/IRestakeManager.sol#2)
 	- 0.8.19 (contracts/Lock.sol#2)
 	- 0.8.19 (contracts/Oracle/IRenzoOracle.sol#2)
+	- 0.8.19 (contracts/Oracle/RenzoOracle.sol#2)
+	- 0.8.19 (contracts/Oracle/RenzoOracleStorage.sol#2)
 	- 0.8.19 (contracts/Permissions/IRoleManager.sol#2)
+	- 0.8.19 (contracts/Permissions/RoleManager.sol#2)
+	- 0.8.19 (contracts/Permissions/RoleManagerStorage.sol#2)
 	- 0.8.19 (contracts/RestakeManager.sol#2)
 	- 0.8.19 (contracts/RestakeManagerStorage.sol#2)
+	- 0.8.19 (contracts/token/EzEthTokenStorage.sol#2)
 	- =0.8.19 (contracts/EigenLayer/interfaces/IBeaconChainOracle.sol#2)
 	- =0.8.19 (contracts/EigenLayer/interfaces/IDelayedWithdrawalRouter.sol#2)
 	- =0.8.19 (contracts/EigenLayer/interfaces/IDelegationManager.sol#2)
@@ -59,10 +180,21 @@ Different versions of Solidity are used:
 	- =0.8.19 (contracts/EigenLayer/libraries/BeaconChainProofs.sol#3)
 	- =0.8.19 (contracts/EigenLayer/libraries/Endian.sol#2)
 	- =0.8.19 (contracts/EigenLayer/libraries/Merkle.sol#4)
+	- ^0.8.0 (@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol#2)
+	- ^0.8.0 (@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol#4)
+	- ^0.8.0 (@openzeppelin/contracts-upgradeable/access/IAccessControlUpgradeable.sol#4)
 	- ^0.8.0 (@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol#4)
+	- ^0.8.0 (@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol#4)
 	- ^0.8.0 (@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol#4)
+	- ^0.8.0 (@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol#4)
 	- ^0.8.0 (@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20PermitUpgradeable.sol#4)
 	- ^0.8.0 (@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#4)
+	- ^0.8.0 (@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol#4)
+	- ^0.8.0 (@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol#4)
+	- ^0.8.0 (@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol#4)
+	- ^0.8.0 (@openzeppelin/contracts-upgradeable/utils/introspection/IERC165Upgradeable.sol#4)
+	- ^0.8.0 (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#4)
+	- ^0.8.0 (@openzeppelin/contracts-upgradeable/utils/math/SignedMathUpgradeable.sol#4)
 	- ^0.8.0 (@openzeppelin/contracts/token/ERC20/IERC20.sol#4)
 	- ^0.8.0 (@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol#4)
 	- ^0.8.0 (@openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol#4)
@@ -70,6 +202,7 @@ Different versions of Solidity are used:
 	- ^0.8.1 (@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#4)
 	- ^0.8.1 (@openzeppelin/contracts/utils/Address.sol#4)
 	- ^0.8.2 (@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol#4)
+	- ^0.8.9 (contracts/token/EzEthToken.sol#2)
 	- ^0.8.9 (contracts/token/IEzEthToken.sol#2)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#different-pragma-directives-are-used
 INFO:Detectors:
@@ -79,6 +212,9 @@ RestakeManager.removeCollateralToken(IERC20) (contracts/RestakeManager.sol#263-2
 	- collateralTokens.pop() (contracts/RestakeManager.sol#276)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#costly-operations-inside-a-loop
 INFO:Detectors:
+AccessControlUpgradeable.__AccessControl_init_unchained() (@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol#55-56) is never used and should be removed
+AccessControlUpgradeable._setRoleAdmin(bytes32,bytes32) (@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol#221-225) is never used and should be removed
+AccessControlUpgradeable._setupRole(bytes32,address) (@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol#212-214) is never used and should be removed
 Address.functionCall(address,bytes) (@openzeppelin/contracts/utils/Address.sol#89-91) is never used and should be removed
 Address.functionCallWithValue(address,bytes,uint256) (@openzeppelin/contracts/utils/Address.sol#118-120) is never used and should be removed
 Address.functionDelegateCall(address,bytes) (@openzeppelin/contracts/utils/Address.sol#170-172) is never used and should be removed
@@ -99,13 +235,30 @@ AddressUpgradeable.functionStaticCall(address,bytes,string) (@openzeppelin/contr
 AddressUpgradeable.sendValue(address,uint256) (@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#64-69) is never used and should be removed
 AddressUpgradeable.verifyCallResult(bool,bytes,string) (@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#219-229) is never used and should be removed
 AddressUpgradeable.verifyCallResultFromTarget(address,bool,bytes,string) (@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#195-211) is never used and should be removed
-BeaconChainProofs.getBalanceFromBalanceRoot(uint40,bytes32) (contracts/EigenLayer/libraries/BeaconChainProofs.sol#139-144) is never used and should be removed
 BeaconChainProofs.verifyValidatorBalance(uint40,bytes32,bytes,bytes32) (contracts/EigenLayer/libraries/BeaconChainProofs.sol#182-198) is never used and should be removed
 BeaconChainProofs.verifyValidatorFields(uint40,bytes32,bytes,bytes32[]) (contracts/EigenLayer/libraries/BeaconChainProofs.sol#153-173) is never used and should be removed
 BeaconChainProofs.verifyWithdrawalProofs(bytes32,BeaconChainProofs.WithdrawalProofs,bytes32[]) (contracts/EigenLayer/libraries/BeaconChainProofs.sol#206-261) is never used and should be removed
-Endian.fromLittleEndianUint64(bytes32) (contracts/EigenLayer/libraries/Endian.sol#12-26) is never used and should be removed
+ContextUpgradeable.__Context_init() (@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol#18-19) is never used and should be removed
+ContextUpgradeable.__Context_init_unchained() (@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol#21-22) is never used and should be removed
+ContextUpgradeable._msgData() (@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol#27-29) is never used and should be removed
+ERC165Upgradeable.__ERC165_init() (@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol#24-25) is never used and should be removed
+ERC165Upgradeable.__ERC165_init_unchained() (@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol#27-28) is never used and should be removed
 Initializable._getInitializedVersion() (@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol#156-158) is never used and should be removed
 Initializable._isInitializing() (@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol#163-165) is never used and should be removed
+MathUpgradeable.average(uint256,uint256) (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#34-37) is never used and should be removed
+MathUpgradeable.ceilDiv(uint256,uint256) (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#45-48) is never used and should be removed
+MathUpgradeable.log10(uint256) (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#252-284) is never used and should be removed
+MathUpgradeable.log10(uint256,MathUpgradeable.Rounding) (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#290-295) is never used and should be removed
+MathUpgradeable.log2(uint256) (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#199-235) is never used and should be removed
+MathUpgradeable.log2(uint256,MathUpgradeable.Rounding) (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#241-246) is never used and should be removed
+MathUpgradeable.log256(uint256) (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#303-327) is never used and should be removed
+MathUpgradeable.log256(uint256,MathUpgradeable.Rounding) (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#333-338) is never used and should be removed
+MathUpgradeable.max(uint256,uint256) (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#19-21) is never used and should be removed
+MathUpgradeable.min(uint256,uint256) (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#26-28) is never used and should be removed
+MathUpgradeable.mulDiv(uint256,uint256,uint256) (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#55-134) is never used and should be removed
+MathUpgradeable.mulDiv(uint256,uint256,uint256,MathUpgradeable.Rounding) (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#139-145) is never used and should be removed
+MathUpgradeable.sqrt(uint256) (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#152-183) is never used and should be removed
+MathUpgradeable.sqrt(uint256,MathUpgradeable.Rounding) (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#188-193) is never used and should be removed
 Merkle.merkleizeSha256(bytes32[]) (contracts/EigenLayer/libraries/Merkle.sol#131-155) is never used and should be removed
 Merkle.processInclusionProofKeccak(bytes,bytes32,uint256) (contracts/EigenLayer/libraries/Merkle.sol#48-71) is never used and should be removed
 Merkle.processInclusionProofSha256(bytes,bytes32,uint256) (contracts/EigenLayer/libraries/Merkle.sol#100-123) is never used and should be removed
@@ -117,7 +270,6 @@ SafeERC20.forceApprove(IERC20,address,uint256) (@openzeppelin/contracts/token/ER
 SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol#69-75) is never used and should be removed
 SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol#60-63) is never used and should be removed
 SafeERC20.safePermit(IERC20Permit,address,address,uint256,uint256,uint8,bytes32,bytes32) (@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol#95-109) is never used and should be removed
-SafeERC20.safeTransfer(IERC20,address,uint256) (@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol#26-28) is never used and should be removed
 SafeERC20Upgradeable._callOptionalReturn(IERC20Upgradeable,bytes) (@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#117-124) is never used and should be removed
 SafeERC20Upgradeable._callOptionalReturnBool(IERC20Upgradeable,bytes) (@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#134-142) is never used and should be removed
 SafeERC20Upgradeable.forceApprove(IERC20Upgradeable,address,uint256) (@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#82-89) is never used and should be removed
@@ -127,20 +279,43 @@ SafeERC20Upgradeable.safeIncreaseAllowance(IERC20Upgradeable,address,uint256) (@
 SafeERC20Upgradeable.safePermit(IERC20PermitUpgradeable,address,address,uint256,uint256,uint8,bytes32,bytes32) (@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#95-109) is never used and should be removed
 SafeERC20Upgradeable.safeTransfer(IERC20Upgradeable,address,uint256) (@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#26-28) is never used and should be removed
 SafeERC20Upgradeable.safeTransferFrom(IERC20Upgradeable,address,address,uint256) (@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#34-36) is never used and should be removed
+SignedMathUpgradeable.abs(int256) (@openzeppelin/contracts-upgradeable/utils/math/SignedMathUpgradeable.sol#37-42) is never used and should be removed
+SignedMathUpgradeable.average(int256,int256) (@openzeppelin/contracts-upgradeable/utils/math/SignedMathUpgradeable.sol#28-32) is never used and should be removed
+SignedMathUpgradeable.max(int256,int256) (@openzeppelin/contracts-upgradeable/utils/math/SignedMathUpgradeable.sol#13-15) is never used and should be removed
+SignedMathUpgradeable.min(int256,int256) (@openzeppelin/contracts-upgradeable/utils/math/SignedMathUpgradeable.sol#20-22) is never used and should be removed
+StringsUpgradeable.equal(string,string) (@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol#82-84) is never used and should be removed
+StringsUpgradeable.toHexString(uint256) (@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol#51-55) is never used and should be removed
+StringsUpgradeable.toString(int256) (@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol#44-46) is never used and should be removed
+StringsUpgradeable.toString(uint256) (@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol#19-39) is never used and should be removed
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code
 INFO:Detectors:
+Pragma version^0.8.0 (@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol#2) allows old versions
+Pragma version^0.8.0 (@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol#4) allows old versions
+Pragma version^0.8.0 (@openzeppelin/contracts-upgradeable/access/IAccessControlUpgradeable.sol#4) allows old versions
 Pragma version^0.8.2 (@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol#4) allows old versions
 Pragma version^0.8.0 (@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol#4) allows old versions
+Pragma version^0.8.0 (@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol#4) allows old versions
 Pragma version^0.8.0 (@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol#4) allows old versions
+Pragma version^0.8.0 (@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol#4) allows old versions
 Pragma version^0.8.0 (@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20PermitUpgradeable.sol#4) allows old versions
 Pragma version^0.8.0 (@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#4) allows old versions
 Pragma version^0.8.1 (@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#4) allows old versions
+Pragma version^0.8.0 (@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol#4) allows old versions
+Pragma version^0.8.0 (@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol#4) allows old versions
+Pragma version^0.8.0 (@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol#4) allows old versions
+Pragma version^0.8.0 (@openzeppelin/contracts-upgradeable/utils/introspection/IERC165Upgradeable.sol#4) allows old versions
+Pragma version^0.8.0 (@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#4) allows old versions
+Pragma version^0.8.0 (@openzeppelin/contracts-upgradeable/utils/math/SignedMathUpgradeable.sol#4) allows old versions
 Pragma version^0.8.0 (@openzeppelin/contracts/token/ERC20/IERC20.sol#4) allows old versions
 Pragma version^0.8.0 (@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol#4) allows old versions
 Pragma version^0.8.0 (@openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol#4) allows old versions
 Pragma version^0.8.0 (@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol#4) allows old versions
 Pragma version^0.8.1 (@openzeppelin/contracts/utils/Address.sol#4) allows old versions
 Pragma version0.8.19 (contracts/Delegation/IOperatorDelegator.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/Delegation/OperatorDelegator.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/Delegation/OperatorDelegatorStorage.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/Deposits/DepositQueue.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/Deposits/DepositQueueStorage.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 Pragma version0.8.19 (contracts/Deposits/IDepositQueue.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 Pragma version=0.8.19 (contracts/EigenLayer/interfaces/IBeaconChainOracle.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 Pragma version=0.8.19 (contracts/EigenLayer/interfaces/IDelayedWithdrawalRouter.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
@@ -160,9 +335,15 @@ Pragma version0.8.19 (contracts/Errors/Errors.sol#2) necessitates a version too 
 Pragma version0.8.19 (contracts/IRestakeManager.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 Pragma version0.8.19 (contracts/Lock.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 Pragma version0.8.19 (contracts/Oracle/IRenzoOracle.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/Oracle/RenzoOracle.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/Oracle/RenzoOracleStorage.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 Pragma version0.8.19 (contracts/Permissions/IRoleManager.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/Permissions/RoleManager.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/Permissions/RoleManagerStorage.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 Pragma version0.8.19 (contracts/RestakeManager.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 Pragma version0.8.19 (contracts/RestakeManagerStorage.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version^0.8.9 (contracts/token/EzEthToken.sol#2) allows old versions
+Pragma version0.8.19 (contracts/token/EzEthTokenStorage.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 Pragma version^0.8.9 (contracts/token/IEzEthToken.sol#2) allows old versions
 solc-0.8.19 is not recommended for deployment
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity
@@ -187,17 +368,69 @@ Low level call in Address.functionStaticCall(address,bytes,string) (@openzeppeli
 	- (success,returndata) = target.staticcall(data) (@openzeppelin/contracts/utils/Address.sol#160)
 Low level call in Address.functionDelegateCall(address,bytes,string) (@openzeppelin/contracts/utils/Address.sol#180-187):
 	- (success,returndata) = target.delegatecall(data) (@openzeppelin/contracts/utils/Address.sol#185)
+Low level call in OperatorDelegator.receive() (contracts/Delegation/OperatorDelegator.sol#301-320):
+	- (success) = destination.call{value: msg.value}() (contracts/Delegation/OperatorDelegator.sol#316)
+Low level call in DepositQueue.receive() (contracts/Deposits/DepositQueue.sol#120-136):
+	- (success) = feeAddress.call{value: feeAmount}() (contracts/Deposits/DepositQueue.sol#125)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls
 INFO:Detectors:
+Function AccessControlUpgradeable.__AccessControl_init() (@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol#52-53) is not in mixedCase
+Function AccessControlUpgradeable.__AccessControl_init_unchained() (@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol#55-56) is not in mixedCase
+Variable AccessControlUpgradeable.__gap (@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol#260) is not in mixedCase
 Function ReentrancyGuardUpgradeable.__ReentrancyGuard_init() (@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol#40-42) is not in mixedCase
 Function ReentrancyGuardUpgradeable.__ReentrancyGuard_init_unchained() (@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol#44-46) is not in mixedCase
 Variable ReentrancyGuardUpgradeable.__gap (@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol#88) is not in mixedCase
+Function ERC20Upgradeable.__ERC20_init(string,string) (@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol#55-57) is not in mixedCase
+Function ERC20Upgradeable.__ERC20_init_unchained(string,string) (@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol#59-62) is not in mixedCase
+Variable ERC20Upgradeable.__gap (@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol#376) is not in mixedCase
 Function IERC20PermitUpgradeable.DOMAIN_SEPARATOR() (@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20PermitUpgradeable.sol#59) is not in mixedCase
+Function ContextUpgradeable.__Context_init() (@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol#18-19) is not in mixedCase
+Function ContextUpgradeable.__Context_init_unchained() (@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol#21-22) is not in mixedCase
+Variable ContextUpgradeable.__gap (@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol#36) is not in mixedCase
+Function ERC165Upgradeable.__ERC165_init() (@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol#24-25) is not in mixedCase
+Function ERC165Upgradeable.__ERC165_init_unchained() (@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol#27-28) is not in mixedCase
+Variable ERC165Upgradeable.__gap (@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol#41) is not in mixedCase
 Function IERC20Permit.DOMAIN_SEPARATOR() (@openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol#59) is not in mixedCase
+Parameter OperatorDelegator.initialize(IRoleManager,IStrategyManager,IRestakeManager,IDelegationManager,IEigenPodManager)._roleManager (contracts/Delegation/OperatorDelegator.sol#66) is not in mixedCase
+Parameter OperatorDelegator.initialize(IRoleManager,IStrategyManager,IRestakeManager,IDelegationManager,IEigenPodManager)._strategyManager (contracts/Delegation/OperatorDelegator.sol#67) is not in mixedCase
+Parameter OperatorDelegator.initialize(IRoleManager,IStrategyManager,IRestakeManager,IDelegationManager,IEigenPodManager)._restakeManager (contracts/Delegation/OperatorDelegator.sol#68) is not in mixedCase
+Parameter OperatorDelegator.initialize(IRoleManager,IStrategyManager,IRestakeManager,IDelegationManager,IEigenPodManager)._delegationManager (contracts/Delegation/OperatorDelegator.sol#69) is not in mixedCase
+Parameter OperatorDelegator.initialize(IRoleManager,IStrategyManager,IRestakeManager,IDelegationManager,IEigenPodManager)._eigenPodManager (contracts/Delegation/OperatorDelegator.sol#70) is not in mixedCase
+Parameter OperatorDelegator.setTokenStrategy(IERC20,IStrategy)._token (contracts/Delegation/OperatorDelegator.sol#95) is not in mixedCase
+Parameter OperatorDelegator.setTokenStrategy(IERC20,IStrategy)._strategy (contracts/Delegation/OperatorDelegator.sol#96) is not in mixedCase
+Parameter OperatorDelegator.setDelegateAddress(address)._delegateAddress (contracts/Delegation/OperatorDelegator.sol#106) is not in mixedCase
+Parameter OperatorDelegator.deposit(IERC20,uint256)._token (contracts/Delegation/OperatorDelegator.sol#124) is not in mixedCase
+Parameter OperatorDelegator.deposit(IERC20,uint256)._tokenAmount (contracts/Delegation/OperatorDelegator.sol#125) is not in mixedCase
+Parameter OperatorDelegator.getStrategyIndex(IStrategy)._strategy (contracts/Delegation/OperatorDelegator.sol#146) is not in mixedCase
+Parameter OperatorDelegator.startWithdrawal(IERC20,uint256)._token (contracts/Delegation/OperatorDelegator.sol#164) is not in mixedCase
+Parameter OperatorDelegator.startWithdrawal(IERC20,uint256)._tokenAmount (contracts/Delegation/OperatorDelegator.sol#165) is not in mixedCase
+Parameter OperatorDelegator.completeWithdrawal(IStrategyManager.QueuedWithdrawal,IERC20,uint256,address)._withdrawal (contracts/Delegation/OperatorDelegator.sol#211) is not in mixedCase
+Parameter OperatorDelegator.completeWithdrawal(IStrategyManager.QueuedWithdrawal,IERC20,uint256,address)._token (contracts/Delegation/OperatorDelegator.sol#212) is not in mixedCase
+Parameter OperatorDelegator.completeWithdrawal(IStrategyManager.QueuedWithdrawal,IERC20,uint256,address)._middlewareTimesIndex (contracts/Delegation/OperatorDelegator.sol#213) is not in mixedCase
+Parameter OperatorDelegator.completeWithdrawal(IStrategyManager.QueuedWithdrawal,IERC20,uint256,address)._sendToAddress (contracts/Delegation/OperatorDelegator.sol#214) is not in mixedCase
+Parameter DepositQueue.initialize(IRoleManager)._roleManager (contracts/Deposits/DepositQueue.sol#77) is not in mixedCase
+Parameter DepositQueue.setFeeConfig(address,uint256)._feeAddress (contracts/Deposits/DepositQueue.sol#86) is not in mixedCase
+Parameter DepositQueue.setFeeConfig(address,uint256)._feeBasisPoints (contracts/Deposits/DepositQueue.sol#86) is not in mixedCase
+Parameter DepositQueue.setRestakeManager(IRestakeManager)._restakeManager (contracts/Deposits/DepositQueue.sol#102) is not in mixedCase
 Function IEigenPod.REQUIRED_BALANCE_GWEI() (contracts/EigenLayer/interfaces/IEigenPod.sol#53) is not in mixedCase
 Function IEigenPod.REQUIRED_BALANCE_WEI() (contracts/EigenLayer/interfaces/IEigenPod.sol#56) is not in mixedCase
 Enum IEigenPod.VALIDATOR_STATUS (contracts/EigenLayer/interfaces/IEigenPod.sol#28-33) is not in CapWords
 Enum IEigenPod.PARTIAL_WITHDRAWAL_CLAIM_STATUS (contracts/EigenLayer/interfaces/IEigenPod.sol#46-50) is not in CapWords
+Parameter RenzoOracle.initialize(IRoleManager)._roleManager (contracts/Oracle/RenzoOracle.sol#44) is not in mixedCase
+Parameter RenzoOracle.setOracleAddress(IERC20,AggregatorV3Interface)._token (contracts/Oracle/RenzoOracle.sol#54) is not in mixedCase
+Parameter RenzoOracle.setOracleAddress(IERC20,AggregatorV3Interface)._oracleAddress (contracts/Oracle/RenzoOracle.sol#54) is not in mixedCase
+Parameter RenzoOracle.lookupTokenValue(IERC20,uint256)._token (contracts/Oracle/RenzoOracle.sol#67) is not in mixedCase
+Parameter RenzoOracle.lookupTokenValue(IERC20,uint256)._balance (contracts/Oracle/RenzoOracle.sol#67) is not in mixedCase
+Parameter RenzoOracle.lookupTokenAmountFromValue(IERC20,uint256)._token (contracts/Oracle/RenzoOracle.sol#81) is not in mixedCase
+Parameter RenzoOracle.lookupTokenAmountFromValue(IERC20,uint256)._value (contracts/Oracle/RenzoOracle.sol#81) is not in mixedCase
+Parameter RenzoOracle.lookupTokenValues(IERC20[],uint256[])._tokens (contracts/Oracle/RenzoOracle.sol#96) is not in mixedCase
+Parameter RenzoOracle.lookupTokenValues(IERC20[],uint256[])._balances (contracts/Oracle/RenzoOracle.sol#96) is not in mixedCase
+Parameter RenzoOracle.calculateMintAmount(uint256,uint256,uint256)._currentValueInProtocol (contracts/Oracle/RenzoOracle.sol#111) is not in mixedCase
+Parameter RenzoOracle.calculateMintAmount(uint256,uint256,uint256)._newValueAdded (contracts/Oracle/RenzoOracle.sol#111) is not in mixedCase
+Parameter RenzoOracle.calculateMintAmount(uint256,uint256,uint256)._existingEzETHSupply (contracts/Oracle/RenzoOracle.sol#111) is not in mixedCase
+Parameter RenzoOracle.calculateRedeemAmount(uint256,uint256,uint256)._ezETHBeingBurned (contracts/Oracle/RenzoOracle.sol#134) is not in mixedCase
+Parameter RenzoOracle.calculateRedeemAmount(uint256,uint256,uint256)._existingEzETHSupply (contracts/Oracle/RenzoOracle.sol#134) is not in mixedCase
+Parameter RenzoOracle.calculateRedeemAmount(uint256,uint256,uint256)._currentValueInProtocol (contracts/Oracle/RenzoOracle.sol#134) is not in mixedCase
 Parameter RestakeManager.initialize(IRoleManager,IEzEthToken,IRenzoOracle,IStrategyManager,IDelegationManager,IDepositQueue)._roleManager (contracts/RestakeManager.sol#109) is not in mixedCase
 Parameter RestakeManager.initialize(IRoleManager,IEzEthToken,IRenzoOracle,IStrategyManager,IDelegationManager,IDepositQueue)._ezETH (contracts/RestakeManager.sol#110) is not in mixedCase
 Parameter RestakeManager.initialize(IRoleManager,IEzEthToken,IRenzoOracle,IStrategyManager,IDelegationManager,IDepositQueue)._renzoOracle (contracts/RestakeManager.sol#111) is not in mixedCase
@@ -224,12 +457,14 @@ Parameter RestakeManager.depositTokenRewardsFromProtocol(IERC20,uint256)._token 
 Parameter RestakeManager.depositTokenRewardsFromProtocol(IERC20,uint256)._amount (contracts/RestakeManager.sol#641) is not in mixedCase
 Parameter RestakeManager.setTokenTvlLimit(IERC20,uint256)._token (contracts/RestakeManager.sol#706) is not in mixedCase
 Parameter RestakeManager.setTokenTvlLimit(IERC20,uint256)._limit (contracts/RestakeManager.sol#706) is not in mixedCase
+Parameter EzEthToken.initialize(IRoleManager)._roleManager (contracts/token/EzEthToken.sol#38) is not in mixedCase
+Parameter EzEthToken.setPaused(bool)._paused (contracts/token/EzEthToken.sol#56) is not in mixedCase
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions
 INFO:Detectors:
-Variable RestakeManager.getCollateralTokenIndex(IERC20)._collateralToken (contracts/RestakeManager.sol#452) is too similar to RestakeManagerStorageV1.collateralTokens (contracts/RestakeManagerStorage.sol#48)
-Variable RestakeManager.deposit(IERC20,uint256)._collateralToken (contracts/RestakeManager.sol#474) is too similar to RestakeManagerStorageV1.collateralTokens (contracts/RestakeManagerStorage.sol#48)
-Variable RestakeManager.deposit(IERC20,uint256,uint256)._collateralToken (contracts/RestakeManager.sol#495) is too similar to RestakeManagerStorageV1.collateralTokens (contracts/RestakeManagerStorage.sol#48)
-Variable RestakeManager.setOperatorDelegatorAllocation(IOperatorDelegator,uint256)._operatorDelegator (contracts/RestakeManager.sol#204) is too similar to RestakeManagerStorageV1.operatorDelegators (contracts/RestakeManagerStorage.sol#41)
+Variable RestakeManager.deposit(IERC20,uint256,uint256)._collateralToken (contracts/RestakeManager.sol#495) is too similar to RestakeManagerStorageV1.collateralTokens (contracts/RestakeManagerStorage.sol#56)
+Variable RestakeManager.getCollateralTokenIndex(IERC20)._collateralToken (contracts/RestakeManager.sol#452) is too similar to RestakeManagerStorageV1.collateralTokens (contracts/RestakeManagerStorage.sol#56)
+Variable RestakeManager.deposit(IERC20,uint256)._collateralToken (contracts/RestakeManager.sol#474) is too similar to RestakeManagerStorageV1.collateralTokens (contracts/RestakeManagerStorage.sol#56)
+Variable RestakeManager.setOperatorDelegatorAllocation(IOperatorDelegator,uint256)._operatorDelegator (contracts/RestakeManager.sol#204) is too similar to RestakeManagerStorageV1.operatorDelegators (contracts/RestakeManagerStorage.sol#48)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-too-similar
 INFO:Detectors:
 Endian.fromLittleEndianUint64(bytes32) (contracts/EigenLayer/libraries/Endian.sol#12-26) uses literals with too many digits:
@@ -266,6 +501,7 @@ BeaconChainProofs.WITHDRAWAL_VALIDATOR_AMOUNT_INDEX (contracts/EigenLayer/librar
 BeaconChainProofs.HISTORICALBATCH_STATEROOTS_INDEX (contracts/EigenLayer/libraries/BeaconChainProofs.sol#95) is never used in BeaconChainProofs (contracts/EigenLayer/libraries/BeaconChainProofs.sol#12-264)
 BeaconChainProofs.SLOTS_PER_EPOCH (contracts/EigenLayer/libraries/BeaconChainProofs.sol#98) is never used in BeaconChainProofs (contracts/EigenLayer/libraries/BeaconChainProofs.sol#12-264)
 BeaconChainProofs.UINT64_MASK (contracts/EigenLayer/libraries/BeaconChainProofs.sol#100) is never used in BeaconChainProofs (contracts/EigenLayer/libraries/BeaconChainProofs.sol#12-264)
+RenzoOracle.INVALID_0_INPUT (contracts/Oracle/RenzoOracle.sol#20) is never used in RenzoOracle (contracts/Oracle/RenzoOracle.sol#13-144)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable
 INFO:Detectors:
 Lock.owner (contracts/Lock.sol#9) should be immutable 
@@ -273,78 +509,312 @@ Lock.unlockTime (contracts/Lock.sol#8) should be immutable
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-immutable
 **THIS CHECKLIST IS NOT COMPLETE**. Use `--show-ignored-findings` to show all the results.
 Summary
- - [unused-return](#unused-return) (2 results) (Medium)
- - [calls-loop](#calls-loop) (6 results) (Low)
- - [timestamp](#timestamp) (2 results) (Low)
- - [assembly](#assembly) (4 results) (Informational)
+ - [arbitrary-send-eth](#arbitrary-send-eth) (1 results) (High)
+ - [divide-before-multiply](#divide-before-multiply) (8 results) (Medium)
+ - [unused-return](#unused-return) (5 results) (Medium)
+ - [events-maths](#events-maths) (1 results) (Low)
+ - [calls-loop](#calls-loop) (8 results) (Low)
+ - [reentrancy-benign](#reentrancy-benign) (7 results) (Low)
+ - [reentrancy-events](#reentrancy-events) (3 results) (Low)
+ - [timestamp](#timestamp) (4 results) (Low)
+ - [assembly](#assembly) (6 results) (Informational)
  - [pragma](#pragma) (1 results) (Informational)
  - [costly-loop](#costly-loop) (2 results) (Informational)
- - [dead-code](#dead-code) (48 results) (Informational)
- - [solc-version](#solc-version) (36 results) (Informational)
- - [low-level-calls](#low-level-calls) (10 results) (Informational)
- - [naming-convention](#naming-convention) (35 results) (Informational)
+ - [dead-code](#dead-code) (75 results) (Informational)
+ - [solc-version](#solc-version) (57 results) (Informational)
+ - [low-level-calls](#low-level-calls) (12 results) (Informational)
+ - [naming-convention](#naming-convention) (85 results) (Informational)
  - [similar-names](#similar-names) (4 results) (Informational)
  - [too-many-digits](#too-many-digits) (1 results) (Informational)
- - [unused-state](#unused-state) (30 results) (Informational)
+ - [unused-state](#unused-state) (31 results) (Informational)
  - [immutable-states](#immutable-states) (2 results) (Optimization)
+## arbitrary-send-eth
+Impact: High
+Confidence: Medium
+ - [ ] ID-0
+[DepositQueue.stakeEthFromQueue(IOperatorDelegator,bytes,bytes,bytes32)](contracts/Deposits/DepositQueue.sol#L140-L146) sends eth to arbitrary user
+	Dangerous calls:
+	- [restakeManager.stakeEthInOperatorDelegator{value: 32000000000000000000}(operatorDelegator,pubkey,signature,depositDataRoot)](contracts/Deposits/DepositQueue.sol#L143)
+
+contracts/Deposits/DepositQueue.sol#L140-L146
+
+
+## divide-before-multiply
+Impact: Medium
+Confidence: Medium
+ - [ ] ID-1
+[MathUpgradeable.mulDiv(uint256,uint256,uint256)](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L55-L134) performs a multiplication on the result of a division:
+	- [denominator = denominator / twos](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L101)
+	- [inverse *= 2 - denominator * inverse](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L120)
+
+@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L55-L134
+
+
+ - [ ] ID-2
+[MathUpgradeable.mulDiv(uint256,uint256,uint256)](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L55-L134) performs a multiplication on the result of a division:
+	- [denominator = denominator / twos](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L101)
+	- [inverse *= 2 - denominator * inverse](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L123)
+
+@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L55-L134
+
+
+ - [ ] ID-3
+[MathUpgradeable.mulDiv(uint256,uint256,uint256)](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L55-L134) performs a multiplication on the result of a division:
+	- [denominator = denominator / twos](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L101)
+	- [inverse = (3 * denominator) ^ 2](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L116)
+
+@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L55-L134
+
+
+ - [ ] ID-4
+[MathUpgradeable.mulDiv(uint256,uint256,uint256)](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L55-L134) performs a multiplication on the result of a division:
+	- [denominator = denominator / twos](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L101)
+	- [inverse *= 2 - denominator * inverse](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L124)
+
+@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L55-L134
+
+
+ - [ ] ID-5
+[MathUpgradeable.mulDiv(uint256,uint256,uint256)](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L55-L134) performs a multiplication on the result of a division:
+	- [denominator = denominator / twos](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L101)
+	- [inverse *= 2 - denominator * inverse](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L122)
+
+@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L55-L134
+
+
+ - [ ] ID-6
+[MathUpgradeable.mulDiv(uint256,uint256,uint256)](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L55-L134) performs a multiplication on the result of a division:
+	- [denominator = denominator / twos](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L101)
+	- [inverse *= 2 - denominator * inverse](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L121)
+
+@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L55-L134
+
+
+ - [ ] ID-7
+[MathUpgradeable.mulDiv(uint256,uint256,uint256)](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L55-L134) performs a multiplication on the result of a division:
+	- [prod0 = prod0 / twos](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L104)
+	- [result = prod0 * inverse](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L131)
+
+@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L55-L134
+
+
+ - [ ] ID-8
+[MathUpgradeable.mulDiv(uint256,uint256,uint256)](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L55-L134) performs a multiplication on the result of a division:
+	- [denominator = denominator / twos](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L101)
+	- [inverse *= 2 - denominator * inverse](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L125)
+
+@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L55-L134
+
+
 ## unused-return
 Impact: Medium
 Confidence: Medium
- - [ ] ID-0
+ - [ ] ID-9
+[DepositQueue.sweepERC20(IERC20)](contracts/Deposits/DepositQueue.sol#L150-L173) ignores return value by [token.approve(address(restakeManager),balance - feeAmount)](contracts/Deposits/DepositQueue.sol#L164)
+
+contracts/Deposits/DepositQueue.sol#L150-L173
+
+
+ - [ ] ID-10
+[RenzoOracle.lookupTokenValue(IERC20,uint256)](contracts/Oracle/RenzoOracle.sol#L67-L77) ignores return value by [(price,timestamp) = oracle.latestRoundData()](contracts/Oracle/RenzoOracle.sol#L71)
+
+contracts/Oracle/RenzoOracle.sol#L67-L77
+
+
+ - [ ] ID-11
+[RenzoOracle.lookupTokenAmountFromValue(IERC20,uint256)](contracts/Oracle/RenzoOracle.sol#L81-L91) ignores return value by [(price,timestamp) = oracle.latestRoundData()](contracts/Oracle/RenzoOracle.sol#L85)
+
+contracts/Oracle/RenzoOracle.sol#L81-L91
+
+
+ - [ ] ID-12
 [RestakeManager.depositTokenRewardsFromProtocol(IERC20,uint256)](contracts/RestakeManager.sol#L639-L669) ignores return value by [operatorDelegator.deposit(_token,_amount)](contracts/RestakeManager.sol#L668)
 
 contracts/RestakeManager.sol#L639-L669
 
 
- - [ ] ID-1
+ - [ ] ID-13
 [RestakeManager.deposit(IERC20,uint256,uint256)](contracts/RestakeManager.sol#L494-L570) ignores return value by [operatorDelegator.deposit(_collateralToken,_amount)](contracts/RestakeManager.sol#L556)
 
 contracts/RestakeManager.sol#L494-L570
 
 
+## events-maths
+Impact: Low
+Confidence: Medium
+ - [ ] ID-14
+[OperatorDelegator.stakeEth(bytes,bytes,bytes32)](contracts/Delegation/OperatorDelegator.sol#L249-L255) should emit an event for: 
+	- [stakedButNotVerifiedEth += msg.value](contracts/Delegation/OperatorDelegator.sol#L254) 
+
+contracts/Delegation/OperatorDelegator.sol#L249-L255
+
+
 ## calls-loop
 Impact: Low
 Confidence: Medium
- - [ ] ID-2
+ - [ ] ID-15
+[RenzoOracle.lookupTokenValue(IERC20,uint256)](contracts/Oracle/RenzoOracle.sol#L67-L77) has external calls inside a loop: [(price,timestamp) = oracle.latestRoundData()](contracts/Oracle/RenzoOracle.sol#L71)
+
+contracts/Oracle/RenzoOracle.sol#L67-L77
+
+
+ - [ ] ID-16
+[OperatorDelegator.getStrategyIndex(IStrategy)](contracts/Delegation/OperatorDelegator.sol#L146-L158) has external calls inside a loop: [strategyManager.stakerStrategyList(address(this),i) == _strategy](contracts/Delegation/OperatorDelegator.sol#L151)
+
+contracts/Delegation/OperatorDelegator.sol#L146-L158
+
+
+ - [ ] ID-17
 [RestakeManager.calculateTVLs()](contracts/RestakeManager.sol#L296-L362) has external calls inside a loop: [operatorBalance = operatorDelegators[i].getTokenBalanceFromStrategy(collateralTokens[j])](contracts/RestakeManager.sol#L325-L326)
 
 contracts/RestakeManager.sol#L296-L362
 
 
- - [ ] ID-3
+ - [ ] ID-18
 [RestakeManager.getTotalRewardsEarned()](contracts/RestakeManager.sol#L676-L704) has external calls inside a loop: [tokenRewardAmount = depositQueue.totalEarned(address(collateralTokens[i]))](contracts/RestakeManager.sol#L686)
 
 contracts/RestakeManager.sol#L676-L704
 
 
- - [ ] ID-4
+ - [ ] ID-19
 [RestakeManager.calculateTVLs()](contracts/RestakeManager.sol#L296-L362) has external calls inside a loop: [operatorEthBalance = operatorDelegators[i].getStakedETHBalance()](contracts/RestakeManager.sol#L341)
 
 contracts/RestakeManager.sol#L296-L362
 
 
- - [ ] ID-5
+ - [ ] ID-20
 [RestakeManager.getTotalRewardsEarned()](contracts/RestakeManager.sol#L676-L704) has external calls inside a loop: [totalRewards += address(operatorDelegators[i_scope_0].eigenPod()).balance + operatorDelegators[i_scope_0].pendingUnstakedDelayedWithdrawalAmount()](contracts/RestakeManager.sol#L699)
 
 contracts/RestakeManager.sol#L676-L704
 
 
- - [ ] ID-6
+ - [ ] ID-21
 [RestakeManager.getTotalRewardsEarned()](contracts/RestakeManager.sol#L676-L704) has external calls inside a loop: [totalRewards += renzoOracle.lookupTokenValue(collateralTokens[i],tokenRewardAmount)](contracts/RestakeManager.sol#L689)
 
 contracts/RestakeManager.sol#L676-L704
 
 
- - [ ] ID-7
+ - [ ] ID-22
 [RestakeManager.calculateTVLs()](contracts/RestakeManager.sol#L296-L362) has external calls inside a loop: [operatorValues[j] = renzoOracle.lookupTokenValue(collateralTokens[j],operatorBalance)](contracts/RestakeManager.sol#L329-L332)
 
 contracts/RestakeManager.sol#L296-L362
 
 
+## reentrancy-benign
+Impact: Low
+Confidence: Medium
+ - [ ] ID-23
+Reentrancy in [DepositQueue.receive()](contracts/Deposits/DepositQueue.sol#L120-L136):
+	External calls:
+	- [(success) = feeAddress.call{value: feeAmount}()](contracts/Deposits/DepositQueue.sol#L125)
+	State variables written after the call(s):
+	- [totalEarned[address(0x0)] = totalEarned[address(0x0)] + msg.value - feeAmount](contracts/Deposits/DepositQueue.sol#L132)
+
+contracts/Deposits/DepositQueue.sol#L120-L136
+
+
+ - [ ] ID-24
+Reentrancy in [OperatorDelegator.startDelayedWithdrawUnstakedETH()](contracts/Delegation/OperatorDelegator.sol#L283-L294):
+	External calls:
+	- [eigenPod.withdrawBeforeRestaking()](contracts/Delegation/OperatorDelegator.sol#L290)
+	State variables written after the call(s):
+	- [pendingUnstakedDelayedWithdrawalAmount += (beforeEigenPodBalance - address(eigenPod).balance)](contracts/Delegation/OperatorDelegator.sol#L293)
+
+contracts/Delegation/OperatorDelegator.sol#L283-L294
+
+
+ - [ ] ID-25
+Reentrancy in [OperatorDelegator.stakeEth(bytes,bytes,bytes32)](contracts/Delegation/OperatorDelegator.sol#L249-L255):
+	External calls:
+	- [eigenPodManager.stake{value: msg.value}(pubkey,signature,depositDataRoot)](contracts/Delegation/OperatorDelegator.sol#L251)
+	State variables written after the call(s):
+	- [stakedButNotVerifiedEth += msg.value](contracts/Delegation/OperatorDelegator.sol#L254)
+
+contracts/Delegation/OperatorDelegator.sol#L249-L255
+
+
+ - [ ] ID-26
+Reentrancy in [OperatorDelegator.verifyWithdrawalCredentials(uint64,uint40,BeaconChainProofs.ValidatorFieldsAndBalanceProofs,bytes32[])](contracts/Delegation/OperatorDelegator.sol#L260-L276):
+	External calls:
+	- [eigenPod.verifyWithdrawalCredentialsAndBalance(oracleBlockNumber,validatorIndex,proofs,validatorFields)](contracts/Delegation/OperatorDelegator.sol#L266-L271)
+	State variables written after the call(s):
+	- [stakedButNotVerifiedEth -= (validatorCurrentBalanceGwei * GWEI_TO_WEI)](contracts/Delegation/OperatorDelegator.sol#L275)
+
+contracts/Delegation/OperatorDelegator.sol#L260-L276
+
+
+ - [ ] ID-27
+Reentrancy in [DepositQueue.sweepERC20(IERC20)](contracts/Deposits/DepositQueue.sol#L150-L173):
+	External calls:
+	- [IERC20(token).safeTransfer(feeAddress,feeAmount)](contracts/Deposits/DepositQueue.sol#L158)
+	- [token.approve(address(restakeManager),balance - feeAmount)](contracts/Deposits/DepositQueue.sol#L164)
+	- [restakeManager.depositTokenRewardsFromProtocol(token,balance - feeAmount)](contracts/Deposits/DepositQueue.sol#L165)
+	State variables written after the call(s):
+	- [totalEarned[address(token)] = totalEarned[address(token)] + balance - feeAmount](contracts/Deposits/DepositQueue.sol#L168)
+
+contracts/Deposits/DepositQueue.sol#L150-L173
+
+
+ - [ ] ID-28
+Reentrancy in [OperatorDelegator.initialize(IRoleManager,IStrategyManager,IRestakeManager,IDelegationManager,IEigenPodManager)](contracts/Delegation/OperatorDelegator.sol#L65-L91):
+	External calls:
+	- [eigenPodManager.createPod()](contracts/Delegation/OperatorDelegator.sol#L87)
+	State variables written after the call(s):
+	- [eigenPod = IEigenPod(eigenPodManager.ownerToPod(address(this)))](contracts/Delegation/OperatorDelegator.sol#L90)
+
+contracts/Delegation/OperatorDelegator.sol#L65-L91
+
+
+ - [ ] ID-29
+Reentrancy in [OperatorDelegator.receive()](contracts/Delegation/OperatorDelegator.sol#L301-L320):
+	External calls:
+	- [msg.sender == address(eigenPod.delayedWithdrawalRouter())](contracts/Delegation/OperatorDelegator.sol#L305)
+	State variables written after the call(s):
+	- [pendingUnstakedDelayedWithdrawalAmount -= msg.value](contracts/Delegation/OperatorDelegator.sol#L308)
+	- [pendingUnstakedDelayedWithdrawalAmount = 0](contracts/Delegation/OperatorDelegator.sol#L311)
+
+contracts/Delegation/OperatorDelegator.sol#L301-L320
+
+
+## reentrancy-events
+Impact: Low
+Confidence: Medium
+ - [ ] ID-30
+Reentrancy in [DepositQueue.sweepERC20(IERC20)](contracts/Deposits/DepositQueue.sol#L150-L173):
+	External calls:
+	- [IERC20(token).safeTransfer(feeAddress,feeAmount)](contracts/Deposits/DepositQueue.sol#L158)
+	Event emitted after the call(s):
+	- [ProtocolFeesPaid(token,feeAmount,feeAddress)](contracts/Deposits/DepositQueue.sol#L160)
+
+contracts/Deposits/DepositQueue.sol#L150-L173
+
+
+ - [ ] ID-31
+Reentrancy in [DepositQueue.stakeEthFromQueue(IOperatorDelegator,bytes,bytes,bytes32)](contracts/Deposits/DepositQueue.sol#L140-L146):
+	External calls:
+	- [restakeManager.stakeEthInOperatorDelegator{value: 32000000000000000000}(operatorDelegator,pubkey,signature,depositDataRoot)](contracts/Deposits/DepositQueue.sol#L143)
+	Event emitted after the call(s):
+	- [ETHStakedFromQueue(operatorDelegator,pubkey,32000000000000000000,address(this).balance)](contracts/Deposits/DepositQueue.sol#L145)
+
+contracts/Deposits/DepositQueue.sol#L140-L146
+
+
+ - [ ] ID-32
+Reentrancy in [DepositQueue.sweepERC20(IERC20)](contracts/Deposits/DepositQueue.sol#L150-L173):
+	External calls:
+	- [IERC20(token).safeTransfer(feeAddress,feeAmount)](contracts/Deposits/DepositQueue.sol#L158)
+	- [token.approve(address(restakeManager),balance - feeAmount)](contracts/Deposits/DepositQueue.sol#L164)
+	- [restakeManager.depositTokenRewardsFromProtocol(token,balance - feeAmount)](contracts/Deposits/DepositQueue.sol#L165)
+	Event emitted after the call(s):
+	- [RewardsDeposited(IERC20(address(token)),balance - feeAmount)](contracts/Deposits/DepositQueue.sol#L171)
+
+contracts/Deposits/DepositQueue.sol#L150-L173
+
+
 ## timestamp
 Impact: Low
 Confidence: Medium
- - [ ] ID-8
+ - [ ] ID-33
 [Lock.withdraw()](contracts/Lock.sol#L23-L33) uses timestamp for comparisons
 	Dangerous comparisons:
 	- [require(bool,string)(block.timestamp >= unlockTime,You can't withdraw yet)](contracts/Lock.sol#L27)
@@ -352,7 +822,23 @@ Confidence: Medium
 contracts/Lock.sol#L23-L33
 
 
- - [ ] ID-9
+ - [ ] ID-34
+[RenzoOracle.lookupTokenValue(IERC20,uint256)](contracts/Oracle/RenzoOracle.sol#L67-L77) uses timestamp for comparisons
+	Dangerous comparisons:
+	- [timestamp < block.timestamp - MAX_TIME_WINDOW](contracts/Oracle/RenzoOracle.sol#L72)
+
+contracts/Oracle/RenzoOracle.sol#L67-L77
+
+
+ - [ ] ID-35
+[RenzoOracle.lookupTokenAmountFromValue(IERC20,uint256)](contracts/Oracle/RenzoOracle.sol#L81-L91) uses timestamp for comparisons
+	Dangerous comparisons:
+	- [timestamp < block.timestamp - MAX_TIME_WINDOW](contracts/Oracle/RenzoOracle.sol#L86)
+
+contracts/Oracle/RenzoOracle.sol#L81-L91
+
+
+ - [ ] ID-36
 [Lock.constructor(uint256)](contracts/Lock.sol#L13-L21) uses timestamp for comparisons
 	Dangerous comparisons:
 	- [require(bool,string)(block.timestamp < _unlockTime,Unlock time should be in the future)](contracts/Lock.sol#L14-L17)
@@ -363,14 +849,22 @@ contracts/Lock.sol#L13-L21
 ## assembly
 Impact: Informational
 Confidence: High
- - [ ] ID-10
+ - [ ] ID-37
+[StringsUpgradeable.toString(uint256)](@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol#L19-L39) uses assembly
+	- [INLINE ASM](@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol#L25-L27)
+	- [INLINE ASM](@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol#L31-L33)
+
+@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol#L19-L39
+
+
+ - [ ] ID-38
 [Address._revert(bytes,string)](@openzeppelin/contracts/utils/Address.sol#L231-L243) uses assembly
 	- [INLINE ASM](@openzeppelin/contracts/utils/Address.sol#L236-L239)
 
 @openzeppelin/contracts/utils/Address.sol#L231-L243
 
 
- - [ ] ID-11
+ - [ ] ID-39
 [Merkle.processInclusionProofKeccak(bytes,bytes32,uint256)](contracts/EigenLayer/libraries/Merkle.sol#L48-L71) uses assembly
 	- [INLINE ASM](contracts/EigenLayer/libraries/Merkle.sol#L54-L59)
 	- [INLINE ASM](contracts/EigenLayer/libraries/Merkle.sol#L62-L67)
@@ -378,14 +872,14 @@ Confidence: High
 contracts/EigenLayer/libraries/Merkle.sol#L48-L71
 
 
- - [ ] ID-12
+ - [ ] ID-40
 [AddressUpgradeable._revert(bytes,string)](@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L231-L243) uses assembly
 	- [INLINE ASM](@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L236-L239)
 
 @openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L231-L243
 
 
- - [ ] ID-13
+ - [ ] ID-41
 [Merkle.processInclusionProofSha256(bytes,bytes32,uint256)](contracts/EigenLayer/libraries/Merkle.sol#L100-L123) uses assembly
 	- [INLINE ASM](contracts/EigenLayer/libraries/Merkle.sol#L106-L111)
 	- [INLINE ASM](contracts/EigenLayer/libraries/Merkle.sol#L114-L119)
@@ -393,21 +887,39 @@ contracts/EigenLayer/libraries/Merkle.sol#L48-L71
 contracts/EigenLayer/libraries/Merkle.sol#L100-L123
 
 
+ - [ ] ID-42
+[MathUpgradeable.mulDiv(uint256,uint256,uint256)](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L55-L134) uses assembly
+	- [INLINE ASM](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L62-L66)
+	- [INLINE ASM](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L85-L92)
+	- [INLINE ASM](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L99-L108)
+
+@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L55-L134
+
+
 ## pragma
 Impact: Informational
 Confidence: High
- - [ ] ID-14
+ - [ ] ID-43
 Different versions of Solidity are used:
 	- Version used: ['0.8.19', '=0.8.19', '^0.8.0', '^0.8.1', '^0.8.2', '^0.8.9']
 	- [0.8.19](contracts/Delegation/IOperatorDelegator.sol#L2)
+	- [0.8.19](contracts/Delegation/OperatorDelegator.sol#L2)
+	- [0.8.19](contracts/Delegation/OperatorDelegatorStorage.sol#L2)
+	- [0.8.19](contracts/Deposits/DepositQueue.sol#L2)
+	- [0.8.19](contracts/Deposits/DepositQueueStorage.sol#L2)
 	- [0.8.19](contracts/Deposits/IDepositQueue.sol#L2)
 	- [0.8.19](contracts/Errors/Errors.sol#L2)
 	- [0.8.19](contracts/IRestakeManager.sol#L2)
 	- [0.8.19](contracts/Lock.sol#L2)
 	- [0.8.19](contracts/Oracle/IRenzoOracle.sol#L2)
+	- [0.8.19](contracts/Oracle/RenzoOracle.sol#L2)
+	- [0.8.19](contracts/Oracle/RenzoOracleStorage.sol#L2)
 	- [0.8.19](contracts/Permissions/IRoleManager.sol#L2)
+	- [0.8.19](contracts/Permissions/RoleManager.sol#L2)
+	- [0.8.19](contracts/Permissions/RoleManagerStorage.sol#L2)
 	- [0.8.19](contracts/RestakeManager.sol#L2)
 	- [0.8.19](contracts/RestakeManagerStorage.sol#L2)
+	- [0.8.19](contracts/token/EzEthTokenStorage.sol#L2)
 	- [=0.8.19](contracts/EigenLayer/interfaces/IBeaconChainOracle.sol#L2)
 	- [=0.8.19](contracts/EigenLayer/interfaces/IDelayedWithdrawalRouter.sol#L2)
 	- [=0.8.19](contracts/EigenLayer/interfaces/IDelegationManager.sol#L2)
@@ -422,10 +934,21 @@ Different versions of Solidity are used:
 	- [=0.8.19](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L3)
 	- [=0.8.19](contracts/EigenLayer/libraries/Endian.sol#L2)
 	- [=0.8.19](contracts/EigenLayer/libraries/Merkle.sol#L4)
+	- [^0.8.0](@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol#L2)
+	- [^0.8.0](@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol#L4)
+	- [^0.8.0](@openzeppelin/contracts-upgradeable/access/IAccessControlUpgradeable.sol#L4)
 	- [^0.8.0](@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol#L4)
+	- [^0.8.0](@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol#L4)
 	- [^0.8.0](@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol#L4)
+	- [^0.8.0](@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol#L4)
 	- [^0.8.0](@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20PermitUpgradeable.sol#L4)
 	- [^0.8.0](@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#L4)
+	- [^0.8.0](@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol#L4)
+	- [^0.8.0](@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol#L4)
+	- [^0.8.0](@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol#L4)
+	- [^0.8.0](@openzeppelin/contracts-upgradeable/utils/introspection/IERC165Upgradeable.sol#L4)
+	- [^0.8.0](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L4)
+	- [^0.8.0](@openzeppelin/contracts-upgradeable/utils/math/SignedMathUpgradeable.sol#L4)
 	- [^0.8.0](@openzeppelin/contracts/token/ERC20/IERC20.sol#L4)
 	- [^0.8.0](@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol#L4)
 	- [^0.8.0](@openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol#L4)
@@ -433,6 +956,7 @@ Different versions of Solidity are used:
 	- [^0.8.1](@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L4)
 	- [^0.8.1](@openzeppelin/contracts/utils/Address.sol#L4)
 	- [^0.8.2](@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol#L4)
+	- [^0.8.9](contracts/token/EzEthToken.sol#L2)
 	- [^0.8.9](contracts/token/IEzEthToken.sol#L2)
 
 contracts/Delegation/IOperatorDelegator.sol#L2
@@ -441,14 +965,14 @@ contracts/Delegation/IOperatorDelegator.sol#L2
 ## costly-loop
 Impact: Informational
 Confidence: Medium
- - [ ] ID-15
+ - [ ] ID-44
 [RestakeManager.removeCollateralToken(IERC20)](contracts/RestakeManager.sol#L263-L285) has costly operations inside a loop:
 	- [collateralTokens.pop()](contracts/RestakeManager.sol#L276)
 
 contracts/RestakeManager.sol#L263-L285
 
 
- - [ ] ID-16
+ - [ ] ID-45
 [RestakeManager.removeOperatorDelegator(IOperatorDelegator)](contracts/RestakeManager.sol#L170-L200) has costly operations inside a loop:
 	- [operatorDelegators.pop()](contracts/RestakeManager.sol#L191)
 
@@ -458,289 +982,451 @@ contracts/RestakeManager.sol#L170-L200
 ## dead-code
 Impact: Informational
 Confidence: Medium
- - [ ] ID-17
+ - [ ] ID-46
+[StringsUpgradeable.toString(uint256)](@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol#L19-L39) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol#L19-L39
+
+
+ - [ ] ID-47
 [BeaconChainProofs.verifyWithdrawalProofs(bytes32,BeaconChainProofs.WithdrawalProofs,bytes32[])](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L206-L261) is never used and should be removed
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L206-L261
 
 
- - [ ] ID-18
+ - [ ] ID-48
+[ContextUpgradeable._msgData()](@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol#L27-L29) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol#L27-L29
+
+
+ - [ ] ID-49
+[MathUpgradeable.log2(uint256,MathUpgradeable.Rounding)](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L241-L246) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L241-L246
+
+
+ - [ ] ID-50
 [Initializable._isInitializing()](@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol#L163-L165) is never used and should be removed
 
 @openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol#L163-L165
 
 
- - [ ] ID-19
+ - [ ] ID-51
 [Address.verifyCallResult(bool,bytes,string)](@openzeppelin/contracts/utils/Address.sol#L219-L229) is never used and should be removed
 
 @openzeppelin/contracts/utils/Address.sol#L219-L229
 
 
- - [ ] ID-20
+ - [ ] ID-52
 [AddressUpgradeable.functionCallWithValue(address,bytes,uint256)](@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L118-L120) is never used and should be removed
 
 @openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L118-L120
 
 
- - [ ] ID-21
+ - [ ] ID-53
+[MathUpgradeable.ceilDiv(uint256,uint256)](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L45-L48) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L45-L48
+
+
+ - [ ] ID-54
 [Merkle.processInclusionProofKeccak(bytes,bytes32,uint256)](contracts/EigenLayer/libraries/Merkle.sol#L48-L71) is never used and should be removed
 
 contracts/EigenLayer/libraries/Merkle.sol#L48-L71
 
 
- - [ ] ID-22
+ - [ ] ID-55
 [SafeERC20Upgradeable._callOptionalReturnBool(IERC20Upgradeable,bytes)](@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#L134-L142) is never used and should be removed
 
 @openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#L134-L142
 
 
- - [ ] ID-23
+ - [ ] ID-56
+[MathUpgradeable.min(uint256,uint256)](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L26-L28) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L26-L28
+
+
+ - [ ] ID-57
 [SafeERC20Upgradeable.safeApprove(IERC20Upgradeable,address,uint256)](@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#L45-L54) is never used and should be removed
 
 @openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#L45-L54
 
 
- - [ ] ID-24
+ - [ ] ID-58
+[MathUpgradeable.sqrt(uint256)](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L152-L183) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L152-L183
+
+
+ - [ ] ID-59
 [Address.sendValue(address,uint256)](@openzeppelin/contracts/utils/Address.sol#L64-L69) is never used and should be removed
 
 @openzeppelin/contracts/utils/Address.sol#L64-L69
 
 
- - [ ] ID-25
+ - [ ] ID-60
 [Address.functionCallWithValue(address,bytes,uint256)](@openzeppelin/contracts/utils/Address.sol#L118-L120) is never used and should be removed
 
 @openzeppelin/contracts/utils/Address.sol#L118-L120
 
 
- - [ ] ID-26
+ - [ ] ID-61
 [SafeERC20Upgradeable.safeIncreaseAllowance(IERC20Upgradeable,address,uint256)](@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#L60-L63) is never used and should be removed
 
 @openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#L60-L63
 
 
- - [ ] ID-27
-[BeaconChainProofs.getBalanceFromBalanceRoot(uint40,bytes32)](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L139-L144) is never used and should be removed
+ - [ ] ID-62
+[SignedMathUpgradeable.min(int256,int256)](@openzeppelin/contracts-upgradeable/utils/math/SignedMathUpgradeable.sol#L20-L22) is never used and should be removed
 
-contracts/EigenLayer/libraries/BeaconChainProofs.sol#L139-L144
+@openzeppelin/contracts-upgradeable/utils/math/SignedMathUpgradeable.sol#L20-L22
 
 
- - [ ] ID-28
+ - [ ] ID-63
 [Address.functionDelegateCall(address,bytes,string)](@openzeppelin/contracts/utils/Address.sol#L180-L187) is never used and should be removed
 
 @openzeppelin/contracts/utils/Address.sol#L180-L187
 
 
- - [ ] ID-29
-[SafeERC20.safeTransfer(IERC20,address,uint256)](@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol#L26-L28) is never used and should be removed
+ - [ ] ID-64
+[MathUpgradeable.log10(uint256,MathUpgradeable.Rounding)](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L290-L295) is never used and should be removed
 
-@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol#L26-L28
+@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L290-L295
 
 
- - [ ] ID-30
+ - [ ] ID-65
 [AddressUpgradeable.functionCall(address,bytes)](@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L89-L91) is never used and should be removed
 
 @openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L89-L91
 
 
- - [ ] ID-31
+ - [ ] ID-66
+[StringsUpgradeable.equal(string,string)](@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol#L82-L84) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol#L82-L84
+
+
+ - [ ] ID-67
+[ContextUpgradeable.__Context_init_unchained()](@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol#L21-L22) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol#L21-L22
+
+
+ - [ ] ID-68
 [Merkle.verifyInclusionKeccak(bytes,bytes32,bytes32,uint256)](contracts/EigenLayer/libraries/Merkle.sol#L29-L36) is never used and should be removed
 
 contracts/EigenLayer/libraries/Merkle.sol#L29-L36
 
 
- - [ ] ID-32
+ - [ ] ID-69
+[ERC165Upgradeable.__ERC165_init_unchained()](@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol#L27-L28) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol#L27-L28
+
+
+ - [ ] ID-70
+[MathUpgradeable.mulDiv(uint256,uint256,uint256)](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L55-L134) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L55-L134
+
+
+ - [ ] ID-71
 [SafeERC20Upgradeable.safeTransferFrom(IERC20Upgradeable,address,address,uint256)](@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#L34-L36) is never used and should be removed
 
 @openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#L34-L36
 
 
- - [ ] ID-33
+ - [ ] ID-72
 [Address.functionDelegateCall(address,bytes)](@openzeppelin/contracts/utils/Address.sol#L170-L172) is never used and should be removed
 
 @openzeppelin/contracts/utils/Address.sol#L170-L172
 
 
- - [ ] ID-34
+ - [ ] ID-73
 [SafeERC20.safeIncreaseAllowance(IERC20,address,uint256)](@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol#L60-L63) is never used and should be removed
 
 @openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol#L60-L63
 
 
- - [ ] ID-35
+ - [ ] ID-74
 [AddressUpgradeable.functionCall(address,bytes,string)](@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L99-L105) is never used and should be removed
 
 @openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L99-L105
 
 
- - [ ] ID-36
+ - [ ] ID-75
 [SafeERC20.safePermit(IERC20Permit,address,address,uint256,uint256,uint8,bytes32,bytes32)](@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol#L95-L109) is never used and should be removed
 
 @openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol#L95-L109
 
 
- - [ ] ID-37
+ - [ ] ID-76
 [AddressUpgradeable.sendValue(address,uint256)](@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L64-L69) is never used and should be removed
 
 @openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L64-L69
 
 
- - [ ] ID-38
+ - [ ] ID-77
 [SafeERC20Upgradeable.forceApprove(IERC20Upgradeable,address,uint256)](@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#L82-L89) is never used and should be removed
 
 @openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#L82-L89
 
 
- - [ ] ID-39
+ - [ ] ID-78
 [BeaconChainProofs.verifyValidatorBalance(uint40,bytes32,bytes,bytes32)](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L182-L198) is never used and should be removed
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L182-L198
 
 
- - [ ] ID-40
+ - [ ] ID-79
 [ReentrancyGuardUpgradeable._reentrancyGuardEntered()](@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol#L79-L81) is never used and should be removed
 
 @openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol#L79-L81
 
 
- - [ ] ID-41
+ - [ ] ID-80
 [AddressUpgradeable.functionStaticCall(address,bytes)](@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L145-L147) is never used and should be removed
 
 @openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L145-L147
 
 
- - [ ] ID-42
+ - [ ] ID-81
+[MathUpgradeable.sqrt(uint256,MathUpgradeable.Rounding)](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L188-L193) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L188-L193
+
+
+ - [ ] ID-82
+[MathUpgradeable.log2(uint256)](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L199-L235) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L199-L235
+
+
+ - [ ] ID-83
+[AccessControlUpgradeable._setRoleAdmin(bytes32,bytes32)](@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol#L221-L225) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol#L221-L225
+
+
+ - [ ] ID-84
+[MathUpgradeable.average(uint256,uint256)](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L34-L37) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L34-L37
+
+
+ - [ ] ID-85
+[StringsUpgradeable.toHexString(uint256)](@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol#L51-L55) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol#L51-L55
+
+
+ - [ ] ID-86
+[SignedMathUpgradeable.max(int256,int256)](@openzeppelin/contracts-upgradeable/utils/math/SignedMathUpgradeable.sol#L13-L15) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/utils/math/SignedMathUpgradeable.sol#L13-L15
+
+
+ - [ ] ID-87
 [SafeERC20Upgradeable.safeDecreaseAllowance(IERC20Upgradeable,address,uint256)](@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#L69-L75) is never used and should be removed
 
 @openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#L69-L75
 
 
- - [ ] ID-43
+ - [ ] ID-88
 [Address.functionStaticCall(address,bytes)](@openzeppelin/contracts/utils/Address.sol#L145-L147) is never used and should be removed
 
 @openzeppelin/contracts/utils/Address.sol#L145-L147
 
 
- - [ ] ID-44
+ - [ ] ID-89
+[MathUpgradeable.log10(uint256)](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L252-L284) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L252-L284
+
+
+ - [ ] ID-90
+[ERC165Upgradeable.__ERC165_init()](@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol#L24-L25) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol#L24-L25
+
+
+ - [ ] ID-91
+[StringsUpgradeable.toString(int256)](@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol#L44-L46) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol#L44-L46
+
+
+ - [ ] ID-92
 [SafeERC20Upgradeable.safePermit(IERC20PermitUpgradeable,address,address,uint256,uint256,uint8,bytes32,bytes32)](@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#L95-L109) is never used and should be removed
 
 @openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#L95-L109
 
 
- - [ ] ID-45
-[Endian.fromLittleEndianUint64(bytes32)](contracts/EigenLayer/libraries/Endian.sol#L12-L26) is never used and should be removed
+ - [ ] ID-93
+[MathUpgradeable.mulDiv(uint256,uint256,uint256,MathUpgradeable.Rounding)](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L139-L145) is never used and should be removed
 
-contracts/EigenLayer/libraries/Endian.sol#L12-L26
+@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L139-L145
 
 
- - [ ] ID-46
+ - [ ] ID-94
 [SafeERC20Upgradeable._callOptionalReturn(IERC20Upgradeable,bytes)](@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#L117-L124) is never used and should be removed
 
 @openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#L117-L124
 
 
- - [ ] ID-47
+ - [ ] ID-95
 [Merkle.verifyInclusionSha256(bytes,bytes32,bytes32,uint256)](contracts/EigenLayer/libraries/Merkle.sol#L81-L88) is never used and should be removed
 
 contracts/EigenLayer/libraries/Merkle.sol#L81-L88
 
 
- - [ ] ID-48
+ - [ ] ID-96
 [AddressUpgradeable.verifyCallResult(bool,bytes,string)](@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L219-L229) is never used and should be removed
 
 @openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L219-L229
 
 
- - [ ] ID-49
+ - [ ] ID-97
+[AccessControlUpgradeable.__AccessControl_init_unchained()](@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol#L55-L56) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol#L55-L56
+
+
+ - [ ] ID-98
 [SafeERC20._callOptionalReturnBool(IERC20,bytes)](@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol#L134-L142) is never used and should be removed
 
 @openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol#L134-L142
 
 
- - [ ] ID-50
+ - [ ] ID-99
 [AddressUpgradeable._revert(bytes,string)](@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L231-L243) is never used and should be removed
 
 @openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L231-L243
 
 
- - [ ] ID-51
+ - [ ] ID-100
 [Initializable._getInitializedVersion()](@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol#L156-L158) is never used and should be removed
 
 @openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol#L156-L158
 
 
- - [ ] ID-52
+ - [ ] ID-101
+[SignedMathUpgradeable.average(int256,int256)](@openzeppelin/contracts-upgradeable/utils/math/SignedMathUpgradeable.sol#L28-L32) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/utils/math/SignedMathUpgradeable.sol#L28-L32
+
+
+ - [ ] ID-102
 [AddressUpgradeable.functionDelegateCall(address,bytes,string)](@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L180-L187) is never used and should be removed
 
 @openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L180-L187
 
 
- - [ ] ID-53
+ - [ ] ID-103
 [SafeERC20.forceApprove(IERC20,address,uint256)](@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol#L82-L89) is never used and should be removed
 
 @openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol#L82-L89
 
 
- - [ ] ID-54
+ - [ ] ID-104
+[AccessControlUpgradeable._setupRole(bytes32,address)](@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol#L212-L214) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol#L212-L214
+
+
+ - [ ] ID-105
 [SafeERC20.safeDecreaseAllowance(IERC20,address,uint256)](@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol#L69-L75) is never used and should be removed
 
 @openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol#L69-L75
 
 
- - [ ] ID-55
+ - [ ] ID-106
+[SignedMathUpgradeable.abs(int256)](@openzeppelin/contracts-upgradeable/utils/math/SignedMathUpgradeable.sol#L37-L42) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/utils/math/SignedMathUpgradeable.sol#L37-L42
+
+
+ - [ ] ID-107
 [AddressUpgradeable.functionStaticCall(address,bytes,string)](@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L155-L162) is never used and should be removed
 
 @openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L155-L162
 
 
- - [ ] ID-56
+ - [ ] ID-108
 [SafeERC20Upgradeable.safeTransfer(IERC20Upgradeable,address,uint256)](@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#L26-L28) is never used and should be removed
 
 @openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#L26-L28
 
 
- - [ ] ID-57
+ - [ ] ID-109
 [Merkle.merkleizeSha256(bytes32[])](contracts/EigenLayer/libraries/Merkle.sol#L131-L155) is never used and should be removed
 
 contracts/EigenLayer/libraries/Merkle.sol#L131-L155
 
 
- - [ ] ID-58
+ - [ ] ID-110
+[MathUpgradeable.log256(uint256,MathUpgradeable.Rounding)](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L333-L338) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L333-L338
+
+
+ - [ ] ID-111
 [AddressUpgradeable.functionDelegateCall(address,bytes)](@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L170-L172) is never used and should be removed
 
 @openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L170-L172
 
 
- - [ ] ID-59
+ - [ ] ID-112
 [Merkle.processInclusionProofSha256(bytes,bytes32,uint256)](contracts/EigenLayer/libraries/Merkle.sol#L100-L123) is never used and should be removed
 
 contracts/EigenLayer/libraries/Merkle.sol#L100-L123
 
 
- - [ ] ID-60
+ - [ ] ID-113
 [Address.functionStaticCall(address,bytes,string)](@openzeppelin/contracts/utils/Address.sol#L155-L162) is never used and should be removed
 
 @openzeppelin/contracts/utils/Address.sol#L155-L162
 
 
- - [ ] ID-61
+ - [ ] ID-114
+[MathUpgradeable.max(uint256,uint256)](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L19-L21) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L19-L21
+
+
+ - [ ] ID-115
 [BeaconChainProofs.verifyValidatorFields(uint40,bytes32,bytes,bytes32[])](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L153-L173) is never used and should be removed
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L153-L173
 
 
- - [ ] ID-62
+ - [ ] ID-116
+[ContextUpgradeable.__Context_init()](@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol#L18-L19) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol#L18-L19
+
+
+ - [ ] ID-117
 [AddressUpgradeable.verifyCallResultFromTarget(address,bool,bytes,string)](@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L195-L211) is never used and should be removed
 
 @openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L195-L211
 
 
- - [ ] ID-63
+ - [ ] ID-118
+[MathUpgradeable.log256(uint256)](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L303-L327) is never used and should be removed
+
+@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L303-L327
+
+
+ - [ ] ID-119
 [AddressUpgradeable.functionCallWithValue(address,bytes,uint256,string)](@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L128-L137) is never used and should be removed
 
 @openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L128-L137
 
 
- - [ ] ID-64
+ - [ ] ID-120
 [Address.functionCall(address,bytes)](@openzeppelin/contracts/utils/Address.sol#L89-L91) is never used and should be removed
 
 @openzeppelin/contracts/utils/Address.sol#L89-L91
@@ -749,214 +1435,340 @@ contracts/EigenLayer/libraries/BeaconChainProofs.sol#L153-L173
 ## solc-version
 Impact: Informational
 Confidence: High
- - [ ] ID-65
+ - [ ] ID-121
+Pragma version[0.8.19](contracts/Permissions/RoleManager.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+
+contracts/Permissions/RoleManager.sol#L2
+
+
+ - [ ] ID-122
 Pragma version[0.8.19](contracts/Lock.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 
 contracts/Lock.sol#L2
 
 
- - [ ] ID-66
+ - [ ] ID-123
+Pragma version[0.8.19](contracts/token/EzEthTokenStorage.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+
+contracts/token/EzEthTokenStorage.sol#L2
+
+
+ - [ ] ID-124
 Pragma version[^0.8.0](@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol#L4) allows old versions
 
 @openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol#L4
 
 
- - [ ] ID-67
+ - [ ] ID-125
 Pragma version[^0.8.0](@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol#L4) allows old versions
 
 @openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol#L4
 
 
- - [ ] ID-68
+ - [ ] ID-126
 Pragma version[^0.8.9](contracts/token/IEzEthToken.sol#L2) allows old versions
 
 contracts/token/IEzEthToken.sol#L2
 
 
- - [ ] ID-69
+ - [ ] ID-127
 Pragma version[^0.8.2](@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol#L4) allows old versions
 
 @openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol#L4
 
 
- - [ ] ID-70
+ - [ ] ID-128
+Pragma version[^0.8.0](@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol#L4) allows old versions
+
+@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol#L4
+
+
+ - [ ] ID-129
+Pragma version[0.8.19](contracts/Deposits/DepositQueueStorage.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+
+contracts/Deposits/DepositQueueStorage.sol#L2
+
+
+ - [ ] ID-130
 Pragma version[0.8.19](contracts/Delegation/IOperatorDelegator.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 
 contracts/Delegation/IOperatorDelegator.sol#L2
 
 
- - [ ] ID-71
+ - [ ] ID-131
 Pragma version[0.8.19](contracts/Errors/Errors.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 
 contracts/Errors/Errors.sol#L2
 
 
- - [ ] ID-72
+ - [ ] ID-132
 Pragma version[^0.8.0](@openzeppelin/contracts/token/ERC20/IERC20.sol#L4) allows old versions
 
 @openzeppelin/contracts/token/ERC20/IERC20.sol#L4
 
 
- - [ ] ID-73
+ - [ ] ID-133
 Pragma version[^0.8.0](@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol#L4) allows old versions
 
 @openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol#L4
 
 
- - [ ] ID-74
+ - [ ] ID-134
+Pragma version[^0.8.0](@openzeppelin/contracts-upgradeable/access/IAccessControlUpgradeable.sol#L4) allows old versions
+
+@openzeppelin/contracts-upgradeable/access/IAccessControlUpgradeable.sol#L4
+
+
+ - [ ] ID-135
 Pragma version[0.8.19](contracts/Oracle/IRenzoOracle.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 
 contracts/Oracle/IRenzoOracle.sol#L2
 
 
- - [ ] ID-75
+ - [ ] ID-136
+Pragma version[^0.8.0](@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol#L4) allows old versions
+
+@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol#L4
+
+
+ - [ ] ID-137
 Pragma version[=0.8.19](contracts/EigenLayer/interfaces/IStrategy.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 
 contracts/EigenLayer/interfaces/IStrategy.sol#L2
 
 
- - [ ] ID-76
+ - [ ] ID-138
 Pragma version[=0.8.19](contracts/EigenLayer/libraries/Endian.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 
 contracts/EigenLayer/libraries/Endian.sol#L2
 
 
- - [ ] ID-77
+ - [ ] ID-139
+Pragma version[^0.8.0](@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol#L4) allows old versions
+
+@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol#L4
+
+
+ - [ ] ID-140
 Pragma version[=0.8.19](contracts/EigenLayer/interfaces/IEigenPod.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 
 contracts/EigenLayer/interfaces/IEigenPod.sol#L2
 
 
- - [ ] ID-78
+ - [ ] ID-141
 Pragma version[=0.8.19](contracts/EigenLayer/interfaces/IPausable.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 
 contracts/EigenLayer/interfaces/IPausable.sol#L2
 
 
- - [ ] ID-79
+ - [ ] ID-142
+Pragma version[^0.8.0](@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol#L2) allows old versions
+
+@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol#L2
+
+
+ - [ ] ID-143
 Pragma version[=0.8.19](contracts/EigenLayer/interfaces/IStrategyManager.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 
 contracts/EigenLayer/interfaces/IStrategyManager.sol#L2
 
 
- - [ ] ID-80
+ - [ ] ID-144
 Pragma version[^0.8.0](@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol#L4) allows old versions
 
 @openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol#L4
 
 
- - [ ] ID-81
+ - [ ] ID-145
 Pragma version[=0.8.19](contracts/EigenLayer/interfaces/IEigenPodManager.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 
 contracts/EigenLayer/interfaces/IEigenPodManager.sol#L2
 
 
- - [ ] ID-82
+ - [ ] ID-146
+Pragma version[^0.8.0](@openzeppelin/contracts-upgradeable/utils/math/SignedMathUpgradeable.sol#L4) allows old versions
+
+@openzeppelin/contracts-upgradeable/utils/math/SignedMathUpgradeable.sol#L4
+
+
+ - [ ] ID-147
+Pragma version[^0.8.0](@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol#L4) allows old versions
+
+@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol#L4
+
+
+ - [ ] ID-148
+Pragma version[^0.8.0](@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol#L4) allows old versions
+
+@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol#L4
+
+
+ - [ ] ID-149
 Pragma version[=0.8.19](contracts/EigenLayer/interfaces/IPauserRegistry.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 
 contracts/EigenLayer/interfaces/IPauserRegistry.sol#L2
 
 
- - [ ] ID-83
+ - [ ] ID-150
 Pragma version[^0.8.1](@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L4) allows old versions
 
 @openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L4
 
 
- - [ ] ID-84
+ - [ ] ID-151
 Pragma version[^0.8.0](@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#L4) allows old versions
 
 @openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#L4
 
 
- - [ ] ID-85
+ - [ ] ID-152
+Pragma version[0.8.19](contracts/Delegation/OperatorDelegator.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+
+contracts/Delegation/OperatorDelegator.sol#L2
+
+
+ - [ ] ID-153
 Pragma version[^0.8.1](@openzeppelin/contracts/utils/Address.sol#L4) allows old versions
 
 @openzeppelin/contracts/utils/Address.sol#L4
 
 
- - [ ] ID-86
+ - [ ] ID-154
+Pragma version[^0.8.9](contracts/token/EzEthToken.sol#L2) allows old versions
+
+contracts/token/EzEthToken.sol#L2
+
+
+ - [ ] ID-155
 Pragma version[^0.8.0](@openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol#L4) allows old versions
 
 @openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol#L4
 
 
- - [ ] ID-87
+ - [ ] ID-156
+Pragma version[0.8.19](contracts/Deposits/DepositQueue.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+
+contracts/Deposits/DepositQueue.sol#L2
+
+
+ - [ ] ID-157
 Pragma version[=0.8.19](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L3) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L3
 
 
- - [ ] ID-88
+ - [ ] ID-158
 Pragma version[0.8.19](contracts/Permissions/IRoleManager.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 
 contracts/Permissions/IRoleManager.sol#L2
 
 
- - [ ] ID-89
+ - [ ] ID-159
 Pragma version[0.8.19](contracts/RestakeManagerStorage.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 
 contracts/RestakeManagerStorage.sol#L2
 
 
- - [ ] ID-90
+ - [ ] ID-160
 Pragma version[0.8.19](contracts/IRestakeManager.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 
 contracts/IRestakeManager.sol#L2
 
 
- - [ ] ID-91
+ - [ ] ID-161
+Pragma version[0.8.19](contracts/Permissions/RoleManagerStorage.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+
+contracts/Permissions/RoleManagerStorage.sol#L2
+
+
+ - [ ] ID-162
 solc-0.8.19 is not recommended for deployment
 
- - [ ] ID-92
+ - [ ] ID-163
 Pragma version[=0.8.19](contracts/EigenLayer/interfaces/ISlasher.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 
 contracts/EigenLayer/interfaces/ISlasher.sol#L2
 
 
- - [ ] ID-93
+ - [ ] ID-164
+Pragma version[^0.8.0](@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L4) allows old versions
+
+@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol#L4
+
+
+ - [ ] ID-165
 Pragma version[=0.8.19](contracts/EigenLayer/interfaces/IDelayedWithdrawalRouter.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 
 contracts/EigenLayer/interfaces/IDelayedWithdrawalRouter.sol#L2
 
 
- - [ ] ID-94
+ - [ ] ID-166
 Pragma version[=0.8.19](contracts/EigenLayer/interfaces/IDelegationTerms.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 
 contracts/EigenLayer/interfaces/IDelegationTerms.sol#L2
 
 
- - [ ] ID-95
+ - [ ] ID-167
+Pragma version[0.8.19](contracts/Delegation/OperatorDelegatorStorage.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+
+contracts/Delegation/OperatorDelegatorStorage.sol#L2
+
+
+ - [ ] ID-168
 Pragma version[0.8.19](contracts/Deposits/IDepositQueue.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 
 contracts/Deposits/IDepositQueue.sol#L2
 
 
- - [ ] ID-96
+ - [ ] ID-169
 Pragma version[=0.8.19](contracts/EigenLayer/interfaces/IBeaconChainOracle.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 
 contracts/EigenLayer/interfaces/IBeaconChainOracle.sol#L2
 
 
- - [ ] ID-97
+ - [ ] ID-170
 Pragma version[0.8.19](contracts/RestakeManager.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 
 contracts/RestakeManager.sol#L2
 
 
- - [ ] ID-98
+ - [ ] ID-171
+Pragma version[0.8.19](contracts/Oracle/RenzoOracleStorage.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+
+contracts/Oracle/RenzoOracleStorage.sol#L2
+
+
+ - [ ] ID-172
 Pragma version[=0.8.19](contracts/EigenLayer/libraries/Merkle.sol#L4) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 
 contracts/EigenLayer/libraries/Merkle.sol#L4
 
 
- - [ ] ID-99
+ - [ ] ID-173
+Pragma version[^0.8.0](@openzeppelin/contracts-upgradeable/utils/introspection/IERC165Upgradeable.sol#L4) allows old versions
+
+@openzeppelin/contracts-upgradeable/utils/introspection/IERC165Upgradeable.sol#L4
+
+
+ - [ ] ID-174
 Pragma version[^0.8.0](@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20PermitUpgradeable.sol#L4) allows old versions
 
 @openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20PermitUpgradeable.sol#L4
 
 
- - [ ] ID-100
+ - [ ] ID-175
+Pragma version[0.8.19](contracts/Oracle/RenzoOracle.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+
+contracts/Oracle/RenzoOracle.sol#L2
+
+
+ - [ ] ID-176
+Pragma version[^0.8.0](@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol#L4) allows old versions
+
+@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol#L4
+
+
+ - [ ] ID-177
 Pragma version[=0.8.19](contracts/EigenLayer/interfaces/IDelegationManager.sol#L2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
 
 contracts/EigenLayer/interfaces/IDelegationManager.sol#L2
@@ -965,70 +1777,84 @@ contracts/EigenLayer/interfaces/IDelegationManager.sol#L2
 ## low-level-calls
 Impact: Informational
 Confidence: High
- - [ ] ID-101
+ - [ ] ID-178
 Low level call in [Address.functionStaticCall(address,bytes,string)](@openzeppelin/contracts/utils/Address.sol#L155-L162):
 	- [(success,returndata) = target.staticcall(data)](@openzeppelin/contracts/utils/Address.sol#L160)
 
 @openzeppelin/contracts/utils/Address.sol#L155-L162
 
 
- - [ ] ID-102
+ - [ ] ID-179
+Low level call in [OperatorDelegator.receive()](contracts/Delegation/OperatorDelegator.sol#L301-L320):
+	- [(success) = destination.call{value: msg.value}()](contracts/Delegation/OperatorDelegator.sol#L316)
+
+contracts/Delegation/OperatorDelegator.sol#L301-L320
+
+
+ - [ ] ID-180
 Low level call in [Address.functionDelegateCall(address,bytes,string)](@openzeppelin/contracts/utils/Address.sol#L180-L187):
 	- [(success,returndata) = target.delegatecall(data)](@openzeppelin/contracts/utils/Address.sol#L185)
 
 @openzeppelin/contracts/utils/Address.sol#L180-L187
 
 
- - [ ] ID-103
+ - [ ] ID-181
 Low level call in [Address.sendValue(address,uint256)](@openzeppelin/contracts/utils/Address.sol#L64-L69):
 	- [(success) = recipient.call{value: amount}()](@openzeppelin/contracts/utils/Address.sol#L67)
 
 @openzeppelin/contracts/utils/Address.sol#L64-L69
 
 
- - [ ] ID-104
+ - [ ] ID-182
 Low level call in [AddressUpgradeable.sendValue(address,uint256)](@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L64-L69):
 	- [(success) = recipient.call{value: amount}()](@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L67)
 
 @openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L64-L69
 
 
- - [ ] ID-105
+ - [ ] ID-183
 Low level call in [Address.functionCallWithValue(address,bytes,uint256,string)](@openzeppelin/contracts/utils/Address.sol#L128-L137):
 	- [(success,returndata) = target.call{value: value}(data)](@openzeppelin/contracts/utils/Address.sol#L135)
 
 @openzeppelin/contracts/utils/Address.sol#L128-L137
 
 
- - [ ] ID-106
+ - [ ] ID-184
 Low level call in [AddressUpgradeable.functionDelegateCall(address,bytes,string)](@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L180-L187):
 	- [(success,returndata) = target.delegatecall(data)](@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L185)
 
 @openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L180-L187
 
 
- - [ ] ID-107
+ - [ ] ID-185
 Low level call in [SafeERC20Upgradeable._callOptionalReturnBool(IERC20Upgradeable,bytes)](@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#L134-L142):
 	- [(success,returndata) = address(token).call(data)](@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#L139)
 
 @openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol#L134-L142
 
 
- - [ ] ID-108
+ - [ ] ID-186
 Low level call in [AddressUpgradeable.functionStaticCall(address,bytes,string)](@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L155-L162):
 	- [(success,returndata) = target.staticcall(data)](@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L160)
 
 @openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L155-L162
 
 
- - [ ] ID-109
+ - [ ] ID-187
+Low level call in [DepositQueue.receive()](contracts/Deposits/DepositQueue.sol#L120-L136):
+	- [(success) = feeAddress.call{value: feeAmount}()](contracts/Deposits/DepositQueue.sol#L125)
+
+contracts/Deposits/DepositQueue.sol#L120-L136
+
+
+ - [ ] ID-188
 Low level call in [AddressUpgradeable.functionCallWithValue(address,bytes,uint256,string)](@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L128-L137):
 	- [(success,returndata) = target.call{value: value}(data)](@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L135)
 
 @openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol#L128-L137
 
 
- - [ ] ID-110
+ - [ ] ID-189
 Low level call in [SafeERC20._callOptionalReturnBool(IERC20,bytes)](@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol#L134-L142):
 	- [(success,returndata) = address(token).call(data)](@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol#L139)
 
@@ -1038,211 +1864,511 @@ Low level call in [SafeERC20._callOptionalReturnBool(IERC20,bytes)](@openzeppeli
 ## naming-convention
 Impact: Informational
 Confidence: High
- - [ ] ID-111
+ - [ ] ID-190
 Parameter [RestakeManager.deposit(IERC20,uint256,uint256)._amount](contracts/RestakeManager.sol#L496) is not in mixedCase
 
 contracts/RestakeManager.sol#L496
 
 
- - [ ] ID-112
+ - [ ] ID-191
 Parameter [RestakeManager.depositETH(uint256)._referralId](contracts/RestakeManager.sol#L587) is not in mixedCase
 
 contracts/RestakeManager.sol#L587
 
 
- - [ ] ID-113
+ - [ ] ID-192
+Parameter [OperatorDelegator.completeWithdrawal(IStrategyManager.QueuedWithdrawal,IERC20,uint256,address)._middlewareTimesIndex](contracts/Delegation/OperatorDelegator.sol#L213) is not in mixedCase
+
+contracts/Delegation/OperatorDelegator.sol#L213
+
+
+ - [ ] ID-193
 Function [IERC20PermitUpgradeable.DOMAIN_SEPARATOR()](@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20PermitUpgradeable.sol#L59) is not in mixedCase
 
 @openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20PermitUpgradeable.sol#L59
 
 
- - [ ] ID-114
+ - [ ] ID-194
 Parameter [RestakeManager.addOperatorDelegator(IOperatorDelegator,uint256)._newOperatorDelegator](contracts/RestakeManager.sol#L140) is not in mixedCase
 
 contracts/RestakeManager.sol#L140
 
 
- - [ ] ID-115
+ - [ ] ID-195
 Enum [IEigenPod.PARTIAL_WITHDRAWAL_CLAIM_STATUS](contracts/EigenLayer/interfaces/IEigenPod.sol#L46-L50) is not in CapWords
 
 contracts/EigenLayer/interfaces/IEigenPod.sol#L46-L50
 
 
- - [ ] ID-116
+ - [ ] ID-196
 Parameter [RestakeManager.initialize(IRoleManager,IEzEthToken,IRenzoOracle,IStrategyManager,IDelegationManager,IDepositQueue)._renzoOracle](contracts/RestakeManager.sol#L111) is not in mixedCase
 
 contracts/RestakeManager.sol#L111
 
 
- - [ ] ID-117
+ - [ ] ID-197
+Function [AccessControlUpgradeable.__AccessControl_init_unchained()](@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol#L55-L56) is not in mixedCase
+
+@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol#L55-L56
+
+
+ - [ ] ID-198
+Parameter [OperatorDelegator.setTokenStrategy(IERC20,IStrategy)._strategy](contracts/Delegation/OperatorDelegator.sol#L96) is not in mixedCase
+
+contracts/Delegation/OperatorDelegator.sol#L96
+
+
+ - [ ] ID-199
+Parameter [OperatorDelegator.completeWithdrawal(IStrategyManager.QueuedWithdrawal,IERC20,uint256,address)._withdrawal](contracts/Delegation/OperatorDelegator.sol#L211) is not in mixedCase
+
+contracts/Delegation/OperatorDelegator.sol#L211
+
+
+ - [ ] ID-200
 Parameter [RestakeManager.setMaxDepositTVL(uint256)._maxDepositTVL](contracts/RestakeManager.sol#L238) is not in mixedCase
 
 contracts/RestakeManager.sol#L238
 
 
- - [ ] ID-118
+ - [ ] ID-201
 Parameter [RestakeManager.depositTokenRewardsFromProtocol(IERC20,uint256)._amount](contracts/RestakeManager.sol#L641) is not in mixedCase
 
 contracts/RestakeManager.sol#L641
 
 
- - [ ] ID-119
+ - [ ] ID-202
 Parameter [RestakeManager.depositTokenRewardsFromProtocol(IERC20,uint256)._token](contracts/RestakeManager.sol#L640) is not in mixedCase
 
 contracts/RestakeManager.sol#L640
 
 
- - [ ] ID-120
+ - [ ] ID-203
 Parameter [RestakeManager.initialize(IRoleManager,IEzEthToken,IRenzoOracle,IStrategyManager,IDelegationManager,IDepositQueue)._ezETH](contracts/RestakeManager.sol#L110) is not in mixedCase
 
 contracts/RestakeManager.sol#L110
 
 
- - [ ] ID-121
+ - [ ] ID-204
 Function [IEigenPod.REQUIRED_BALANCE_WEI()](contracts/EigenLayer/interfaces/IEigenPod.sol#L56) is not in mixedCase
 
 contracts/EigenLayer/interfaces/IEigenPod.sol#L56
 
 
- - [ ] ID-122
+ - [ ] ID-205
+Parameter [OperatorDelegator.completeWithdrawal(IStrategyManager.QueuedWithdrawal,IERC20,uint256,address)._sendToAddress](contracts/Delegation/OperatorDelegator.sol#L214) is not in mixedCase
+
+contracts/Delegation/OperatorDelegator.sol#L214
+
+
+ - [ ] ID-206
+Parameter [OperatorDelegator.completeWithdrawal(IStrategyManager.QueuedWithdrawal,IERC20,uint256,address)._token](contracts/Delegation/OperatorDelegator.sol#L212) is not in mixedCase
+
+contracts/Delegation/OperatorDelegator.sol#L212
+
+
+ - [ ] ID-207
+Parameter [OperatorDelegator.initialize(IRoleManager,IStrategyManager,IRestakeManager,IDelegationManager,IEigenPodManager)._eigenPodManager](contracts/Delegation/OperatorDelegator.sol#L70) is not in mixedCase
+
+contracts/Delegation/OperatorDelegator.sol#L70
+
+
+ - [ ] ID-208
+Variable [ContextUpgradeable.__gap](@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol#L36) is not in mixedCase
+
+@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol#L36
+
+
+ - [ ] ID-209
 Parameter [RestakeManager.setOperatorDelegatorAllocation(IOperatorDelegator,uint256)._allocationBasisPoints](contracts/RestakeManager.sol#L205) is not in mixedCase
 
 contracts/RestakeManager.sol#L205
 
 
- - [ ] ID-123
+ - [ ] ID-210
+Parameter [OperatorDelegator.startWithdrawal(IERC20,uint256)._tokenAmount](contracts/Delegation/OperatorDelegator.sol#L165) is not in mixedCase
+
+contracts/Delegation/OperatorDelegator.sol#L165
+
+
+ - [ ] ID-211
 Function [ReentrancyGuardUpgradeable.__ReentrancyGuard_init_unchained()](@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol#L44-L46) is not in mixedCase
 
 @openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol#L44-L46
 
 
- - [ ] ID-124
+ - [ ] ID-212
+Variable [AccessControlUpgradeable.__gap](@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol#L260) is not in mixedCase
+
+@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol#L260
+
+
+ - [ ] ID-213
+Parameter [OperatorDelegator.getStrategyIndex(IStrategy)._strategy](contracts/Delegation/OperatorDelegator.sol#L146) is not in mixedCase
+
+contracts/Delegation/OperatorDelegator.sol#L146
+
+
+ - [ ] ID-214
 Parameter [RestakeManager.setTokenTvlLimit(IERC20,uint256)._token](contracts/RestakeManager.sol#L706) is not in mixedCase
 
 contracts/RestakeManager.sol#L706
 
 
- - [ ] ID-125
+ - [ ] ID-215
 Parameter [RestakeManager.getCollateralTokenIndex(IERC20)._collateralToken](contracts/RestakeManager.sol#L452) is not in mixedCase
 
 contracts/RestakeManager.sol#L452
 
 
- - [ ] ID-126
+ - [ ] ID-216
 Parameter [RestakeManager.initialize(IRoleManager,IEzEthToken,IRenzoOracle,IStrategyManager,IDelegationManager,IDepositQueue)._depositQueue](contracts/RestakeManager.sol#L114) is not in mixedCase
 
 contracts/RestakeManager.sol#L114
 
 
- - [ ] ID-127
+ - [ ] ID-217
+Parameter [RenzoOracle.calculateRedeemAmount(uint256,uint256,uint256)._currentValueInProtocol](contracts/Oracle/RenzoOracle.sol#L134) is not in mixedCase
+
+contracts/Oracle/RenzoOracle.sol#L134
+
+
+ - [ ] ID-218
+Parameter [RenzoOracle.lookupTokenAmountFromValue(IERC20,uint256)._token](contracts/Oracle/RenzoOracle.sol#L81) is not in mixedCase
+
+contracts/Oracle/RenzoOracle.sol#L81
+
+
+ - [ ] ID-219
 Parameter [RestakeManager.deposit(IERC20,uint256)._amount](contracts/RestakeManager.sol#L475) is not in mixedCase
 
 contracts/RestakeManager.sol#L475
 
 
- - [ ] ID-128
+ - [ ] ID-220
+Parameter [RenzoOracle.lookupTokenValues(IERC20[],uint256[])._balances](contracts/Oracle/RenzoOracle.sol#L96) is not in mixedCase
+
+contracts/Oracle/RenzoOracle.sol#L96
+
+
+ - [ ] ID-221
+Parameter [RenzoOracle.lookupTokenValue(IERC20,uint256)._token](contracts/Oracle/RenzoOracle.sol#L67) is not in mixedCase
+
+contracts/Oracle/RenzoOracle.sol#L67
+
+
+ - [ ] ID-222
+Parameter [OperatorDelegator.initialize(IRoleManager,IStrategyManager,IRestakeManager,IDelegationManager,IEigenPodManager)._roleManager](contracts/Delegation/OperatorDelegator.sol#L66) is not in mixedCase
+
+contracts/Delegation/OperatorDelegator.sol#L66
+
+
+ - [ ] ID-223
+Function [ERC20Upgradeable.__ERC20_init_unchained(string,string)](@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol#L59-L62) is not in mixedCase
+
+@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol#L59-L62
+
+
+ - [ ] ID-224
 Parameter [RestakeManager.initialize(IRoleManager,IEzEthToken,IRenzoOracle,IStrategyManager,IDelegationManager,IDepositQueue)._roleManager](contracts/RestakeManager.sol#L109) is not in mixedCase
 
 contracts/RestakeManager.sol#L109
 
 
- - [ ] ID-129
+ - [ ] ID-225
 Parameter [RestakeManager.setPaused(bool)._paused](contracts/RestakeManager.sol#L129) is not in mixedCase
 
 contracts/RestakeManager.sol#L129
 
 
- - [ ] ID-130
+ - [ ] ID-226
 Parameter [RestakeManager.deposit(IERC20,uint256)._collateralToken](contracts/RestakeManager.sol#L474) is not in mixedCase
 
 contracts/RestakeManager.sol#L474
 
 
- - [ ] ID-131
+ - [ ] ID-227
+Parameter [OperatorDelegator.initialize(IRoleManager,IStrategyManager,IRestakeManager,IDelegationManager,IEigenPodManager)._strategyManager](contracts/Delegation/OperatorDelegator.sol#L67) is not in mixedCase
+
+contracts/Delegation/OperatorDelegator.sol#L67
+
+
+ - [ ] ID-228
+Parameter [DepositQueue.setFeeConfig(address,uint256)._feeAddress](contracts/Deposits/DepositQueue.sol#L86) is not in mixedCase
+
+contracts/Deposits/DepositQueue.sol#L86
+
+
+ - [ ] ID-229
+Function [ERC20Upgradeable.__ERC20_init(string,string)](@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol#L55-L57) is not in mixedCase
+
+@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol#L55-L57
+
+
+ - [ ] ID-230
 Function [ReentrancyGuardUpgradeable.__ReentrancyGuard_init()](@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol#L40-L42) is not in mixedCase
 
 @openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol#L40-L42
 
 
- - [ ] ID-132
+ - [ ] ID-231
 Parameter [RestakeManager.removeCollateralToken(IERC20)._collateralTokenToRemove](contracts/RestakeManager.sol#L264) is not in mixedCase
 
 contracts/RestakeManager.sol#L264
 
 
- - [ ] ID-133
+ - [ ] ID-232
+Parameter [RenzoOracle.setOracleAddress(IERC20,AggregatorV3Interface)._token](contracts/Oracle/RenzoOracle.sol#L54) is not in mixedCase
+
+contracts/Oracle/RenzoOracle.sol#L54
+
+
+ - [ ] ID-233
+Function [ERC165Upgradeable.__ERC165_init_unchained()](@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol#L27-L28) is not in mixedCase
+
+@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol#L27-L28
+
+
+ - [ ] ID-234
+Function [ContextUpgradeable.__Context_init_unchained()](@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol#L21-L22) is not in mixedCase
+
+@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol#L21-L22
+
+
+ - [ ] ID-235
+Parameter [EzEthToken.setPaused(bool)._paused](contracts/token/EzEthToken.sol#L56) is not in mixedCase
+
+contracts/token/EzEthToken.sol#L56
+
+
+ - [ ] ID-236
+Parameter [OperatorDelegator.startWithdrawal(IERC20,uint256)._token](contracts/Delegation/OperatorDelegator.sol#L164) is not in mixedCase
+
+contracts/Delegation/OperatorDelegator.sol#L164
+
+
+ - [ ] ID-237
+Parameter [RenzoOracle.setOracleAddress(IERC20,AggregatorV3Interface)._oracleAddress](contracts/Oracle/RenzoOracle.sol#L54) is not in mixedCase
+
+contracts/Oracle/RenzoOracle.sol#L54
+
+
+ - [ ] ID-238
+Parameter [OperatorDelegator.initialize(IRoleManager,IStrategyManager,IRestakeManager,IDelegationManager,IEigenPodManager)._restakeManager](contracts/Delegation/OperatorDelegator.sol#L68) is not in mixedCase
+
+contracts/Delegation/OperatorDelegator.sol#L68
+
+
+ - [ ] ID-239
 Parameter [RestakeManager.initialize(IRoleManager,IEzEthToken,IRenzoOracle,IStrategyManager,IDelegationManager,IDepositQueue)._strategyManager](contracts/RestakeManager.sol#L112) is not in mixedCase
 
 contracts/RestakeManager.sol#L112
 
 
- - [ ] ID-134
+ - [ ] ID-240
+Variable [ERC20Upgradeable.__gap](@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol#L376) is not in mixedCase
+
+@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol#L376
+
+
+ - [ ] ID-241
 Variable [ReentrancyGuardUpgradeable.__gap](@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol#L88) is not in mixedCase
 
 @openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol#L88
 
 
- - [ ] ID-135
+ - [ ] ID-242
+Parameter [OperatorDelegator.deposit(IERC20,uint256)._tokenAmount](contracts/Delegation/OperatorDelegator.sol#L125) is not in mixedCase
+
+contracts/Delegation/OperatorDelegator.sol#L125
+
+
+ - [ ] ID-243
 Function [IERC20Permit.DOMAIN_SEPARATOR()](@openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol#L59) is not in mixedCase
 
 @openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol#L59
 
 
- - [ ] ID-136
+ - [ ] ID-244
+Parameter [RenzoOracle.calculateMintAmount(uint256,uint256,uint256)._newValueAdded](contracts/Oracle/RenzoOracle.sol#L111) is not in mixedCase
+
+contracts/Oracle/RenzoOracle.sol#L111
+
+
+ - [ ] ID-245
+Function [AccessControlUpgradeable.__AccessControl_init()](@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol#L52-L53) is not in mixedCase
+
+@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol#L52-L53
+
+
+ - [ ] ID-246
+Parameter [DepositQueue.initialize(IRoleManager)._roleManager](contracts/Deposits/DepositQueue.sol#L77) is not in mixedCase
+
+contracts/Deposits/DepositQueue.sol#L77
+
+
+ - [ ] ID-247
+Parameter [OperatorDelegator.initialize(IRoleManager,IStrategyManager,IRestakeManager,IDelegationManager,IEigenPodManager)._delegationManager](contracts/Delegation/OperatorDelegator.sol#L69) is not in mixedCase
+
+contracts/Delegation/OperatorDelegator.sol#L69
+
+
+ - [ ] ID-248
+Parameter [OperatorDelegator.setTokenStrategy(IERC20,IStrategy)._token](contracts/Delegation/OperatorDelegator.sol#L95) is not in mixedCase
+
+contracts/Delegation/OperatorDelegator.sol#L95
+
+
+ - [ ] ID-249
 Function [IEigenPod.REQUIRED_BALANCE_GWEI()](contracts/EigenLayer/interfaces/IEigenPod.sol#L53) is not in mixedCase
 
 contracts/EigenLayer/interfaces/IEigenPod.sol#L53
 
 
- - [ ] ID-137
+ - [ ] ID-250
 Parameter [RestakeManager.initialize(IRoleManager,IEzEthToken,IRenzoOracle,IStrategyManager,IDelegationManager,IDepositQueue)._delegationManager](contracts/RestakeManager.sol#L113) is not in mixedCase
 
 contracts/RestakeManager.sol#L113
 
 
- - [ ] ID-138
+ - [ ] ID-251
+Parameter [DepositQueue.setRestakeManager(IRestakeManager)._restakeManager](contracts/Deposits/DepositQueue.sol#L102) is not in mixedCase
+
+contracts/Deposits/DepositQueue.sol#L102
+
+
+ - [ ] ID-252
+Parameter [EzEthToken.initialize(IRoleManager)._roleManager](contracts/token/EzEthToken.sol#L38) is not in mixedCase
+
+contracts/token/EzEthToken.sol#L38
+
+
+ - [ ] ID-253
 Parameter [RestakeManager.deposit(IERC20,uint256,uint256)._referralId](contracts/RestakeManager.sol#L497) is not in mixedCase
 
 contracts/RestakeManager.sol#L497
 
 
- - [ ] ID-139
+ - [ ] ID-254
 Enum [IEigenPod.VALIDATOR_STATUS](contracts/EigenLayer/interfaces/IEigenPod.sol#L28-L33) is not in CapWords
 
 contracts/EigenLayer/interfaces/IEigenPod.sol#L28-L33
 
 
- - [ ] ID-140
+ - [ ] ID-255
 Parameter [RestakeManager.setTokenTvlLimit(IERC20,uint256)._limit](contracts/RestakeManager.sol#L706) is not in mixedCase
 
 contracts/RestakeManager.sol#L706
 
 
- - [ ] ID-141
+ - [ ] ID-256
+Variable [ERC165Upgradeable.__gap](@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol#L41) is not in mixedCase
+
+@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol#L41
+
+
+ - [ ] ID-257
+Parameter [RenzoOracle.calculateMintAmount(uint256,uint256,uint256)._currentValueInProtocol](contracts/Oracle/RenzoOracle.sol#L111) is not in mixedCase
+
+contracts/Oracle/RenzoOracle.sol#L111
+
+
+ - [ ] ID-258
+Parameter [RenzoOracle.lookupTokenValues(IERC20[],uint256[])._tokens](contracts/Oracle/RenzoOracle.sol#L96) is not in mixedCase
+
+contracts/Oracle/RenzoOracle.sol#L96
+
+
+ - [ ] ID-259
 Parameter [RestakeManager.removeOperatorDelegator(IOperatorDelegator)._operatorDelegatorToRemove](contracts/RestakeManager.sol#L171) is not in mixedCase
 
 contracts/RestakeManager.sol#L171
 
 
- - [ ] ID-142
+ - [ ] ID-260
+Parameter [OperatorDelegator.deposit(IERC20,uint256)._token](contracts/Delegation/OperatorDelegator.sol#L124) is not in mixedCase
+
+contracts/Delegation/OperatorDelegator.sol#L124
+
+
+ - [ ] ID-261
+Parameter [RenzoOracle.lookupTokenAmountFromValue(IERC20,uint256)._value](contracts/Oracle/RenzoOracle.sol#L81) is not in mixedCase
+
+contracts/Oracle/RenzoOracle.sol#L81
+
+
+ - [ ] ID-262
+Parameter [RenzoOracle.initialize(IRoleManager)._roleManager](contracts/Oracle/RenzoOracle.sol#L44) is not in mixedCase
+
+contracts/Oracle/RenzoOracle.sol#L44
+
+
+ - [ ] ID-263
+Parameter [RenzoOracle.lookupTokenValue(IERC20,uint256)._balance](contracts/Oracle/RenzoOracle.sol#L67) is not in mixedCase
+
+contracts/Oracle/RenzoOracle.sol#L67
+
+
+ - [ ] ID-264
+Parameter [DepositQueue.setFeeConfig(address,uint256)._feeBasisPoints](contracts/Deposits/DepositQueue.sol#L86) is not in mixedCase
+
+contracts/Deposits/DepositQueue.sol#L86
+
+
+ - [ ] ID-265
+Parameter [OperatorDelegator.setDelegateAddress(address)._delegateAddress](contracts/Delegation/OperatorDelegator.sol#L106) is not in mixedCase
+
+contracts/Delegation/OperatorDelegator.sol#L106
+
+
+ - [ ] ID-266
+Parameter [RenzoOracle.calculateRedeemAmount(uint256,uint256,uint256)._existingEzETHSupply](contracts/Oracle/RenzoOracle.sol#L134) is not in mixedCase
+
+contracts/Oracle/RenzoOracle.sol#L134
+
+
+ - [ ] ID-267
+Parameter [RenzoOracle.calculateRedeemAmount(uint256,uint256,uint256)._ezETHBeingBurned](contracts/Oracle/RenzoOracle.sol#L134) is not in mixedCase
+
+contracts/Oracle/RenzoOracle.sol#L134
+
+
+ - [ ] ID-268
+Parameter [RenzoOracle.calculateMintAmount(uint256,uint256,uint256)._existingEzETHSupply](contracts/Oracle/RenzoOracle.sol#L111) is not in mixedCase
+
+contracts/Oracle/RenzoOracle.sol#L111
+
+
+ - [ ] ID-269
+Function [ContextUpgradeable.__Context_init()](@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol#L18-L19) is not in mixedCase
+
+@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol#L18-L19
+
+
+ - [ ] ID-270
 Parameter [RestakeManager.setOperatorDelegatorAllocation(IOperatorDelegator,uint256)._operatorDelegator](contracts/RestakeManager.sol#L204) is not in mixedCase
 
 contracts/RestakeManager.sol#L204
 
 
- - [ ] ID-143
+ - [ ] ID-271
+Function [ERC165Upgradeable.__ERC165_init()](@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol#L24-L25) is not in mixedCase
+
+@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol#L24-L25
+
+
+ - [ ] ID-272
 Parameter [RestakeManager.deposit(IERC20,uint256,uint256)._collateralToken](contracts/RestakeManager.sol#L495) is not in mixedCase
 
 contracts/RestakeManager.sol#L495
 
 
- - [ ] ID-144
+ - [ ] ID-273
 Parameter [RestakeManager.addOperatorDelegator(IOperatorDelegator,uint256)._allocationBasisPoints](contracts/RestakeManager.sol#L141) is not in mixedCase
 
 contracts/RestakeManager.sol#L141
 
 
- - [ ] ID-145
+ - [ ] ID-274
 Parameter [RestakeManager.addCollateralToken(IERC20)._newCollateralToken](contracts/RestakeManager.sol#L244) is not in mixedCase
 
 contracts/RestakeManager.sol#L244
@@ -1251,26 +2377,26 @@ contracts/RestakeManager.sol#L244
 ## similar-names
 Impact: Informational
 Confidence: Medium
- - [ ] ID-146
-Variable [RestakeManager.getCollateralTokenIndex(IERC20)._collateralToken](contracts/RestakeManager.sol#L452) is too similar to [RestakeManagerStorageV1.collateralTokens](contracts/RestakeManagerStorage.sol#L48)
+ - [ ] ID-275
+Variable [RestakeManager.getCollateralTokenIndex(IERC20)._collateralToken](contracts/RestakeManager.sol#L452) is too similar to [RestakeManagerStorageV1.collateralTokens](contracts/RestakeManagerStorage.sol#L56)
 
 contracts/RestakeManager.sol#L452
 
 
- - [ ] ID-147
-Variable [RestakeManager.deposit(IERC20,uint256,uint256)._collateralToken](contracts/RestakeManager.sol#L495) is too similar to [RestakeManagerStorageV1.collateralTokens](contracts/RestakeManagerStorage.sol#L48)
+ - [ ] ID-276
+Variable [RestakeManager.deposit(IERC20,uint256,uint256)._collateralToken](contracts/RestakeManager.sol#L495) is too similar to [RestakeManagerStorageV1.collateralTokens](contracts/RestakeManagerStorage.sol#L56)
 
 contracts/RestakeManager.sol#L495
 
 
- - [ ] ID-148
-Variable [RestakeManager.deposit(IERC20,uint256)._collateralToken](contracts/RestakeManager.sol#L474) is too similar to [RestakeManagerStorageV1.collateralTokens](contracts/RestakeManagerStorage.sol#L48)
+ - [ ] ID-277
+Variable [RestakeManager.deposit(IERC20,uint256)._collateralToken](contracts/RestakeManager.sol#L474) is too similar to [RestakeManagerStorageV1.collateralTokens](contracts/RestakeManagerStorage.sol#L56)
 
 contracts/RestakeManager.sol#L474
 
 
- - [ ] ID-149
-Variable [RestakeManager.setOperatorDelegatorAllocation(IOperatorDelegator,uint256)._operatorDelegator](contracts/RestakeManager.sol#L204) is too similar to [RestakeManagerStorageV1.operatorDelegators](contracts/RestakeManagerStorage.sol#L41)
+ - [ ] ID-278
+Variable [RestakeManager.setOperatorDelegatorAllocation(IOperatorDelegator,uint256)._operatorDelegator](contracts/RestakeManager.sol#L204) is too similar to [RestakeManagerStorageV1.operatorDelegators](contracts/RestakeManagerStorage.sol#L48)
 
 contracts/RestakeManager.sol#L204
 
@@ -1278,7 +2404,7 @@ contracts/RestakeManager.sol#L204
 ## too-many-digits
 Impact: Informational
 Confidence: Medium
- - [ ] ID-150
+ - [ ] ID-279
 [Endian.fromLittleEndianUint64(bytes32)](contracts/EigenLayer/libraries/Endian.sol#L12-L26) uses literals with too many digits:
 	- [(n >> 56) | ((0x00FF000000000000 & n) >> 40) | ((0x0000FF0000000000 & n) >> 24) | ((0x000000FF00000000 & n) >> 8) | ((0x00000000FF000000 & n) << 8) | ((0x0000000000FF0000 & n) << 24) | ((0x000000000000FF00 & n) << 40) | ((0x00000000000000FF & n) << 56)](contracts/EigenLayer/libraries/Endian.sol#L17-L25)
 
@@ -1288,182 +2414,188 @@ contracts/EigenLayer/libraries/Endian.sol#L12-L26
 ## unused-state
 Impact: Informational
 Confidence: High
- - [ ] ID-151
+ - [ ] ID-280
 [BeaconChainProofs.VALIDATOR_WITHDRAWAL_CREDENTIALS_INDEX](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L78) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L78
 
 
- - [ ] ID-152
+ - [ ] ID-281
 [BeaconChainProofs.NUM_BEACON_BLOCK_BODY_FIELDS](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L17) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
-INFO:Slither:. analyzed (35 contracts with 88 detectors), 183 result(s) found
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L17
 
 
- - [ ] ID-153
+ - [ ] ID-282
 [BeaconChainProofs.ETH_1_ROOT_INDEX](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L71) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L71
 
 
- - [ ] ID-154
+ - [ ] ID-283
 [BeaconChainProofs.STATE_ROOTS_TREE_HEIGHT](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L44) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L44
 
 
- - [ ] ID-155
+ - [ ] ID-284
 [BeaconChainProofs.WITHDRAWALS_ROOT_INDEX](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L85) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L85
 
 
- - [ ] ID-156
+ - [ ] ID-285
 [BeaconChainProofs.EXECUTION_PAYLOAD_FIELD_TREE_HEIGHT](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L34) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L34
 
 
- - [ ] ID-157
+ - [ ] ID-286
 [BeaconChainProofs.PROPOSER_INDEX_INDEX](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L64) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L64
 
 
- - [ ] ID-158
+ - [ ] ID-287
 [BeaconChainProofs.WITHDRAWAL_VALIDATOR_AMOUNT_INDEX](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L92) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L92
 
 
- - [ ] ID-159
+ - [ ] ID-288
 [BeaconChainProofs.VALIDATOR_BALANCE_INDEX](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L79) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L79
 
 
- - [ ] ID-160
+ - [ ] ID-289
 [BeaconChainProofs.EXECUTION_PAYLOAD_HEADER_INDEX](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L74) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L74
 
 
- - [ ] ID-161
+ - [ ] ID-290
 [BeaconChainProofs.VALIDATOR_WITHDRAWABLE_EPOCH_INDEX](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L81) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L81
 
 
- - [ ] ID-162
+ - [ ] ID-291
+INFO:Slither:. analyzed (57 contracts with 88 detectors), 313 result(s) found
 [BeaconChainProofs.STATE_ROOT_INDEX](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L63) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L63
 
 
- - [ ] ID-163
+ - [ ] ID-292
 [BeaconChainProofs.NUM_VALIDATOR_FIELDS](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L26) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L26
 
 
- - [ ] ID-164
+ - [ ] ID-293
 [BeaconChainProofs.NUM_WITHDRAWAL_FIELDS](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L48) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L48
 
 
- - [ ] ID-165
+ - [ ] ID-294
 [BeaconChainProofs.HISTORICALBATCH_STATEROOTS_INDEX](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L95) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L95
 
 
- - [ ] ID-166
+ - [ ] ID-295
 [BeaconChainProofs.UINT64_MASK](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L100) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L100
 
 
- - [ ] ID-167
+ - [ ] ID-296
 [BeaconChainProofs.VALIDATOR_SLASHED_INDEX](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L80) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L80
 
 
- - [ ] ID-168
+ - [ ] ID-297
 [BeaconChainProofs.HISTORICAL_BATCH_TREE_HEIGHT](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L41) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L41
 
 
- - [ ] ID-169
+ - [ ] ID-298
 [BeaconChainProofs.HISTORICAL_BATCH_STATE_ROOT_INDEX](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L75) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L75
 
 
- - [ ] ID-170
+ - [ ] ID-299
 [BeaconChainProofs.HISTORICAL_ROOTS_INDEX](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L70) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L70
 
 
- - [ ] ID-171
+ - [ ] ID-300
+[RenzoOracle.INVALID_0_INPUT](contracts/Oracle/RenzoOracle.sol#L20) is never used in [RenzoOracle](contracts/Oracle/RenzoOracle.sol#L13-L144)
+
+contracts/Oracle/RenzoOracle.sol#L20
+
+
+ - [ ] ID-301
 [BeaconChainProofs.WITHDRAWAL_VALIDATOR_INDEX_INDEX](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L91) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L91
 
 
- - [ ] ID-172
+ - [ ] ID-302
 [BeaconChainProofs.STATE_ROOTS_INDEX](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L68) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L68
 
 
- - [ ] ID-173
+ - [ ] ID-303
 [BeaconChainProofs.HISTORICAL_ROOTS_TREE_HEIGHT](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L38) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L38
 
 
- - [ ] ID-174
+ - [ ] ID-304
 [BeaconChainProofs.SLOTS_PER_EPOCH](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L98) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L98
 
 
- - [ ] ID-175
+ - [ ] ID-305
 [BeaconChainProofs.ETH1_DATA_FIELD_TREE_HEIGHT](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L24) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L24
 
 
- - [ ] ID-176
+ - [ ] ID-306
 [BeaconChainProofs.NUM_BEACON_BLOCK_HEADER_FIELDS](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L14) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L14
 
 
- - [ ] ID-177
+ - [ ] ID-307
 [BeaconChainProofs.NUM_ETH1_DATA_FIELDS](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L23) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L23
 
 
- - [ ] ID-178
+ - [ ] ID-308
 [BeaconChainProofs.NUM_EXECUTION_PAYLOAD_HEADER_FIELDS](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L29) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L29
 
 
- - [ ] ID-179
+ - [ ] ID-309
 [BeaconChainProofs.NUM_EXECUTION_PAYLOAD_FIELDS](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L33) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L33
 
 
- - [ ] ID-180
+ - [ ] ID-310
 [BeaconChainProofs.NUM_BEACON_STATE_FIELDS](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L20) is never used in [BeaconChainProofs](contracts/EigenLayer/libraries/BeaconChainProofs.sol#L12-L264)
 
 contracts/EigenLayer/libraries/BeaconChainProofs.sol#L20
@@ -1472,13 +2604,13 @@ contracts/EigenLayer/libraries/BeaconChainProofs.sol#L20
 ## immutable-states
 Impact: Optimization
 Confidence: High
- - [ ] ID-181
+ - [ ] ID-311
 [Lock.unlockTime](contracts/Lock.sol#L8) should be immutable 
 
 contracts/Lock.sol#L8
 
 
- - [ ] ID-182
+ - [ ] ID-312
 [Lock.owner](contracts/Lock.sol#L9) should be immutable 
 
 contracts/Lock.sol#L9
