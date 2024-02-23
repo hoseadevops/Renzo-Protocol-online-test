@@ -1,0 +1,13 @@
+"filename", "language", "Solidity", "comment", "blank", "total"
+"/Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/Delegation/OperatorDelegator.sol", "Solidity", 200, 68, 54, 322
+"/Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/Delegation/OperatorDelegatorStorage.sol", "Solidity", 22, 20, 12, 54
+"/Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/Deposits/DepositQueue.sol", "Solidity", 105, 30, 39, 174
+"/Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/Deposits/DepositQueueStorage.sol", "Solidity", 11, 6, 7, 24
+"/Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/Oracle/RenzoOracle.sol", "Solidity", 76, 36, 31, 143
+"/Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/Oracle/RenzoOracleStorage.sol", "Solidity", 8, 3, 4, 15
+"/Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/Permissions/RoleManager.sol", "Solidity", 71, 27, 16, 114
+"/Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/Permissions/RoleManagerStorage.sol", "Solidity", 19, 21, 10, 50
+"/Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/RestakeManagerStorage.sol", "Solidity", 0, 12, 0, 12
+"/Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/token/EzEthToken.sol", "Solidity", 56, 21, 15, 92
+"/Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts/token/EzEthTokenStorage.sol", "Solidity", 6, 15, 5, 26
+"Total", "-", 574, 259, 193, 1026

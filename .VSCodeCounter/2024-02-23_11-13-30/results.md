@@ -1,31 +1,31 @@
 # Summary
 
-Date : 2024-02-22 10:51:59
+Date : 2024-02-23 11:13:30
 
 Directory /Users/hosea/work/audit/evaluate/Renzo-Protocol-online/contracts
 
-Total : 24 files,  1153 codes, 973 comments, 415 blanks, all 2541 lines
+Total : 34 files,  1727 codes, 1232 comments, 608 blanks, all 3567 lines
 
 Summary / [Details](details.md) / [Diff Summary](diff.md) / [Diff Details](diff-details.md)
 
 ## Languages
 | language | files | code | comment | blank | total |
 | :--- | ---: | ---: | ---: | ---: | ---: |
-| Solidity | 24 | 1,153 | 973 | 415 | 2,541 |
+| Solidity | 34 | 1,727 | 1,232 | 608 | 3,567 |
 
 ## Directories
 | path | files | code | comment | blank | total |
 | :--- | ---: | ---: | ---: | ---: | ---: |
-| . | 24 | 1,153 | 973 | 415 | 2,541 |
-| . (Files) | 4 | 515 | 177 | 145 | 837 |
-| Delegation | 1 | 25 | 1 | 11 | 37 |
-| Deposits | 1 | 5 | 1 | 2 | 8 |
+| . | 34 | 1,727 | 1,232 | 608 | 3,567 |
+| . (Files) | 4 | 515 | 189 | 145 | 849 |
+| Delegation | 3 | 247 | 89 | 77 | 413 |
+| Deposits | 3 | 121 | 37 | 48 | 206 |
 | EigenLayer | 14 | 528 | 744 | 212 | 1,484 |
 | EigenLayer/interfaces | 11 | 294 | 589 | 154 | 1,037 |
 | EigenLayer/libraries | 3 | 234 | 155 | 58 | 447 |
 | Errors | 1 | 29 | 29 | 29 | 87 |
-| Oracle | 1 | 9 | 1 | 2 | 12 |
-| Permissions | 1 | 36 | 19 | 10 | 65 |
-| token | 1 | 6 | 1 | 4 | 11 |
+| Oracle | 3 | 93 | 40 | 37 | 170 |
+| Permissions | 3 | 126 | 67 | 36 | 229 |
+| token | 3 | 68 | 37 | 24 | 129 |
 
 Summary / [Details](details.md) / [Diff Summary](diff.md) / [Diff Details](diff-details.md)
