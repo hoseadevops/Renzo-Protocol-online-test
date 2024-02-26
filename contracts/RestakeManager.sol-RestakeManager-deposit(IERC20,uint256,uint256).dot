@@ -1,0 +1,239 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->30;
+1[label="Node Type: NEW VARIABLE 1
+
+EXPRESSION:
+tokenIndex = getCollateralTokenIndex(_collateralToken)
+
+IRs:
+TMP_527(uint256) = INTERNAL_CALL, RestakeManager.getCollateralTokenIndex(IERC20)(_collateralToken)
+tokenIndex(uint256) := TMP_527(uint256)"];
+1->2;
+2[label="Node Type: NEW VARIABLE 2
+"];
+2->3;
+3[label="Node Type: NEW VARIABLE 3
+"];
+3->4;
+4[label="Node Type: NEW VARIABLE 4
+"];
+4->5;
+5[label="Node Type: EXPRESSION 5
+
+EXPRESSION:
+(operatorDelegatorTokenTVLs,operatorDelegatorTVLs,totalTVL) = calculateTVLs()
+
+IRs:
+TUPLE_10(uint256[][],uint256[],uint256) = INTERNAL_CALL, RestakeManager.calculateTVLs()()
+operatorDelegatorTokenTVLs(uint256[][])= UNPACK TUPLE_10 index: 0 
+operatorDelegatorTVLs(uint256[])= UNPACK TUPLE_10 index: 1 
+totalTVL(uint256)= UNPACK TUPLE_10 index: 2 "];
+5->6;
+6[label="Node Type: NEW VARIABLE 6
+
+EXPRESSION:
+collateralTokenValue = renzoOracle.lookupTokenValue(_collateralToken,_amount)
+
+IRs:
+TMP_528(uint256) = HIGH_LEVEL_CALL, dest:renzoOracle(IRenzoOracle), function:lookupTokenValue, arguments:['_collateralToken', '_amount']  
+collateralTokenValue(uint256) := TMP_528(uint256)"];
+6->7;
+7[label="Node Type: IF 7
+
+EXPRESSION:
+maxDepositTVL != 0 && totalTVL + collateralTokenValue > maxDepositTVL
+
+IRs:
+TMP_529(bool) = maxDepositTVL != 0
+TMP_530(uint256) = totalTVL (c)+ collateralTokenValue
+TMP_531(bool) = TMP_530 > maxDepositTVL
+TMP_532(bool) = TMP_529 && TMP_531
+CONDITION TMP_532"];
+7->8[label="True"];
+7->9[label="False"];
+8[label="Node Type: EXPRESSION 8
+
+EXPRESSION:
+revert MaxTVLReached()()
+
+IRs:
+TMP_533(None) = SOLIDITY_CALL revert MaxTVLReached()()"];
+8->9;
+9[label="Node Type: END_IF 9
+"];
+9->10;
+10[label="Node Type: IF 10
+
+EXPRESSION:
+collateralTokenTvlLimits[_collateralToken] != 0
+
+IRs:
+REF_223(uint256) -> collateralTokenTvlLimits[_collateralToken]
+TMP_534(bool) = REF_223 != 0
+CONDITION TMP_534"];
+10->11[label="True"];
+10->22[label="False"];
+11[label="Node Type: NEW VARIABLE 11
+
+EXPRESSION:
+currentTokenTVL = 0
+
+IRs:
+currentTokenTVL(uint256) := 0(uint256)"];
+11->12;
+12[label="Node Type: NEW VARIABLE 12
+
+EXPRESSION:
+odLength = operatorDelegatorTokenTVLs.length
+
+IRs:
+REF_224 -> LENGTH operatorDelegatorTokenTVLs
+odLength(uint256) := REF_224(uint256)"];
+12->15;
+13[label="Node Type: BEGIN_LOOP 13
+"];
+13->16;
+14[label="Node Type: END_LOOP 14
+"];
+14->19;
+15[label="Node Type: NEW VARIABLE 15
+
+EXPRESSION:
+i = 0
+
+IRs:
+i(uint256) := 0(uint256)"];
+15->13;
+16[label="Node Type: IF_LOOP 16
+
+EXPRESSION:
+i < odLength
+
+IRs:
+TMP_535(bool) = i < odLength
+CONDITION TMP_535"];
+16->17[label="True"];
+16->14[label="False"];
+17[label="Node Type: EXPRESSION 17
+
+EXPRESSION:
+currentTokenTVL += operatorDelegatorTokenTVLs[i][tokenIndex]
+
+IRs:
+REF_225(uint256[]) -> operatorDelegatorTokenTVLs[i]
+REF_226(uint256) -> REF_225[tokenIndex]
+currentTokenTVL(uint256) = currentTokenTVL (c)+ REF_226"];
+17->18;
+18[label="Node Type: EXPRESSION 18
+
+EXPRESSION:
+++ i
+
+IRs:
+i(uint256) = i + 1"];
+18->16;
+19[label="Node Type: IF 19
+
+EXPRESSION:
+currentTokenTVL + collateralTokenValue > collateralTokenTvlLimits[_collateralToken]
+
+IRs:
+TMP_536(uint256) = currentTokenTVL (c)+ collateralTokenValue
+REF_227(uint256) -> collateralTokenTvlLimits[_collateralToken]
+TMP_537(bool) = TMP_536 > REF_227
+CONDITION TMP_537"];
+19->20[label="True"];
+19->21[label="False"];
+20[label="Node Type: EXPRESSION 20
+
+EXPRESSION:
+revert MaxTokenTVLReached()()
+
+IRs:
+TMP_538(None) = SOLIDITY_CALL revert MaxTokenTVLReached()()"];
+20->21;
+21[label="Node Type: END_IF 21
+"];
+21->22;
+22[label="Node Type: END_IF 22
+"];
+22->23;
+23[label="Node Type: NEW VARIABLE 23
+
+EXPRESSION:
+operatorDelegator = chooseOperatorDelegatorForDeposit(operatorDelegatorTVLs,totalTVL)
+
+IRs:
+TMP_539(IOperatorDelegator) = INTERNAL_CALL, RestakeManager.chooseOperatorDelegatorForDeposit(uint256[],uint256)(operatorDelegatorTVLs,totalTVL)
+operatorDelegator(IOperatorDelegator) := TMP_539(IOperatorDelegator)"];
+23->24;
+24[label="Node Type: EXPRESSION 24
+
+EXPRESSION:
+_collateralToken.safeTransferFrom(msg.sender,address(this),_amount)
+
+IRs:
+TMP_540 = CONVERT this to address
+LIBRARY_CALL, dest:SafeERC20, function:SafeERC20.safeTransferFrom(IERC20,address,address,uint256), arguments:['_collateralToken', 'msg.sender', 'TMP_540', '_amount'] "];
+24->25;
+25[label="Node Type: EXPRESSION 25
+
+EXPRESSION:
+_collateralToken.safeApprove(address(operatorDelegator),_amount)
+
+IRs:
+TMP_542 = CONVERT operatorDelegator to address
+LIBRARY_CALL, dest:SafeERC20, function:SafeERC20.safeApprove(IERC20,address,uint256), arguments:['_collateralToken', 'TMP_542', '_amount'] "];
+25->26;
+26[label="Node Type: EXPRESSION 26
+
+EXPRESSION:
+operatorDelegator.deposit(_collateralToken,_amount)
+
+IRs:
+TMP_544(uint256) = HIGH_LEVEL_CALL, dest:operatorDelegator(IOperatorDelegator), function:deposit, arguments:['_collateralToken', '_amount']  "];
+26->27;
+27[label="Node Type: NEW VARIABLE 27
+
+EXPRESSION:
+ezETHToMint = renzoOracle.calculateMintAmount(totalTVL,collateralTokenValue,ezETH.totalSupply())
+
+IRs:
+TMP_545(uint256) = HIGH_LEVEL_CALL, dest:ezETH(IEzEthToken), function:totalSupply, arguments:[]  
+TMP_546(uint256) = HIGH_LEVEL_CALL, dest:renzoOracle(IRenzoOracle), function:calculateMintAmount, arguments:['totalTVL', 'collateralTokenValue', 'TMP_545']  
+ezETHToMint(uint256) := TMP_546(uint256)"];
+27->28;
+28[label="Node Type: EXPRESSION 28
+
+EXPRESSION:
+ezETH.mint(msg.sender,ezETHToMint)
+
+IRs:
+HIGH_LEVEL_CALL, dest:ezETH(IEzEthToken), function:mint, arguments:['msg.sender', 'ezETHToMint']  "];
+28->29;
+29[label="Node Type: EXPRESSION 29
+
+EXPRESSION:
+Deposit(msg.sender,_collateralToken,_amount,ezETHToMint,_referralId)
+
+IRs:
+Emit Deposit(msg.sender,_collateralToken,_amount,ezETHToMint,_referralId)"];
+30[label="Node Type: EXPRESSION 30
+
+EXPRESSION:
+nonReentrant()
+
+IRs:
+MODIFIER_CALL, ReentrancyGuardUpgradeable.nonReentrant()()"];
+30->31;
+31[label="Node Type: EXPRESSION 31
+
+EXPRESSION:
+notPaused()
+
+IRs:
+MODIFIER_CALL, RestakeManager.notPaused()()"];
+31->1;
+}

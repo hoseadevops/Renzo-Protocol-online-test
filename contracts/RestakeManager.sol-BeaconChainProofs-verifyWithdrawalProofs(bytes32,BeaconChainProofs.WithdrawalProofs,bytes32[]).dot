@@ -1,0 +1,203 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: EXPRESSION 1
+
+EXPRESSION:
+require(bool,string)(withdrawalFields.length == 2 ** WITHDRAWAL_FIELD_TREE_HEIGHT,BeaconChainProofs.verifyWithdrawalProofs: withdrawalFields has incorrect length)
+
+IRs:
+REF_91 -> LENGTH withdrawalFields
+TMP_253(uint256) = 2 (c)** WITHDRAWAL_FIELD_TREE_HEIGHT
+TMP_254(bool) = REF_91 == TMP_253
+TMP_255(None) = SOLIDITY_CALL require(bool,string)(TMP_254,BeaconChainProofs.verifyWithdrawalProofs: withdrawalFields has incorrect length)"];
+1->2;
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+require(bool,string)(proofs.blockHeaderRootIndex < 2 ** BLOCK_ROOTS_TREE_HEIGHT,BeaconChainProofs.verifyWithdrawalProofs: blockRootIndex is too large)
+
+IRs:
+REF_92(uint64) -> proofs.blockHeaderRootIndex
+TMP_256(uint256) = 2 (c)** BLOCK_ROOTS_TREE_HEIGHT
+TMP_257(bool) = REF_92 < TMP_256
+TMP_258(None) = SOLIDITY_CALL require(bool,string)(TMP_257,BeaconChainProofs.verifyWithdrawalProofs: blockRootIndex is too large)"];
+2->3;
+3[label="Node Type: EXPRESSION 3
+
+EXPRESSION:
+require(bool,string)(proofs.withdrawalIndex < 2 ** WITHDRAWALS_TREE_HEIGHT,BeaconChainProofs.verifyWithdrawalProofs: withdrawalIndex is too large)
+
+IRs:
+REF_93(uint64) -> proofs.withdrawalIndex
+TMP_259(uint256) = 2 (c)** WITHDRAWALS_TREE_HEIGHT
+TMP_260(bool) = REF_93 < TMP_259
+TMP_261(None) = SOLIDITY_CALL require(bool,string)(TMP_260,BeaconChainProofs.verifyWithdrawalProofs: withdrawalIndex is too large)"];
+3->4;
+4[label="Node Type: EXPRESSION 4
+
+EXPRESSION:
+require(bool,string)(proofs.blockHeaderProof.length == 32 * (BEACON_STATE_FIELD_TREE_HEIGHT + BLOCK_ROOTS_TREE_HEIGHT),BeaconChainProofs.verifyWithdrawalProofs: blockHeaderProof has incorrect length)
+
+IRs:
+REF_94(bytes) -> proofs.blockHeaderProof
+REF_95 -> LENGTH REF_94
+TMP_262(uint256) = BEACON_STATE_FIELD_TREE_HEIGHT (c)+ BLOCK_ROOTS_TREE_HEIGHT
+TMP_263(uint256) = 32 (c)* TMP_262
+TMP_264(bool) = REF_95 == TMP_263
+TMP_265(None) = SOLIDITY_CALL require(bool,string)(TMP_264,BeaconChainProofs.verifyWithdrawalProofs: blockHeaderProof has incorrect length)"];
+4->5;
+5[label="Node Type: EXPRESSION 5
+
+EXPRESSION:
+require(bool,string)(proofs.withdrawalProof.length == 32 * (EXECUTION_PAYLOAD_HEADER_FIELD_TREE_HEIGHT + WITHDRAWALS_TREE_HEIGHT + 1),BeaconChainProofs.verifyWithdrawalProofs: withdrawalProof has incorrect length)
+
+IRs:
+REF_96(bytes) -> proofs.withdrawalProof
+REF_97 -> LENGTH REF_96
+TMP_266(uint256) = EXECUTION_PAYLOAD_HEADER_FIELD_TREE_HEIGHT (c)+ WITHDRAWALS_TREE_HEIGHT
+TMP_267(uint256) = TMP_266 (c)+ 1
+TMP_268(uint256) = 32 (c)* TMP_267
+TMP_269(bool) = REF_97 == TMP_268
+TMP_270(None) = SOLIDITY_CALL require(bool,string)(TMP_269,BeaconChainProofs.verifyWithdrawalProofs: withdrawalProof has incorrect length)"];
+5->6;
+6[label="Node Type: EXPRESSION 6
+
+EXPRESSION:
+require(bool,string)(proofs.executionPayloadProof.length == 32 * (BEACON_BLOCK_HEADER_FIELD_TREE_HEIGHT + BEACON_BLOCK_BODY_FIELD_TREE_HEIGHT),BeaconChainProofs.verifyWithdrawalProofs: executionPayloadProof has incorrect length)
+
+IRs:
+REF_98(bytes) -> proofs.executionPayloadProof
+REF_99 -> LENGTH REF_98
+TMP_271(uint256) = BEACON_BLOCK_HEADER_FIELD_TREE_HEIGHT (c)+ BEACON_BLOCK_BODY_FIELD_TREE_HEIGHT
+TMP_272(uint256) = 32 (c)* TMP_271
+TMP_273(bool) = REF_99 == TMP_272
+TMP_274(None) = SOLIDITY_CALL require(bool,string)(TMP_273,BeaconChainProofs.verifyWithdrawalProofs: executionPayloadProof has incorrect length)"];
+6->7;
+7[label="Node Type: EXPRESSION 7
+
+EXPRESSION:
+require(bool,string)(proofs.slotProof.length == 32 * (BEACON_BLOCK_HEADER_FIELD_TREE_HEIGHT),BeaconChainProofs.verifyWithdrawalProofs: slotProof has incorrect length)
+
+IRs:
+REF_100(bytes) -> proofs.slotProof
+REF_101 -> LENGTH REF_100
+TMP_275(uint256) = 32 (c)* BEACON_BLOCK_HEADER_FIELD_TREE_HEIGHT
+TMP_276(bool) = REF_101 == TMP_275
+TMP_277(None) = SOLIDITY_CALL require(bool,string)(TMP_276,BeaconChainProofs.verifyWithdrawalProofs: slotProof has incorrect length)"];
+7->8;
+8[label="Node Type: EXPRESSION 8
+
+EXPRESSION:
+require(bool,string)(proofs.blockNumberProof.length == 32 * (EXECUTION_PAYLOAD_HEADER_FIELD_TREE_HEIGHT),BeaconChainProofs.verifyWithdrawalProofs: blockNumberProof has incorrect length)
+
+IRs:
+REF_102(bytes) -> proofs.blockNumberProof
+REF_103 -> LENGTH REF_102
+TMP_278(uint256) = 32 (c)* EXECUTION_PAYLOAD_HEADER_FIELD_TREE_HEIGHT
+TMP_279(bool) = REF_103 == TMP_278
+TMP_280(None) = SOLIDITY_CALL require(bool,string)(TMP_279,BeaconChainProofs.verifyWithdrawalProofs: blockNumberProof has incorrect length)"];
+8->9;
+9[label="Node Type: NEW VARIABLE 9
+
+EXPRESSION:
+blockHeaderIndex = BLOCK_ROOTS_INDEX << (BLOCK_ROOTS_TREE_HEIGHT) | uint256(proofs.blockHeaderRootIndex)
+
+IRs:
+TMP_281(uint256) = BLOCK_ROOTS_INDEX << BLOCK_ROOTS_TREE_HEIGHT
+REF_104(uint64) -> proofs.blockHeaderRootIndex
+TMP_282 = CONVERT REF_104 to uint256
+TMP_283(uint256) = TMP_281 | TMP_282
+blockHeaderIndex(uint256) := TMP_283(uint256)"];
+9->10;
+10[label="Node Type: EXPRESSION 10
+
+EXPRESSION:
+require(bool,string)(Merkle.verifyInclusionSha256(proofs.blockHeaderProof,beaconStateRoot,proofs.blockHeaderRoot,blockHeaderIndex),BeaconChainProofs.verifyWithdrawalProofs: Invalid block header merkle proof)
+
+IRs:
+REF_106(bytes) -> proofs.blockHeaderProof
+REF_107(bytes32) -> proofs.blockHeaderRoot
+TMP_284(bool) = LIBRARY_CALL, dest:Merkle, function:Merkle.verifyInclusionSha256(bytes,bytes32,bytes32,uint256), arguments:['REF_106', 'beaconStateRoot', 'REF_107', 'blockHeaderIndex'] 
+TMP_285(None) = SOLIDITY_CALL require(bool,string)(TMP_284,BeaconChainProofs.verifyWithdrawalProofs: Invalid block header merkle proof)"];
+10->11;
+11[label="Node Type: EXPRESSION 11
+
+EXPRESSION:
+require(bool,string)(Merkle.verifyInclusionSha256(proofs.slotProof,proofs.blockHeaderRoot,proofs.slotRoot,SLOT_INDEX),BeaconChainProofs.verifyWithdrawalProofs: Invalid slot merkle proof)
+
+IRs:
+REF_109(bytes) -> proofs.slotProof
+REF_110(bytes32) -> proofs.blockHeaderRoot
+REF_111(bytes32) -> proofs.slotRoot
+TMP_286(bool) = LIBRARY_CALL, dest:Merkle, function:Merkle.verifyInclusionSha256(bytes,bytes32,bytes32,uint256), arguments:['REF_109', 'REF_110', 'REF_111', 'SLOT_INDEX'] 
+TMP_287(None) = SOLIDITY_CALL require(bool,string)(TMP_286,BeaconChainProofs.verifyWithdrawalProofs: Invalid slot merkle proof)"];
+11->12;
+12[label="Node Type: NEW VARIABLE 12
+
+EXPRESSION:
+executionPayloadIndex = BODY_ROOT_INDEX << (BEACON_BLOCK_BODY_FIELD_TREE_HEIGHT) | EXECUTION_PAYLOAD_INDEX
+
+IRs:
+TMP_288(uint256) = BODY_ROOT_INDEX << BEACON_BLOCK_BODY_FIELD_TREE_HEIGHT
+TMP_289(uint256) = TMP_288 | EXECUTION_PAYLOAD_INDEX
+executionPayloadIndex(uint256) := TMP_289(uint256)"];
+12->13;
+13[label="Node Type: EXPRESSION 13
+
+EXPRESSION:
+require(bool,string)(Merkle.verifyInclusionSha256(proofs.executionPayloadProof,proofs.blockHeaderRoot,proofs.executionPayloadRoot,executionPayloadIndex),BeaconChainProofs.verifyWithdrawalProofs: Invalid executionPayload merkle proof)
+
+IRs:
+REF_113(bytes) -> proofs.executionPayloadProof
+REF_114(bytes32) -> proofs.blockHeaderRoot
+REF_115(bytes32) -> proofs.executionPayloadRoot
+TMP_290(bool) = LIBRARY_CALL, dest:Merkle, function:Merkle.verifyInclusionSha256(bytes,bytes32,bytes32,uint256), arguments:['REF_113', 'REF_114', 'REF_115', 'executionPayloadIndex'] 
+TMP_291(None) = SOLIDITY_CALL require(bool,string)(TMP_290,BeaconChainProofs.verifyWithdrawalProofs: Invalid executionPayload merkle proof)"];
+13->14;
+14[label="Node Type: EXPRESSION 14
+
+EXPRESSION:
+require(bool,string)(Merkle.verifyInclusionSha256(proofs.blockNumberProof,proofs.executionPayloadRoot,proofs.blockNumberRoot,BLOCK_NUMBER_INDEX),BeaconChainProofs.verifyWithdrawalProofs: Invalid blockNumber merkle proof)
+
+IRs:
+REF_117(bytes) -> proofs.blockNumberProof
+REF_118(bytes32) -> proofs.executionPayloadRoot
+REF_119(bytes32) -> proofs.blockNumberRoot
+TMP_292(bool) = LIBRARY_CALL, dest:Merkle, function:Merkle.verifyInclusionSha256(bytes,bytes32,bytes32,uint256), arguments:['REF_117', 'REF_118', 'REF_119', 'BLOCK_NUMBER_INDEX'] 
+TMP_293(None) = SOLIDITY_CALL require(bool,string)(TMP_292,BeaconChainProofs.verifyWithdrawalProofs: Invalid blockNumber merkle proof)"];
+14->15;
+15[label="Node Type: NEW VARIABLE 15
+
+EXPRESSION:
+withdrawalIndex = WITHDRAWALS_INDEX << (WITHDRAWALS_TREE_HEIGHT + 1) | uint256(proofs.withdrawalIndex)
+
+IRs:
+TMP_294(uint256) = WITHDRAWALS_TREE_HEIGHT (c)+ 1
+TMP_295(uint256) = WITHDRAWALS_INDEX << TMP_294
+REF_120(uint64) -> proofs.withdrawalIndex
+TMP_296 = CONVERT REF_120 to uint256
+TMP_297(uint256) = TMP_295 | TMP_296
+withdrawalIndex(uint256) := TMP_297(uint256)"];
+15->16;
+16[label="Node Type: NEW VARIABLE 16
+
+EXPRESSION:
+withdrawalRoot = Merkle.merkleizeSha256(withdrawalFields)
+
+IRs:
+TMP_298(bytes32) = LIBRARY_CALL, dest:Merkle, function:Merkle.merkleizeSha256(bytes32[]), arguments:['withdrawalFields'] 
+withdrawalRoot(bytes32) := TMP_298(bytes32)"];
+16->17;
+17[label="Node Type: EXPRESSION 17
+
+EXPRESSION:
+require(bool,string)(Merkle.verifyInclusionSha256(proofs.withdrawalProof,proofs.executionPayloadRoot,withdrawalRoot,withdrawalIndex),BeaconChainProofs.verifyWithdrawalProofs: Invalid withdrawal merkle proof)
+
+IRs:
+REF_123(bytes) -> proofs.withdrawalProof
+REF_124(bytes32) -> proofs.executionPayloadRoot
+TMP_299(bool) = LIBRARY_CALL, dest:Merkle, function:Merkle.verifyInclusionSha256(bytes,bytes32,bytes32,uint256), arguments:['REF_123', 'REF_124', 'withdrawalRoot', 'withdrawalIndex'] 
+TMP_300(None) = SOLIDITY_CALL require(bool,string)(TMP_299,BeaconChainProofs.verifyWithdrawalProofs: Invalid withdrawal merkle proof)"];
+}

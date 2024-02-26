@@ -1,0 +1,237 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: NEW VARIABLE 1
+
+EXPRESSION:
+operatorDelegatorTokenTVLs = new uint256[][](operatorDelegators.length)
+
+IRs:
+REF_179 -> LENGTH operatorDelegators
+TMP_488uint256[][])  = new uint256[][](REF_179)
+operatorDelegatorTokenTVLs(uint256[][]) =  ['TMP_488(uint256[][])']"];
+1->2;
+2[label="Node Type: NEW VARIABLE 2
+
+EXPRESSION:
+operatorDelegatorTVLs = new uint256[](operatorDelegators.length)
+
+IRs:
+REF_180 -> LENGTH operatorDelegators
+TMP_490uint256[])  = new uint256[](REF_180)
+operatorDelegatorTVLs(uint256[]) =  ['TMP_490(uint256[])']"];
+2->3;
+3[label="Node Type: NEW VARIABLE 3
+
+EXPRESSION:
+totalTVL = 0
+
+IRs:
+totalTVL(uint256) := 0(uint256)"];
+3->4;
+4[label="Node Type: NEW VARIABLE 4
+
+EXPRESSION:
+odLength = operatorDelegators.length
+
+IRs:
+REF_181 -> LENGTH operatorDelegators
+odLength(uint256) := REF_181(uint256)"];
+4->7;
+5[label="Node Type: BEGIN_LOOP 5
+"];
+5->8;
+6[label="Node Type: END_LOOP 6
+"];
+6->27;
+7[label="Node Type: NEW VARIABLE 7
+
+EXPRESSION:
+i = 0
+
+IRs:
+i(uint256) := 0(uint256)"];
+7->5;
+8[label="Node Type: IF_LOOP 8
+
+EXPRESSION:
+i < odLength
+
+IRs:
+TMP_491(bool) = i < odLength
+CONDITION TMP_491"];
+8->9[label="True"];
+8->6[label="False"];
+9[label="Node Type: NEW VARIABLE 9
+
+EXPRESSION:
+operatorTVL = 0
+
+IRs:
+operatorTVL(uint256) := 0(uint256)"];
+9->10;
+10[label="Node Type: NEW VARIABLE 10
+
+EXPRESSION:
+operatorValues = new uint256[](collateralTokens.length + 1)
+
+IRs:
+REF_182 -> LENGTH collateralTokens
+TMP_493(uint256) = REF_182 (c)+ 1
+TMP_494uint256[])  = new uint256[](TMP_493)
+operatorValues(uint256[]) =  ['TMP_494(uint256[])']"];
+10->11;
+11[label="Node Type: EXPRESSION 11
+
+EXPRESSION:
+operatorDelegatorTokenTVLs[i] = operatorValues
+
+IRs:
+REF_183(uint256[]) -> operatorDelegatorTokenTVLs[i]
+REF_183(uint256[]) (->operatorDelegatorTokenTVLs) := operatorValues(uint256[])"];
+11->12;
+12[label="Node Type: NEW VARIABLE 12
+
+EXPRESSION:
+tokenLength = collateralTokens.length
+
+IRs:
+REF_184 -> LENGTH collateralTokens
+tokenLength(uint256) := REF_184(uint256)"];
+12->15;
+13[label="Node Type: BEGIN_LOOP 13
+"];
+13->16;
+14[label="Node Type: END_LOOP 14
+"];
+14->21;
+15[label="Node Type: NEW VARIABLE 15
+
+EXPRESSION:
+j = 0
+
+IRs:
+j(uint256) := 0(uint256)"];
+15->13;
+16[label="Node Type: IF_LOOP 16
+
+EXPRESSION:
+j < tokenLength
+
+IRs:
+TMP_495(bool) = j < tokenLength
+CONDITION TMP_495"];
+16->17[label="True"];
+16->14[label="False"];
+17[label="Node Type: NEW VARIABLE 17
+
+EXPRESSION:
+operatorBalance = operatorDelegators[i].getTokenBalanceFromStrategy(collateralTokens[j])
+
+IRs:
+REF_185(IOperatorDelegator) -> operatorDelegators[i]
+REF_187(IERC20) -> collateralTokens[j]
+TMP_496(uint256) = HIGH_LEVEL_CALL, dest:REF_185(IOperatorDelegator), function:getTokenBalanceFromStrategy, arguments:['REF_187']  
+operatorBalance(uint256) := TMP_496(uint256)"];
+17->18;
+18[label="Node Type: EXPRESSION 18
+
+EXPRESSION:
+operatorValues[j] = renzoOracle.lookupTokenValue(collateralTokens[j],operatorBalance)
+
+IRs:
+REF_188(uint256) -> operatorValues[j]
+REF_190(IERC20) -> collateralTokens[j]
+TMP_497(uint256) = HIGH_LEVEL_CALL, dest:renzoOracle(IRenzoOracle), function:lookupTokenValue, arguments:['REF_190', 'operatorBalance']  
+REF_188(uint256) (->operatorValues) := TMP_497(uint256)"];
+18->19;
+19[label="Node Type: EXPRESSION 19
+
+EXPRESSION:
+operatorTVL += operatorValues[j]
+
+IRs:
+REF_191(uint256) -> operatorValues[j]
+operatorTVL(uint256) = operatorTVL (c)+ REF_191"];
+19->20;
+20[label="Node Type: EXPRESSION 20
+
+EXPRESSION:
+++ j
+
+IRs:
+j(uint256) = j + 1"];
+20->16;
+21[label="Node Type: NEW VARIABLE 21
+
+EXPRESSION:
+operatorEthBalance = operatorDelegators[i].getStakedETHBalance()
+
+IRs:
+REF_192(IOperatorDelegator) -> operatorDelegators[i]
+TMP_498(uint256) = HIGH_LEVEL_CALL, dest:REF_192(IOperatorDelegator), function:getStakedETHBalance, arguments:[]  
+operatorEthBalance(uint256) := TMP_498(uint256)"];
+21->22;
+22[label="Node Type: EXPRESSION 22
+
+EXPRESSION:
+operatorValues[operatorValues.length - 1] = operatorEthBalance
+
+IRs:
+REF_194 -> LENGTH operatorValues
+TMP_499(uint256) = REF_194 (c)- 1
+REF_195(uint256) -> operatorValues[TMP_499]
+REF_195(uint256) (->operatorValues) := operatorEthBalance(uint256)"];
+22->23;
+23[label="Node Type: EXPRESSION 23
+
+EXPRESSION:
+operatorTVL += operatorEthBalance
+
+IRs:
+operatorTVL(uint256) = operatorTVL (c)+ operatorEthBalance"];
+23->24;
+24[label="Node Type: EXPRESSION 24
+
+EXPRESSION:
+totalTVL += operatorTVL
+
+IRs:
+totalTVL(uint256) = totalTVL (c)+ operatorTVL"];
+24->25;
+25[label="Node Type: EXPRESSION 25
+
+EXPRESSION:
+operatorDelegatorTVLs[i] = operatorTVL
+
+IRs:
+REF_196(uint256) -> operatorDelegatorTVLs[i]
+REF_196(uint256) (->operatorDelegatorTVLs) := operatorTVL(uint256)"];
+25->26;
+26[label="Node Type: EXPRESSION 26
+
+EXPRESSION:
+++ i
+
+IRs:
+i(uint256) = i + 1"];
+26->8;
+27[label="Node Type: EXPRESSION 27
+
+EXPRESSION:
+totalTVL += address(depositQueue).balance
+
+IRs:
+TMP_500 = CONVERT depositQueue to address
+TMP_501(uint256) = SOLIDITY_CALL balance(address)(TMP_500)
+totalTVL(uint256) = totalTVL (c)+ TMP_501"];
+27->28;
+28[label="Node Type: RETURN 28
+
+EXPRESSION:
+(operatorDelegatorTokenTVLs,operatorDelegatorTVLs,totalTVL)
+
+IRs:
+RETURN operatorDelegatorTokenTVLs,operatorDelegatorTVLs,totalTVL"];
+}

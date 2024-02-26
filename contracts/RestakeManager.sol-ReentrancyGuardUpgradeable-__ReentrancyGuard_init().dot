@@ -1,0 +1,20 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->2;
+1[label="Node Type: EXPRESSION 1
+
+EXPRESSION:
+__ReentrancyGuard_init_unchained()
+
+IRs:
+INTERNAL_CALL, ReentrancyGuardUpgradeable.__ReentrancyGuard_init_unchained()()"];
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+onlyInitializing()
+
+IRs:
+MODIFIER_CALL, Initializable.onlyInitializing()()"];
+2->1;
+}

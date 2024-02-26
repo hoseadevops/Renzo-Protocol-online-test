@@ -1,0 +1,15 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: RETURN 1
+
+EXPRESSION:
+account.code.length > 0
+
+IRs:
+TMP_112(bytes) = SOLIDITY_CALL code(address)(account)
+REF_36 -> LENGTH TMP_112
+TMP_113(bool) = REF_36 > 0
+RETURN TMP_113"];
+}

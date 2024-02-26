@@ -1,0 +1,27 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: EXPRESSION 1
+
+EXPRESSION:
+require(bool,string)((value == 0) || (token.allowance(address(this),spender) == 0),SafeERC20: approve from non-zero to non-zero allowance)
+
+IRs:
+TMP_145(bool) = value == 0
+TMP_146 = CONVERT this to address
+TMP_147(uint256) = HIGH_LEVEL_CALL, dest:token(IERC20), function:allowance, arguments:['TMP_146', 'spender']  
+TMP_148(bool) = TMP_147 == 0
+TMP_149(bool) = TMP_145 || TMP_148
+TMP_150(None) = SOLIDITY_CALL require(bool,string)(TMP_149,SafeERC20: approve from non-zero to non-zero allowance)"];
+1->2;
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+_callOptionalReturn(token,abi.encodeWithSelector(token.approve.selector,spender,value))
+
+IRs:
+REF_52(bytes4) (->None) := 157198259(uint256)
+TMP_151(bytes) = SOLIDITY_CALL abi.encodeWithSelector()(REF_52,spender,value)
+INTERNAL_CALL, SafeERC20._callOptionalReturn(IERC20,bytes)(token,TMP_151)"];
+}

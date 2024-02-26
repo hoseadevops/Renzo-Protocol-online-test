@@ -1,0 +1,46 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: NEW VARIABLE 1
+
+EXPRESSION:
+approvalCall = abi.encodeWithSelector(token.approve.selector,spender,value)
+
+IRs:
+REF_63(bytes4) (->None) := 157198259(uint256)
+TMP_165(bytes) = SOLIDITY_CALL abi.encodeWithSelector()(REF_63,spender,value)
+approvalCall(bytes) := TMP_165(bytes)"];
+1->2;
+2[label="Node Type: IF 2
+
+EXPRESSION:
+! _callOptionalReturnBool(token,approvalCall)
+
+IRs:
+TMP_166(bool) = INTERNAL_CALL, SafeERC20._callOptionalReturnBool(IERC20,bytes)(token,approvalCall)
+TMP_167 = ! TMP_166 
+CONDITION TMP_167"];
+2->3[label="True"];
+2->5[label="False"];
+3[label="Node Type: EXPRESSION 3
+
+EXPRESSION:
+_callOptionalReturn(token,abi.encodeWithSelector(token.approve.selector,spender,0))
+
+IRs:
+REF_66(bytes4) (->None) := 157198259(uint256)
+TMP_168(bytes) = SOLIDITY_CALL abi.encodeWithSelector()(REF_66,spender,0)
+INTERNAL_CALL, SafeERC20._callOptionalReturn(IERC20,bytes)(token,TMP_168)"];
+3->4;
+4[label="Node Type: EXPRESSION 4
+
+EXPRESSION:
+_callOptionalReturn(token,approvalCall)
+
+IRs:
+INTERNAL_CALL, SafeERC20._callOptionalReturn(IERC20,bytes)(token,approvalCall)"];
+4->5;
+5[label="Node Type: END_IF 5
+"];
+}

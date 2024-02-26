@@ -1,0 +1,125 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->15;
+1[label="Node Type: NEW VARIABLE 1
+
+EXPRESSION:
+tokenLength = collateralTokens.length
+
+IRs:
+REF_162 -> LENGTH collateralTokens
+tokenLength(uint256) := REF_162(uint256)"];
+1->4;
+2[label="Node Type: BEGIN_LOOP 2
+"];
+2->5;
+3[label="Node Type: END_LOOP 3
+"];
+3->10;
+4[label="Node Type: NEW VARIABLE 4
+
+EXPRESSION:
+i = 0
+
+IRs:
+i(uint256) := 0(uint256)"];
+4->2;
+5[label="Node Type: IF_LOOP 5
+
+EXPRESSION:
+i < tokenLength
+
+IRs:
+TMP_459(bool) = i < tokenLength
+CONDITION TMP_459"];
+5->6[label="True"];
+5->3[label="False"];
+6[label="Node Type: IF 6
+
+EXPRESSION:
+address(collateralTokens[i]) == address(_newCollateralToken)
+
+IRs:
+REF_163(IERC20) -> collateralTokens[i]
+TMP_460 = CONVERT REF_163 to address
+TMP_461 = CONVERT _newCollateralToken to address
+TMP_462(bool) = TMP_460 == TMP_461
+CONDITION TMP_462"];
+6->7[label="True"];
+6->8[label="False"];
+7[label="Node Type: EXPRESSION 7
+
+EXPRESSION:
+revert AlreadyAdded()()
+
+IRs:
+TMP_463(None) = SOLIDITY_CALL revert AlreadyAdded()()"];
+7->8;
+8[label="Node Type: END_IF 8
+"];
+8->9;
+9[label="Node Type: EXPRESSION 9
+
+EXPRESSION:
+++ i
+
+IRs:
+i(uint256) = i + 1"];
+9->5;
+10[label="Node Type: IF 10
+
+EXPRESSION:
+IERC20Metadata(address(_newCollateralToken)).decimals() != 18
+
+IRs:
+TMP_464 = CONVERT _newCollateralToken to address
+TMP_465 = CONVERT TMP_464 to IERC20Metadata
+TMP_466(uint8) = HIGH_LEVEL_CALL, dest:TMP_465(IERC20Metadata), function:decimals, arguments:[]  
+TMP_467(bool) = TMP_466 != 18
+CONDITION TMP_467"];
+10->11[label="True"];
+10->12[label="False"];
+11[label="Node Type: EXPRESSION 11
+
+EXPRESSION:
+revert InvalidTokenDecimals(uint8,uint8)(18,IERC20Metadata(address(_newCollateralToken)).decimals())
+
+IRs:
+TMP_468 = CONVERT _newCollateralToken to address
+TMP_469 = CONVERT TMP_468 to IERC20Metadata
+TMP_470(uint8) = HIGH_LEVEL_CALL, dest:TMP_469(IERC20Metadata), function:decimals, arguments:[]  
+TMP_471(None) = SOLIDITY_CALL revert InvalidTokenDecimals(uint8,uint8)(18,TMP_470)"];
+11->12;
+12[label="Node Type: END_IF 12
+"];
+12->13;
+13[label="Node Type: EXPRESSION 13
+
+EXPRESSION:
+collateralTokens.push(_newCollateralToken)
+
+IRs:
+REF_167 -> LENGTH collateralTokens
+TMP_473(uint256) := REF_167(uint256)
+TMP_474(uint256) = TMP_473 (c)+ 1
+REF_167(uint256) (->collateralTokens) := TMP_474(uint256)
+REF_168(IERC20) -> collateralTokens[TMP_473]
+REF_168(IERC20) (->collateralTokens) := _newCollateralToken(IERC20)"];
+13->14;
+14[label="Node Type: EXPRESSION 14
+
+EXPRESSION:
+CollateralTokenAdded(_newCollateralToken)
+
+IRs:
+Emit CollateralTokenAdded(_newCollateralToken)"];
+15[label="Node Type: EXPRESSION 15
+
+EXPRESSION:
+onlyRestakeManagerAdmin()
+
+IRs:
+MODIFIER_CALL, RestakeManager.onlyRestakeManagerAdmin()()"];
+15->1;
+}

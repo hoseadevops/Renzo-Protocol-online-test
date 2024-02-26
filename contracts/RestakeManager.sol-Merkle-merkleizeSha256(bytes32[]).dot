@@ -1,0 +1,162 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: NEW VARIABLE 1
+
+EXPRESSION:
+numNodesInLayer = leaves.length / 2
+
+IRs:
+REF_132 -> LENGTH leaves
+TMP_380(uint256) = REF_132 (c)/ 2
+numNodesInLayer(uint256) := TMP_380(uint256)"];
+1->2;
+2[label="Node Type: NEW VARIABLE 2
+
+EXPRESSION:
+layer = new bytes32[](numNodesInLayer)
+
+IRs:
+TMP_382bytes32[])  = new bytes32[](numNodesInLayer)
+layer(bytes32[]) =  ['TMP_382(bytes32[])']"];
+2->5;
+3[label="Node Type: BEGIN_LOOP 3
+"];
+3->6;
+4[label="Node Type: END_LOOP 4
+"];
+4->9;
+5[label="Node Type: NEW VARIABLE 5
+
+EXPRESSION:
+i = 0
+
+IRs:
+i(uint256) := 0(uint256)"];
+5->3;
+6[label="Node Type: IF_LOOP 6
+
+EXPRESSION:
+i < numNodesInLayer
+
+IRs:
+TMP_383(bool) = i < numNodesInLayer
+CONDITION TMP_383"];
+6->7[label="True"];
+6->4[label="False"];
+7[label="Node Type: EXPRESSION 7
+
+EXPRESSION:
+layer[i] = sha256(bytes)(abi.encodePacked(leaves[2 * i],leaves[2 * i + 1]))
+
+IRs:
+REF_133(bytes32) -> layer[i]
+TMP_384(uint256) = 2 (c)* i
+REF_135(bytes32) -> leaves[TMP_384]
+TMP_385(uint256) = 2 (c)* i
+TMP_386(uint256) = TMP_385 (c)+ 1
+REF_136(bytes32) -> leaves[TMP_386]
+TMP_387(bytes) = SOLIDITY_CALL abi.encodePacked()(REF_135,REF_136)
+TMP_388(bytes32) = SOLIDITY_CALL sha256(bytes)(TMP_387)
+REF_133(bytes32) (->layer) := TMP_388(bytes32)"];
+7->8;
+8[label="Node Type: EXPRESSION 8
+
+EXPRESSION:
+i ++
+
+IRs:
+TMP_389(uint256) := i(uint256)
+i(uint256) = i (c)+ 1"];
+8->6;
+9[label="Node Type: EXPRESSION 9
+
+EXPRESSION:
+numNodesInLayer /= 2
+
+IRs:
+numNodesInLayer(uint256) = numNodesInLayer (c)/ 2"];
+9->10;
+10[label="Node Type: BEGIN_LOOP 10
+"];
+10->11;
+11[label="Node Type: IF_LOOP 11
+
+EXPRESSION:
+numNodesInLayer != 0
+
+IRs:
+TMP_390(bool) = numNodesInLayer != 0
+CONDITION TMP_390"];
+11->14[label="True"];
+11->19[label="False"];
+12[label="Node Type: BEGIN_LOOP 12
+"];
+12->15;
+13[label="Node Type: END_LOOP 13
+"];
+13->18;
+14[label="Node Type: NEW VARIABLE 14
+
+EXPRESSION:
+i_scope_0 = 0
+
+IRs:
+i_scope_0(uint256) := 0(uint256)"];
+14->12;
+15[label="Node Type: IF_LOOP 15
+
+EXPRESSION:
+i_scope_0 < numNodesInLayer
+
+IRs:
+TMP_391(bool) = i_scope_0 < numNodesInLayer
+CONDITION TMP_391"];
+15->16[label="True"];
+15->13[label="False"];
+16[label="Node Type: EXPRESSION 16
+
+EXPRESSION:
+layer[i_scope_0] = sha256(bytes)(abi.encodePacked(layer[2 * i_scope_0],layer[2 * i_scope_0 + 1]))
+
+IRs:
+REF_137(bytes32) -> layer[i_scope_0]
+TMP_392(uint256) = 2 (c)* i_scope_0
+REF_139(bytes32) -> layer[TMP_392]
+TMP_393(uint256) = 2 (c)* i_scope_0
+TMP_394(uint256) = TMP_393 (c)+ 1
+REF_140(bytes32) -> layer[TMP_394]
+TMP_395(bytes) = SOLIDITY_CALL abi.encodePacked()(REF_139,REF_140)
+TMP_396(bytes32) = SOLIDITY_CALL sha256(bytes)(TMP_395)
+REF_137(bytes32) (->layer) := TMP_396(bytes32)"];
+16->17;
+17[label="Node Type: EXPRESSION 17
+
+EXPRESSION:
+i_scope_0 ++
+
+IRs:
+TMP_397(uint256) := i_scope_0(uint256)
+i_scope_0(uint256) = i_scope_0 (c)+ 1"];
+17->15;
+18[label="Node Type: EXPRESSION 18
+
+EXPRESSION:
+numNodesInLayer /= 2
+
+IRs:
+numNodesInLayer(uint256) = numNodesInLayer (c)/ 2"];
+18->11;
+19[label="Node Type: END_LOOP 19
+"];
+19->20;
+20[label="Node Type: RETURN 20
+
+EXPRESSION:
+layer[0]
+
+IRs:
+REF_141(bytes32) -> layer[0]
+RETURN REF_141"];
+}

@@ -1,0 +1,112 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->14;
+1[label="Node Type: NEW VARIABLE 1
+
+EXPRESSION:
+tokenLength = collateralTokens.length
+
+IRs:
+REF_169 -> LENGTH collateralTokens
+tokenLength(uint256) := REF_169(uint256)"];
+1->4;
+2[label="Node Type: BEGIN_LOOP 2
+"];
+2->5;
+3[label="Node Type: END_LOOP 3
+"];
+3->13;
+4[label="Node Type: NEW VARIABLE 4
+
+EXPRESSION:
+i = 0
+
+IRs:
+i(uint256) := 0(uint256)"];
+4->2;
+5[label="Node Type: IF_LOOP 5
+
+EXPRESSION:
+i < tokenLength
+
+IRs:
+TMP_477(bool) = i < tokenLength
+CONDITION TMP_477"];
+5->6[label="True"];
+5->3[label="False"];
+6[label="Node Type: IF 6
+
+EXPRESSION:
+address(collateralTokens[i]) == address(_collateralTokenToRemove)
+
+IRs:
+REF_170(IERC20) -> collateralTokens[i]
+TMP_478 = CONVERT REF_170 to address
+TMP_479 = CONVERT _collateralTokenToRemove to address
+TMP_480(bool) = TMP_478 == TMP_479
+CONDITION TMP_480"];
+6->7[label="True"];
+6->11[label="False"];
+7[label="Node Type: EXPRESSION 7
+
+EXPRESSION:
+collateralTokens[i] = collateralTokens[collateralTokens.length - 1]
+
+IRs:
+REF_171(IERC20) -> collateralTokens[i]
+REF_172 -> LENGTH collateralTokens
+TMP_481(uint256) = REF_172 (c)- 1
+REF_173(IERC20) -> collateralTokens[TMP_481]
+REF_171(IERC20) (->collateralTokens) := REF_173(IERC20)"];
+7->8;
+8[label="Node Type: EXPRESSION 8
+
+EXPRESSION:
+collateralTokens.pop()
+
+IRs:
+REF_175 -> LENGTH collateralTokens
+TMP_483(uint256) = REF_175 (c)- 1
+REF_176(IERC20) -> collateralTokens[TMP_483]
+collateralTokens = delete REF_176 
+REF_177 -> LENGTH collateralTokens
+REF_177(uint256) (->collateralTokens) := TMP_483(uint256)"];
+8->9;
+9[label="Node Type: EXPRESSION 9
+
+EXPRESSION:
+CollateralTokenRemoved(_collateralTokenToRemove)
+
+IRs:
+Emit CollateralTokenRemoved(_collateralTokenToRemove)"];
+9->10;
+10[label="Node Type: RETURN 10
+"];
+11[label="Node Type: END_IF 11
+"];
+11->12;
+12[label="Node Type: EXPRESSION 12
+
+EXPRESSION:
+++ i
+
+IRs:
+i(uint256) = i + 1"];
+12->5;
+13[label="Node Type: EXPRESSION 13
+
+EXPRESSION:
+revert NotFound()()
+
+IRs:
+TMP_485(None) = SOLIDITY_CALL revert NotFound()()"];
+14[label="Node Type: EXPRESSION 14
+
+EXPRESSION:
+onlyRestakeManagerAdmin()
+
+IRs:
+MODIFIER_CALL, RestakeManager.onlyRestakeManagerAdmin()()"];
+14->1;
+}

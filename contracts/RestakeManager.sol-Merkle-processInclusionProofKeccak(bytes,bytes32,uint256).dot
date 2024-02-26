@@ -1,0 +1,159 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: EXPRESSION 1
+
+EXPRESSION:
+require(bool,string)(proof.length != 0 && proof.length % 32 == 0,Merkle.processInclusionProofKeccak: proof length should be a non-zero multiple of 32)
+
+IRs:
+REF_125 -> LENGTH proof
+TMP_328(bool) = REF_125 != 0
+REF_126 -> LENGTH proof
+TMP_329(uint256) = REF_126 % 32
+TMP_330(bool) = TMP_329 == 0
+TMP_331(bool) = TMP_328 && TMP_330
+TMP_332(None) = SOLIDITY_CALL require(bool,string)(TMP_331,Merkle.processInclusionProofKeccak: proof length should be a non-zero multiple of 32)"];
+1->2;
+2[label="Node Type: NEW VARIABLE 2
+
+EXPRESSION:
+computedHash = leaf
+
+IRs:
+computedHash(bytes32) := leaf(bytes32)"];
+2->5;
+3[label="Node Type: BEGIN_LOOP 3
+"];
+3->6;
+4[label="Node Type: END_LOOP 4
+"];
+4->20;
+5[label="Node Type: NEW VARIABLE 5
+
+EXPRESSION:
+i = 32
+
+IRs:
+i(uint256) := 32(uint256)"];
+5->3;
+6[label="Node Type: IF_LOOP 6
+
+EXPRESSION:
+i <= proof.length
+
+IRs:
+REF_127 -> LENGTH proof
+TMP_333(bool) = i <= REF_127
+CONDITION TMP_333"];
+6->7[label="True"];
+6->4[label="False"];
+7[label="Node Type: IF 7
+
+EXPRESSION:
+index % 2 == 0
+
+IRs:
+TMP_334(uint256) = index % 2
+TMP_335(bool) = TMP_334 == 0
+CONDITION TMP_335"];
+7->8[label="True"];
+7->13[label="False"];
+8[label="Node Type: INLINE ASM 8
+"];
+8->9;
+9[label="Node Type: EXPRESSION 9
+
+EXPRESSION:
+mstore(uint256,uint256)(0x00,computedHash)
+
+IRs:
+TMP_336(None) = SOLIDITY_CALL mstore(uint256,uint256)(0,computedHash)"];
+9->10;
+10[label="Node Type: EXPRESSION 10
+
+EXPRESSION:
+mstore(uint256,uint256)(0x20,mload(uint256)(proof + i))
+
+IRs:
+TMP_337(bytes) = proof + i
+TMP_338(uint256) = SOLIDITY_CALL mload(uint256)(TMP_337)
+TMP_339(None) = SOLIDITY_CALL mstore(uint256,uint256)(32,TMP_338)"];
+10->11;
+11[label="Node Type: EXPRESSION 11
+
+EXPRESSION:
+computedHash = keccak256(uint256,uint256)(0x00,0x40)
+
+IRs:
+TMP_340(uint256) = SOLIDITY_CALL keccak256(uint256,uint256)(0,64)
+computedHash(bytes32) := TMP_340(uint256)"];
+11->12;
+12[label="Node Type: EXPRESSION 12
+
+EXPRESSION:
+index = index / 2
+
+IRs:
+TMP_341(uint256) = index / 2
+index(uint256) := TMP_341(uint256)"];
+12->18;
+13[label="Node Type: INLINE ASM 13
+"];
+13->14;
+14[label="Node Type: EXPRESSION 14
+
+EXPRESSION:
+mstore(uint256,uint256)(0x00,mload(uint256)(proof + i))
+
+IRs:
+TMP_342(bytes) = proof + i
+TMP_343(uint256) = SOLIDITY_CALL mload(uint256)(TMP_342)
+TMP_344(None) = SOLIDITY_CALL mstore(uint256,uint256)(0,TMP_343)"];
+14->15;
+15[label="Node Type: EXPRESSION 15
+
+EXPRESSION:
+mstore(uint256,uint256)(0x20,computedHash)
+
+IRs:
+TMP_345(None) = SOLIDITY_CALL mstore(uint256,uint256)(32,computedHash)"];
+15->16;
+16[label="Node Type: EXPRESSION 16
+
+EXPRESSION:
+computedHash = keccak256(uint256,uint256)(0x00,0x40)
+
+IRs:
+TMP_346(uint256) = SOLIDITY_CALL keccak256(uint256,uint256)(0,64)
+computedHash(bytes32) := TMP_346(uint256)"];
+16->17;
+17[label="Node Type: EXPRESSION 17
+
+EXPRESSION:
+index = index / 2
+
+IRs:
+TMP_347(uint256) = index / 2
+index(uint256) := TMP_347(uint256)"];
+17->18;
+18[label="Node Type: END_IF 18
+"];
+18->19;
+19[label="Node Type: EXPRESSION 19
+
+EXPRESSION:
+i += 32
+
+IRs:
+i(uint256) = i (c)+ 32"];
+19->6;
+20[label="Node Type: RETURN 20
+
+EXPRESSION:
+computedHash
+
+IRs:
+RETURN computedHash"];
+}

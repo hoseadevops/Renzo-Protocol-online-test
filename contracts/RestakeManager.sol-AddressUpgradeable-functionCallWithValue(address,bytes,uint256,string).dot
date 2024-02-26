@@ -1,0 +1,40 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: EXPRESSION 1
+
+EXPRESSION:
+require(bool,string)(address(this).balance >= value,Address: insufficient balance for call)
+
+IRs:
+TMP_122 = CONVERT this to address
+TMP_123(uint256) = SOLIDITY_CALL balance(address)(TMP_122)
+TMP_124(bool) = TMP_123 >= value
+TMP_125(None) = SOLIDITY_CALL require(bool,string)(TMP_124,Address: insufficient balance for call)"];
+1->2;
+2[label="Node Type: NEW VARIABLE 2
+"];
+2->3;
+3[label="Node Type: NEW VARIABLE 3
+"];
+3->4;
+4[label="Node Type: EXPRESSION 4
+
+EXPRESSION:
+(success,returndata) = target.call{value: value}(data)
+
+IRs:
+TUPLE_2(bool,bytes) = LOW_LEVEL_CALL, dest:target, function:call, arguments:['data'] value:value 
+success(bool)= UNPACK TUPLE_2 index: 0 
+returndata(bytes)= UNPACK TUPLE_2 index: 1 "];
+4->5;
+5[label="Node Type: RETURN 5
+
+EXPRESSION:
+verifyCallResultFromTarget(target,success,returndata,errorMessage)
+
+IRs:
+TMP_126(bytes) = INTERNAL_CALL, AddressUpgradeable.verifyCallResultFromTarget(address,bool,bytes,string)(target,success,returndata,errorMessage)
+RETURN TMP_126"];
+}

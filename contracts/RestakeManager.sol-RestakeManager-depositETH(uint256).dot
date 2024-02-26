@@ -1,0 +1,92 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->10;
+1[label="Node Type: NEW VARIABLE 1
+"];
+1->2;
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+(totalTVL) = calculateTVLs()
+
+IRs:
+TUPLE_11(uint256[][],uint256[],uint256) = INTERNAL_CALL, RestakeManager.calculateTVLs()()
+totalTVL(uint256)= UNPACK TUPLE_11 index: 2 "];
+2->3;
+3[label="Node Type: IF 3
+
+EXPRESSION:
+maxDepositTVL != 0 && totalTVL + msg.value > maxDepositTVL
+
+IRs:
+TMP_552(bool) = maxDepositTVL != 0
+TMP_553(uint256) = totalTVL (c)+ msg.value
+TMP_554(bool) = TMP_553 > maxDepositTVL
+TMP_555(bool) = TMP_552 && TMP_554
+CONDITION TMP_555"];
+3->4[label="True"];
+3->5[label="False"];
+4[label="Node Type: EXPRESSION 4
+
+EXPRESSION:
+revert MaxTVLReached()()
+
+IRs:
+TMP_556(None) = SOLIDITY_CALL revert MaxTVLReached()()"];
+4->5;
+5[label="Node Type: END_IF 5
+"];
+5->6;
+6[label="Node Type: EXPRESSION 6
+
+EXPRESSION:
+depositQueue.depositETHFromProtocol{value: msg.value}()
+
+IRs:
+HIGH_LEVEL_CALL, dest:depositQueue(IDepositQueue), function:depositETHFromProtocol, arguments:[] value:msg.value "];
+6->7;
+7[label="Node Type: NEW VARIABLE 7
+
+EXPRESSION:
+ezETHToMint = renzoOracle.calculateMintAmount(totalTVL,msg.value,ezETH.totalSupply())
+
+IRs:
+TMP_558(uint256) = HIGH_LEVEL_CALL, dest:ezETH(IEzEthToken), function:totalSupply, arguments:[]  
+TMP_559(uint256) = HIGH_LEVEL_CALL, dest:renzoOracle(IRenzoOracle), function:calculateMintAmount, arguments:['totalTVL', 'msg.value', 'TMP_558']  
+ezETHToMint(uint256) := TMP_559(uint256)"];
+7->8;
+8[label="Node Type: EXPRESSION 8
+
+EXPRESSION:
+ezETH.mint(msg.sender,ezETHToMint)
+
+IRs:
+HIGH_LEVEL_CALL, dest:ezETH(IEzEthToken), function:mint, arguments:['msg.sender', 'ezETHToMint']  "];
+8->9;
+9[label="Node Type: EXPRESSION 9
+
+EXPRESSION:
+Deposit(msg.sender,IERC20(address(0x0)),msg.value,ezETHToMint,_referralId)
+
+IRs:
+TMP_561 = CONVERT 0 to address
+TMP_562 = CONVERT TMP_561 to IERC20
+Emit Deposit(msg.sender,TMP_562,msg.value,ezETHToMint,_referralId)"];
+10[label="Node Type: EXPRESSION 10
+
+EXPRESSION:
+nonReentrant()
+
+IRs:
+MODIFIER_CALL, ReentrancyGuardUpgradeable.nonReentrant()()"];
+10->11;
+11[label="Node Type: EXPRESSION 11
+
+EXPRESSION:
+notPaused()
+
+IRs:
+MODIFIER_CALL, RestakeManager.notPaused()()"];
+11->1;
+}

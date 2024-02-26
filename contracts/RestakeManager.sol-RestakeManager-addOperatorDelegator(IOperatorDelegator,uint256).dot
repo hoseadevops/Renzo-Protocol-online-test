@@ -1,0 +1,137 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->17;
+1[label="Node Type: NEW VARIABLE 1
+
+EXPRESSION:
+odLength = operatorDelegators.length
+
+IRs:
+REF_143 -> LENGTH operatorDelegators
+odLength(uint256) := REF_143(uint256)"];
+1->4;
+2[label="Node Type: BEGIN_LOOP 2
+"];
+2->5;
+3[label="Node Type: END_LOOP 3
+"];
+3->10;
+4[label="Node Type: NEW VARIABLE 4
+
+EXPRESSION:
+i = 0
+
+IRs:
+i(uint256) := 0(uint256)"];
+4->2;
+5[label="Node Type: IF_LOOP 5
+
+EXPRESSION:
+i < odLength
+
+IRs:
+TMP_418(bool) = i < odLength
+CONDITION TMP_418"];
+5->6[label="True"];
+5->3[label="False"];
+6[label="Node Type: IF 6
+
+EXPRESSION:
+address(operatorDelegators[i]) == address(_newOperatorDelegator)
+
+IRs:
+REF_144(IOperatorDelegator) -> operatorDelegators[i]
+TMP_419 = CONVERT REF_144 to address
+TMP_420 = CONVERT _newOperatorDelegator to address
+TMP_421(bool) = TMP_419 == TMP_420
+CONDITION TMP_421"];
+6->7[label="True"];
+6->8[label="False"];
+7[label="Node Type: EXPRESSION 7
+
+EXPRESSION:
+revert AlreadyAdded()()
+
+IRs:
+TMP_422(None) = SOLIDITY_CALL revert AlreadyAdded()()"];
+7->8;
+8[label="Node Type: END_IF 8
+"];
+8->9;
+9[label="Node Type: EXPRESSION 9
+
+EXPRESSION:
+++ i
+
+IRs:
+i(uint256) = i + 1"];
+9->5;
+10[label="Node Type: IF 10
+
+EXPRESSION:
+_allocationBasisPoints > (100 * BASIS_POINTS)
+
+IRs:
+TMP_423(uint256) = 100 (c)* BASIS_POINTS
+TMP_424(bool) = _allocationBasisPoints > TMP_423
+CONDITION TMP_424"];
+10->11[label="True"];
+10->12[label="False"];
+11[label="Node Type: EXPRESSION 11
+
+EXPRESSION:
+revert OverMaxBasisPoints()()
+
+IRs:
+TMP_425(None) = SOLIDITY_CALL revert OverMaxBasisPoints()()"];
+11->12;
+12[label="Node Type: END_IF 12
+"];
+12->13;
+13[label="Node Type: EXPRESSION 13
+
+EXPRESSION:
+operatorDelegators.push(_newOperatorDelegator)
+
+IRs:
+REF_146 -> LENGTH operatorDelegators
+TMP_427(uint256) := REF_146(uint256)
+TMP_428(uint256) = TMP_427 (c)+ 1
+REF_146(uint256) (->operatorDelegators) := TMP_428(uint256)
+REF_147(IOperatorDelegator) -> operatorDelegators[TMP_427]
+REF_147(IOperatorDelegator) (->operatorDelegators) := _newOperatorDelegator(IOperatorDelegator)"];
+13->14;
+14[label="Node Type: EXPRESSION 14
+
+EXPRESSION:
+OperatorDelegatorAdded(_newOperatorDelegator)
+
+IRs:
+Emit OperatorDelegatorAdded(_newOperatorDelegator)"];
+14->15;
+15[label="Node Type: EXPRESSION 15
+
+EXPRESSION:
+operatorDelegatorAllocations[_newOperatorDelegator] = _allocationBasisPoints
+
+IRs:
+REF_148(uint256) -> operatorDelegatorAllocations[_newOperatorDelegator]
+REF_148(uint256) (->operatorDelegatorAllocations) := _allocationBasisPoints(uint256)"];
+15->16;
+16[label="Node Type: EXPRESSION 16
+
+EXPRESSION:
+OperatorDelegatorAllocationUpdated(_newOperatorDelegator,_allocationBasisPoints)
+
+IRs:
+Emit OperatorDelegatorAllocationUpdated(_newOperatorDelegator,_allocationBasisPoints)"];
+17[label="Node Type: EXPRESSION 17
+
+EXPRESSION:
+onlyRestakeManagerAdmin()
+
+IRs:
+MODIFIER_CALL, RestakeManager.onlyRestakeManagerAdmin()()"];
+17->1;
+}

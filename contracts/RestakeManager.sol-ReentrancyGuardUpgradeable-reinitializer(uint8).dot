@@ -1,0 +1,50 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: EXPRESSION 1
+
+EXPRESSION:
+require(bool,string)(! _initializing && _initialized < version,Initializable: contract is already initialized)
+
+IRs:
+TMP_54 = ! _initializing 
+TMP_55(bool) = _initialized < version
+TMP_56(bool) = TMP_54 && TMP_55
+TMP_57(None) = SOLIDITY_CALL require(bool,string)(TMP_56,Initializable: contract is already initialized)"];
+1->2;
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+_initialized = version
+
+IRs:
+_initialized(uint8) := version(uint8)"];
+2->3;
+3[label="Node Type: EXPRESSION 3
+
+EXPRESSION:
+_initializing = true
+
+IRs:
+_initializing(bool) := True(bool)"];
+3->4;
+4[label="Node Type: _ 4
+"];
+4->5;
+5[label="Node Type: EXPRESSION 5
+
+EXPRESSION:
+_initializing = false
+
+IRs:
+_initializing(bool) := False(bool)"];
+5->6;
+6[label="Node Type: EXPRESSION 6
+
+EXPRESSION:
+Initialized(version)
+
+IRs:
+Emit Initialized(version)"];
+}

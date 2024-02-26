@@ -1,0 +1,40 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: NEW VARIABLE 1
+
+EXPRESSION:
+nonceBefore = token.nonces(owner)
+
+IRs:
+TMP_92(uint256) = HIGH_LEVEL_CALL, dest:token(IERC20PermitUpgradeable), function:nonces, arguments:['owner']  
+nonceBefore(uint256) := TMP_92(uint256)"];
+1->2;
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+token.permit(owner,spender,value,deadline,v,r,s)
+
+IRs:
+HIGH_LEVEL_CALL, dest:token(IERC20PermitUpgradeable), function:permit, arguments:['owner', 'spender', 'value', 'deadline', 'v', 'r', 's']  "];
+2->3;
+3[label="Node Type: NEW VARIABLE 3
+
+EXPRESSION:
+nonceAfter = token.nonces(owner)
+
+IRs:
+TMP_94(uint256) = HIGH_LEVEL_CALL, dest:token(IERC20PermitUpgradeable), function:nonces, arguments:['owner']  
+nonceAfter(uint256) := TMP_94(uint256)"];
+3->4;
+4[label="Node Type: EXPRESSION 4
+
+EXPRESSION:
+require(bool,string)(nonceAfter == nonceBefore + 1,SafeERC20: permit did not succeed)
+
+IRs:
+TMP_95(uint256) = nonceBefore (c)+ 1
+TMP_96(bool) = nonceAfter == TMP_95
+TMP_97(None) = SOLIDITY_CALL require(bool,string)(TMP_96,SafeERC20: permit did not succeed)"];
+}

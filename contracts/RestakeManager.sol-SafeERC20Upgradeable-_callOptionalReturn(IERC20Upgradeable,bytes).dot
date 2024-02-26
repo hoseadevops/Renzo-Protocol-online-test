@@ -1,0 +1,26 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: NEW VARIABLE 1
+
+EXPRESSION:
+returndata = address(token).functionCall(data,SafeERC20: low-level call failed)
+
+IRs:
+TMP_98 = CONVERT token to address
+TMP_99(bytes) = LIBRARY_CALL, dest:AddressUpgradeable, function:AddressUpgradeable.functionCall(address,bytes,string), arguments:['TMP_98', 'data', 'SafeERC20: low-level call failed'] 
+returndata(bytes) := TMP_99(bytes)"];
+1->2;
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+require(bool,string)(returndata.length == 0 || abi.decode(returndata,(bool)),SafeERC20: ERC20 operation did not succeed)
+
+IRs:
+REF_30 -> LENGTH returndata
+TMP_100(bool) = REF_30 == 0
+TMP_101(bool) = SOLIDITY_CALL abi.decode()(returndata,bool)
+TMP_102(bool) = TMP_100 || TMP_101
+TMP_103(None) = SOLIDITY_CALL require(bool,string)(TMP_102,SafeERC20: ERC20 operation did not succeed)"];
+}

@@ -1,0 +1,37 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: NEW VARIABLE 1
+"];
+1->2;
+2[label="Node Type: NEW VARIABLE 2
+"];
+2->3;
+3[label="Node Type: EXPRESSION 3
+
+EXPRESSION:
+(success,returndata) = address(token).call(data)
+
+IRs:
+TMP_104 = CONVERT token to address
+TUPLE_0(bool,bytes) = LOW_LEVEL_CALL, dest:TMP_104, function:call, arguments:['data']  
+success(bool)= UNPACK TUPLE_0 index: 0 
+returndata(bytes)= UNPACK TUPLE_0 index: 1 "];
+3->4;
+4[label="Node Type: RETURN 4
+
+EXPRESSION:
+success && (returndata.length == 0 || abi.decode(returndata,(bool))) && AddressUpgradeable.isContract(address(token))
+
+IRs:
+REF_33 -> LENGTH returndata
+TMP_105(bool) = REF_33 == 0
+TMP_106(bool) = SOLIDITY_CALL abi.decode()(returndata,bool)
+TMP_107(bool) = TMP_105 || TMP_106
+TMP_108(bool) = success && TMP_107
+TMP_109 = CONVERT token to address
+TMP_110(bool) = LIBRARY_CALL, dest:AddressUpgradeable, function:AddressUpgradeable.isContract(address), arguments:['TMP_109'] 
+TMP_111(bool) = TMP_108 && TMP_110
+RETURN TMP_111"];
+}

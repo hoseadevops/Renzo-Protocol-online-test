@@ -1,0 +1,14 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: RETURN 1
+
+EXPRESSION:
+processInclusionProofKeccak(proof,leaf,index) == root
+
+IRs:
+TMP_326(bytes32) = INTERNAL_CALL, Merkle.processInclusionProofKeccak(bytes,bytes32,uint256)(proof,leaf,index)
+TMP_327(bool) = TMP_326 == root
+RETURN TMP_327"];
+}

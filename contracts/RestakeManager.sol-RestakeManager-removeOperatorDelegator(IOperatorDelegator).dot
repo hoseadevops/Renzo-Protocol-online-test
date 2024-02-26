@@ -1,0 +1,129 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->16;
+1[label="Node Type: NEW VARIABLE 1
+
+EXPRESSION:
+odLength = operatorDelegators.length
+
+IRs:
+REF_149 -> LENGTH operatorDelegators
+odLength(uint256) := REF_149(uint256)"];
+1->4;
+2[label="Node Type: BEGIN_LOOP 2
+"];
+2->5;
+3[label="Node Type: END_LOOP 3
+"];
+3->15;
+4[label="Node Type: NEW VARIABLE 4
+
+EXPRESSION:
+i = 0
+
+IRs:
+i(uint256) := 0(uint256)"];
+4->2;
+5[label="Node Type: IF_LOOP 5
+
+EXPRESSION:
+i < odLength
+
+IRs:
+TMP_432(bool) = i < odLength
+CONDITION TMP_432"];
+5->6[label="True"];
+5->3[label="False"];
+6[label="Node Type: IF 6
+
+EXPRESSION:
+address(operatorDelegators[i]) == address(_operatorDelegatorToRemove)
+
+IRs:
+REF_150(IOperatorDelegator) -> operatorDelegators[i]
+TMP_433 = CONVERT REF_150 to address
+TMP_434 = CONVERT _operatorDelegatorToRemove to address
+TMP_435(bool) = TMP_433 == TMP_434
+CONDITION TMP_435"];
+6->7[label="True"];
+6->13[label="False"];
+7[label="Node Type: EXPRESSION 7
+
+EXPRESSION:
+operatorDelegatorAllocations[_operatorDelegatorToRemove] = 0
+
+IRs:
+REF_151(uint256) -> operatorDelegatorAllocations[_operatorDelegatorToRemove]
+REF_151(uint256) (->operatorDelegatorAllocations) := 0(uint256)"];
+7->8;
+8[label="Node Type: EXPRESSION 8
+
+EXPRESSION:
+OperatorDelegatorAllocationUpdated(_operatorDelegatorToRemove,0)
+
+IRs:
+Emit OperatorDelegatorAllocationUpdated(_operatorDelegatorToRemove,0)"];
+8->9;
+9[label="Node Type: EXPRESSION 9
+
+EXPRESSION:
+operatorDelegators[i] = operatorDelegators[operatorDelegators.length - 1]
+
+IRs:
+REF_152(IOperatorDelegator) -> operatorDelegators[i]
+REF_153 -> LENGTH operatorDelegators
+TMP_437(uint256) = REF_153 (c)- 1
+REF_154(IOperatorDelegator) -> operatorDelegators[TMP_437]
+REF_152(IOperatorDelegator) (->operatorDelegators) := REF_154(IOperatorDelegator)"];
+9->10;
+10[label="Node Type: EXPRESSION 10
+
+EXPRESSION:
+operatorDelegators.pop()
+
+IRs:
+REF_156 -> LENGTH operatorDelegators
+TMP_439(uint256) = REF_156 (c)- 1
+REF_157(IOperatorDelegator) -> operatorDelegators[TMP_439]
+operatorDelegators = delete REF_157 
+REF_158 -> LENGTH operatorDelegators
+REF_158(uint256) (->operatorDelegators) := TMP_439(uint256)"];
+10->11;
+11[label="Node Type: EXPRESSION 11
+
+EXPRESSION:
+OperatorDelegatorRemoved(_operatorDelegatorToRemove)
+
+IRs:
+Emit OperatorDelegatorRemoved(_operatorDelegatorToRemove)"];
+11->12;
+12[label="Node Type: RETURN 12
+"];
+13[label="Node Type: END_IF 13
+"];
+13->14;
+14[label="Node Type: EXPRESSION 14
+
+EXPRESSION:
+++ i
+
+IRs:
+i(uint256) = i + 1"];
+14->5;
+15[label="Node Type: EXPRESSION 15
+
+EXPRESSION:
+revert NotFound()()
+
+IRs:
+TMP_441(None) = SOLIDITY_CALL revert NotFound()()"];
+16[label="Node Type: EXPRESSION 16
+
+EXPRESSION:
+onlyRestakeManagerAdmin()
+
+IRs:
+MODIFIER_CALL, RestakeManager.onlyRestakeManagerAdmin()()"];
+16->1;
+}

@@ -1,0 +1,148 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: NEW VARIABLE 1
+
+EXPRESSION:
+totalRewards = 0
+
+IRs:
+totalRewards(uint256) := 0(uint256)"];
+1->2;
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+totalRewards += depositQueue.totalEarned(address(0x0))
+
+IRs:
+TMP_579 = CONVERT 0 to address
+TMP_580(uint256) = HIGH_LEVEL_CALL, dest:depositQueue(IDepositQueue), function:totalEarned, arguments:['TMP_579']  
+totalRewards(uint256) = totalRewards (c)+ TMP_580"];
+2->3;
+3[label="Node Type: NEW VARIABLE 3
+
+EXPRESSION:
+tokenLength = collateralTokens.length
+
+IRs:
+REF_245 -> LENGTH collateralTokens
+tokenLength(uint256) := REF_245(uint256)"];
+3->6;
+4[label="Node Type: BEGIN_LOOP 4
+"];
+4->7;
+5[label="Node Type: END_LOOP 5
+"];
+5->11;
+6[label="Node Type: NEW VARIABLE 6
+
+EXPRESSION:
+i = 0
+
+IRs:
+i(uint256) := 0(uint256)"];
+6->4;
+7[label="Node Type: IF_LOOP 7
+
+EXPRESSION:
+i < tokenLength
+
+IRs:
+TMP_581(bool) = i < tokenLength
+CONDITION TMP_581"];
+7->8[label="True"];
+7->5[label="False"];
+8[label="Node Type: NEW VARIABLE 8
+
+EXPRESSION:
+tokenRewardAmount = depositQueue.totalEarned(address(collateralTokens[i]))
+
+IRs:
+REF_247(IERC20) -> collateralTokens[i]
+TMP_582 = CONVERT REF_247 to address
+TMP_583(uint256) = HIGH_LEVEL_CALL, dest:depositQueue(IDepositQueue), function:totalEarned, arguments:['TMP_582']  
+tokenRewardAmount(uint256) := TMP_583(uint256)"];
+8->9;
+9[label="Node Type: EXPRESSION 9
+
+EXPRESSION:
+totalRewards += renzoOracle.lookupTokenValue(collateralTokens[i],tokenRewardAmount)
+
+IRs:
+REF_249(IERC20) -> collateralTokens[i]
+TMP_584(uint256) = HIGH_LEVEL_CALL, dest:renzoOracle(IRenzoOracle), function:lookupTokenValue, arguments:['REF_249', 'tokenRewardAmount']  
+totalRewards(uint256) = totalRewards (c)+ TMP_584"];
+9->10;
+10[label="Node Type: EXPRESSION 10
+
+EXPRESSION:
+++ i
+
+IRs:
+i(uint256) = i + 1"];
+10->7;
+11[label="Node Type: NEW VARIABLE 11
+
+EXPRESSION:
+odLength = operatorDelegators.length
+
+IRs:
+REF_250 -> LENGTH operatorDelegators
+odLength(uint256) := REF_250(uint256)"];
+11->14;
+12[label="Node Type: BEGIN_LOOP 12
+"];
+12->15;
+13[label="Node Type: END_LOOP 13
+"];
+13->18;
+14[label="Node Type: NEW VARIABLE 14
+
+EXPRESSION:
+i_scope_0 = 0
+
+IRs:
+i_scope_0(uint256) := 0(uint256)"];
+14->12;
+15[label="Node Type: IF_LOOP 15
+
+EXPRESSION:
+i_scope_0 < odLength
+
+IRs:
+TMP_585(bool) = i_scope_0 < odLength
+CONDITION TMP_585"];
+15->16[label="True"];
+15->13[label="False"];
+16[label="Node Type: EXPRESSION 16
+
+EXPRESSION:
+totalRewards += address(operatorDelegators[i_scope_0].eigenPod()).balance + operatorDelegators[i_scope_0].pendingUnstakedDelayedWithdrawalAmount()
+
+IRs:
+REF_251(IOperatorDelegator) -> operatorDelegators[i_scope_0]
+TMP_586(IEigenPod) = HIGH_LEVEL_CALL, dest:REF_251(IOperatorDelegator), function:eigenPod, arguments:[]  
+TMP_587 = CONVERT TMP_586 to address
+TMP_588(uint256) = SOLIDITY_CALL balance(address)(TMP_587)
+REF_253(IOperatorDelegator) -> operatorDelegators[i_scope_0]
+TMP_589(uint256) = HIGH_LEVEL_CALL, dest:REF_253(IOperatorDelegator), function:pendingUnstakedDelayedWithdrawalAmount, arguments:[]  
+TMP_590(uint256) = TMP_588 (c)+ TMP_589
+totalRewards(uint256) = totalRewards (c)+ TMP_590"];
+16->17;
+17[label="Node Type: EXPRESSION 17
+
+EXPRESSION:
+++ i_scope_0
+
+IRs:
+i_scope_0(uint256) = i_scope_0 + 1"];
+17->15;
+18[label="Node Type: RETURN 18
+
+EXPRESSION:
+totalRewards
+
+IRs:
+RETURN totalRewards"];
+}

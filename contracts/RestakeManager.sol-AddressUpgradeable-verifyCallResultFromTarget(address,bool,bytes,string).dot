@@ -1,0 +1,54 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: IF 1
+
+EXPRESSION:
+success
+
+IRs:
+CONDITION success"];
+1->2[label="True"];
+1->6[label="False"];
+2[label="Node Type: IF 2
+
+EXPRESSION:
+returndata.length == 0
+
+IRs:
+REF_41 -> LENGTH returndata
+TMP_131(bool) = REF_41 == 0
+CONDITION TMP_131"];
+2->3[label="True"];
+2->4[label="False"];
+3[label="Node Type: EXPRESSION 3
+
+EXPRESSION:
+require(bool,string)(isContract(target),Address: call to non-contract)
+
+IRs:
+TMP_132(bool) = INTERNAL_CALL, AddressUpgradeable.isContract(address)(target)
+TMP_133(None) = SOLIDITY_CALL require(bool,string)(TMP_132,Address: call to non-contract)"];
+3->4;
+4[label="Node Type: END_IF 4
+"];
+4->5;
+5[label="Node Type: RETURN 5
+
+EXPRESSION:
+returndata
+
+IRs:
+RETURN returndata"];
+6[label="Node Type: EXPRESSION 6
+
+EXPRESSION:
+_revert(returndata,errorMessage)
+
+IRs:
+INTERNAL_CALL, AddressUpgradeable._revert(bytes,string)(returndata,errorMessage)"];
+6->7;
+7[label="Node Type: END_IF 7
+"];
+}

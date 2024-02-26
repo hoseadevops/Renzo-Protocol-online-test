@@ -1,0 +1,125 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: IF 1
+
+EXPRESSION:
+operatorDelegators.length == 0
+
+IRs:
+REF_197 -> LENGTH operatorDelegators
+TMP_502(bool) = REF_197 == 0
+CONDITION TMP_502"];
+1->2[label="True"];
+1->3[label="False"];
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+revert NotFound()()
+
+IRs:
+TMP_503(None) = SOLIDITY_CALL revert NotFound()()"];
+2->3;
+3[label="Node Type: END_IF 3
+"];
+3->4;
+4[label="Node Type: IF 4
+
+EXPRESSION:
+operatorDelegators.length == 1
+
+IRs:
+REF_198 -> LENGTH operatorDelegators
+TMP_504(bool) = REF_198 == 1
+CONDITION TMP_504"];
+4->5[label="True"];
+4->6[label="False"];
+5[label="Node Type: RETURN 5
+
+EXPRESSION:
+operatorDelegators[0]
+
+IRs:
+REF_199(IOperatorDelegator) -> operatorDelegators[0]
+RETURN REF_199"];
+6[label="Node Type: END_IF 6
+"];
+6->7;
+7[label="Node Type: NEW VARIABLE 7
+
+EXPRESSION:
+tvlLength = tvls.length
+
+IRs:
+REF_200 -> LENGTH tvls
+tvlLength(uint256) := REF_200(uint256)"];
+7->10;
+8[label="Node Type: BEGIN_LOOP 8
+"];
+8->11;
+9[label="Node Type: END_LOOP 9
+"];
+9->16;
+10[label="Node Type: NEW VARIABLE 10
+
+EXPRESSION:
+i = 0
+
+IRs:
+i(uint256) := 0(uint256)"];
+10->8;
+11[label="Node Type: IF_LOOP 11
+
+EXPRESSION:
+i < tvlLength
+
+IRs:
+TMP_505(bool) = i < tvlLength
+CONDITION TMP_505"];
+11->12[label="True"];
+11->9[label="False"];
+12[label="Node Type: IF 12
+
+EXPRESSION:
+tvls[i] < (operatorDelegatorAllocations[operatorDelegators[i]] * totalTVL) / BASIS_POINTS / BASIS_POINTS
+
+IRs:
+REF_201(uint256) -> tvls[i]
+REF_202(IOperatorDelegator) -> operatorDelegators[i]
+REF_203(uint256) -> operatorDelegatorAllocations[REF_202]
+TMP_506(uint256) = REF_203 (c)* totalTVL
+TMP_507(uint256) = TMP_506 (c)/ BASIS_POINTS
+TMP_508(uint256) = TMP_507 (c)/ BASIS_POINTS
+TMP_509(bool) = REF_201 < TMP_508
+CONDITION TMP_509"];
+12->13[label="True"];
+12->14[label="False"];
+13[label="Node Type: RETURN 13
+
+EXPRESSION:
+operatorDelegators[i]
+
+IRs:
+REF_204(IOperatorDelegator) -> operatorDelegators[i]
+RETURN REF_204"];
+14[label="Node Type: END_IF 14
+"];
+14->15;
+15[label="Node Type: EXPRESSION 15
+
+EXPRESSION:
+++ i
+
+IRs:
+i(uint256) = i + 1"];
+15->11;
+16[label="Node Type: RETURN 16
+
+EXPRESSION:
+operatorDelegators[0]
+
+IRs:
+REF_205(IOperatorDelegator) -> operatorDelegators[0]
+RETURN REF_205"];
+}
