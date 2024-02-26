@@ -1,0 +1,10 @@
+strict digraph {
+subgraph cluster_4279_IDelegationTerms {
+label = "IDelegationTerms"
+"4279_payForService" [label="payForService"]
+"4279_onDelegationWithdrawn" [label="onDelegationWithdrawn"]
+"4279_onDelegationReceived" [label="onDelegationReceived"]
+}subgraph cluster_solidity {
+label = "[Solidity]"
+}
+}

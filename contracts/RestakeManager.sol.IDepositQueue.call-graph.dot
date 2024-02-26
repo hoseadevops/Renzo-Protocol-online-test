@@ -1,0 +1,9 @@
+strict digraph {
+subgraph cluster_4547_IDepositQueue {
+label = "IDepositQueue"
+"4547_depositETHFromProtocol" [label="depositETHFromProtocol"]
+"4547_totalEarned" [label="totalEarned"]
+}subgraph cluster_solidity {
+label = "[Solidity]"
+}
+}

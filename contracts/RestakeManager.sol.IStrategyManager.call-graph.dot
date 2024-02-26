@@ -1,0 +1,28 @@
+strict digraph {
+subgraph cluster_3262_IStrategyManager {
+label = "IStrategyManager"
+"3262_depositIntoStrategy" [label="depositIntoStrategy"]
+"3262_depositBeaconChainETH" [label="depositBeaconChainETH"]
+"3262_recordOvercommittedBeaconChainETH" [label="recordOvercommittedBeaconChainETH"]
+"3262_delegation" [label="delegation"]
+"3262_completeQueuedWithdrawal" [label="completeQueuedWithdrawal"]
+"3262_stakerStrategyShares" [label="stakerStrategyShares"]
+"3262_withdrawalDelayBlocks" [label="withdrawalDelayBlocks"]
+"3262_slashShares" [label="slashShares"]
+"3262_removeStrategiesFromDepositWhitelist" [label="removeStrategiesFromDepositWhitelist"]
+"3262_slashQueuedWithdrawal" [label="slashQueuedWithdrawal"]
+"3262_queueWithdrawal" [label="queueWithdrawal"]
+"3262_beaconChainETHStrategy" [label="beaconChainETHStrategy"]
+"3262_calculateWithdrawalRoot" [label="calculateWithdrawalRoot"]
+"3262_stakerStrategyListLength" [label="stakerStrategyListLength"]
+"3262_stakerStrategyList" [label="stakerStrategyList"]
+"3262_slasher" [label="slasher"]
+"3262_numWithdrawalsQueued" [label="numWithdrawalsQueued"]
+"3262_addStrategiesToDepositWhitelist" [label="addStrategiesToDepositWhitelist"]
+"3262_depositIntoStrategyWithSignature" [label="depositIntoStrategyWithSignature"]
+"3262_completeQueuedWithdrawals" [label="completeQueuedWithdrawals"]
+"3262_getDeposits" [label="getDeposits"]
+}subgraph cluster_solidity {
+label = "[Solidity]"
+}
+}

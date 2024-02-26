@@ -1,0 +1,16 @@
+strict digraph {
+subgraph cluster_4680_IRoleManager {
+label = "IRoleManager"
+"4680_isRestakeManagerAdmin" [label="isRestakeManagerAdmin"]
+"4680_isTokenAdmin" [label="isTokenAdmin"]
+"4680_isERC20RewardsAdmin" [label="isERC20RewardsAdmin"]
+"4680_isDepositWithdrawPauser" [label="isDepositWithdrawPauser"]
+"4680_isOperatorDelegatorAdmin" [label="isOperatorDelegatorAdmin"]
+"4680_isNativeEthRestakeAdmin" [label="isNativeEthRestakeAdmin"]
+"4680_isEzETHMinterBurner" [label="isEzETHMinterBurner"]
+"4680_isRoleManagerAdmin" [label="isRoleManagerAdmin"]
+"4680_isOracleAdmin" [label="isOracleAdmin"]
+}subgraph cluster_solidity {
+label = "[Solidity]"
+}
+}

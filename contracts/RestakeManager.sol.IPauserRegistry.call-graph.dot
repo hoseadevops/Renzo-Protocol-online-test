@@ -1,0 +1,9 @@
+strict digraph {
+subgraph cluster_6184_IPauserRegistry {
+label = "IPauserRegistry"
+"6184_unpauser" [label="unpauser"]
+"6184_isPauser" [label="isPauser"]
+}subgraph cluster_solidity {
+label = "[Solidity]"
+}
+}

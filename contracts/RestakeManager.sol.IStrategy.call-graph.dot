@@ -1,0 +1,18 @@
+strict digraph {
+subgraph cluster_2988_IStrategy {
+label = "IStrategy"
+"2988_underlyingToken" [label="underlyingToken"]
+"2988_explanation" [label="explanation"]
+"2988_deposit" [label="deposit"]
+"2988_userUnderlyingView" [label="userUnderlyingView"]
+"2988_withdraw" [label="withdraw"]
+"2988_sharesToUnderlyingView" [label="sharesToUnderlyingView"]
+"2988_sharesToUnderlying" [label="sharesToUnderlying"]
+"2988_totalShares" [label="totalShares"]
+"2988_underlyingToShares" [label="underlyingToShares"]
+"2988_userUnderlying" [label="userUnderlying"]
+"2988_underlyingToSharesView" [label="underlyingToSharesView"]
+}subgraph cluster_solidity {
+label = "[Solidity]"
+}
+}

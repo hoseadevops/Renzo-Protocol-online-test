@@ -1,0 +1,10 @@
+strict digraph {
+subgraph cluster_3908_IERC20Permit {
+label = "IERC20Permit"
+"3908_nonces" [label="nonces"]
+"3908_DOMAIN_SEPARATOR" [label="DOMAIN_SEPARATOR"]
+"3908_permit" [label="permit"]
+}subgraph cluster_solidity {
+label = "[Solidity]"
+}
+}

@@ -1,0 +1,38 @@
+strict digraph {
+subgraph cluster_2303_SafeERC20Upgradeable {
+label = "SafeERC20Upgradeable"
+"2303__callOptionalReturn" [label="_callOptionalReturn"]
+"2303_safePermit" [label="safePermit"]
+"2303_safeTransferFrom" [label="safeTransferFrom"]
+"2303_safeIncreaseAllowance" [label="safeIncreaseAllowance"]
+"2303_forceApprove" [label="forceApprove"]
+"2303__callOptionalReturnBool" [label="_callOptionalReturnBool"]
+"2303_safeTransfer" [label="safeTransfer"]
+"2303_safeApprove" [label="safeApprove"]
+"2303_safeDecreaseAllowance" [label="safeDecreaseAllowance"]
+"2303_forceApprove" -> "2303__callOptionalReturnBool"
+"2303_safeDecreaseAllowance" -> "2303__callOptionalReturn"
+"2303_forceApprove" -> "2303__callOptionalReturn"
+"2303_safeTransferFrom" -> "2303__callOptionalReturn"
+"2303_safeTransfer" -> "2303__callOptionalReturn"
+"2303_safeIncreaseAllowance" -> "2303__callOptionalReturn"
+"2303_safeApprove" -> "2303__callOptionalReturn"
+}subgraph cluster_solidity {
+label = "[Solidity]"
+"abi.encodeWithSelector()" 
+"abi.decode()" 
+"require(bool,string)" 
+"2303_safeDecreaseAllowance" -> "abi.encodeWithSelector()"
+"2303_forceApprove" -> "abi.encodeWithSelector()"
+"2303_safeApprove" -> "abi.encodeWithSelector()"
+"2303_safeDecreaseAllowance" -> "require(bool,string)"
+"2303_safePermit" -> "require(bool,string)"
+"2303_safeTransfer" -> "abi.encodeWithSelector()"
+"2303__callOptionalReturn" -> "require(bool,string)"
+"2303_safeIncreaseAllowance" -> "abi.encodeWithSelector()"
+"2303_safeTransferFrom" -> "abi.encodeWithSelector()"
+"2303__callOptionalReturn" -> "abi.decode()"
+"2303__callOptionalReturnBool" -> "abi.decode()"
+"2303_safeApprove" -> "require(bool,string)"
+}
+}
