@@ -70,7 +70,7 @@ contract DepositQueue is Initializable, ReentrancyGuardUpgradeable, DepositQueue
     /// @dev Prevents implementation contract from being initialized.
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
-        _disableInitializers();
+        // _disableInitializers();
     }
 
     /// @dev Initializes the contract with initial vars

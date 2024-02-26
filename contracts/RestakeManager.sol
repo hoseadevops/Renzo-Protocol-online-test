@@ -39,6 +39,7 @@ contract RestakeManager is
     event CollateralTokenRemoved(IERC20 token);    
 
     /// @dev Basis points used for percentages (100 basis points equals 1%)
+    // 100 = 1%
     uint256 constant BASIS_POINTS = 100;
 
     /// @dev Event emitted when a new deposit occurs
@@ -101,7 +102,7 @@ contract RestakeManager is
     /// @dev Prevents implementation contract from being initialized.
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
-        _disableInitializers();
+        // _disableInitializers();
     }
 
     /// @dev Initializes the contract with initial vars
@@ -135,12 +136,21 @@ contract RestakeManager is
         return operatorDelegators.length;
     }
 
+    
+    /**
+     * // 代理操作者列表
+     * IOperatorDelegator[] public operatorDelegators;
+     * 
+     * // 代理操作者分配额
+     * mapping(IOperatorDelegator => uint256) public operatorDelegatorAllocations;
+     **/
     /// @dev Allows a restake manager admin to add an OperatorDelegator to the list
     function addOperatorDelegator(
         IOperatorDelegator _newOperatorDelegator,
         uint256 _allocationBasisPoints
     ) external onlyRestakeManagerAdmin {
         // Ensure it is not already in the list
+        // 验证是否已经添加
         uint256 odLength = operatorDelegators.length;
         for (uint256 i = 0; i < odLength;) {
             if( address(operatorDelegators[i]) == address(_newOperatorDelegator)) revert AlreadyAdded();
@@ -148,14 +158,17 @@ contract RestakeManager is
         }
 
         // Verify a valid allocation
+        // 验证分配的基础点数：不可以 大于 100%
         if(_allocationBasisPoints > (100 * BASIS_POINTS)) revert OverMaxBasisPoints();
 
         // Add it to the list
+        // 添加 代理操作者列表
         operatorDelegators.push(_newOperatorDelegator);
 
         emit OperatorDelegatorAdded(_newOperatorDelegator);
 
         // Set the allocation
+        // 设置基点
         operatorDelegatorAllocations[
             _newOperatorDelegator
         ] = _allocationBasisPoints;
@@ -165,7 +178,13 @@ contract RestakeManager is
             _allocationBasisPoints
         );
     }
-
+    /**
+     * // 代理操作者列表
+     * IOperatorDelegator[] public operatorDelegators;
+     * 
+     * // 代理操作者分配额
+     * mapping(IOperatorDelegator => uint256) public operatorDelegatorAllocations;
+     **/
     /// @dev Allows a restake manager admin to remove an OperatorDelegator from the list
     function removeOperatorDelegator(
         IOperatorDelegator _operatorDelegatorToRemove
@@ -177,7 +196,7 @@ contract RestakeManager is
                 address(operatorDelegators[i]) ==
                 address(_operatorDelegatorToRemove)
             ) {
-                // Clear the allocation
+                // Clear the allocation 清理分配基点
                 operatorDelegatorAllocations[_operatorDelegatorToRemove] = 0;
                 emit OperatorDelegatorAllocationUpdated(
                     _operatorDelegatorToRemove,
@@ -185,6 +204,7 @@ contract RestakeManager is
                 );
 
                 // Remove from list
+                // 清理数组
                 operatorDelegators[i] = operatorDelegators[
                     operatorDelegators.length - 1
                 ];

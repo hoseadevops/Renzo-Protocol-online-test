@@ -49,6 +49,7 @@ abstract contract RestakeManagerStorageV1 is IRestakeManager {
 
     /// @dev Mapping to store the allocations to each operatorDelegator
     /// Stored in basis points (e.g. 1% = 100)
+    /// 代理操作者分配额
     mapping(IOperatorDelegator => uint256) public operatorDelegatorAllocations;
 
     /// @dev Stores the list of collateral tokens
@@ -73,5 +74,6 @@ abstract contract RestakeManagerStorageV1 is IRestakeManager {
 }
 
 abstract contract RestakeManagerStorageV2 is RestakeManagerStorageV1 {    
+    // 抵押品Token 总锁定量 限额
     mapping(IERC20 => uint256) public collateralTokenTvlLimits;
 }

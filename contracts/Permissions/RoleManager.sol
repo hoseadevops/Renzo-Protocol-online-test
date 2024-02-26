@@ -19,7 +19,7 @@ contract RoleManager is
     /// @dev Prevents implementation contract from being initialized.
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
-        _disableInitializers();
+        // _disableInitializers();
     }
 
     /// @dev initializer to call after deployment, can only be called once
