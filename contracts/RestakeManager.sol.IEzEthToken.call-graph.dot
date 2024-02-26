@@ -1,16 +1,16 @@
 strict digraph {
 subgraph cluster_3506_IEzEthToken {
 label = "IEzEthToken"
-"3506_mint" [label="mint"]
 "3506_burn" [label="burn"]
+"3506_mint" [label="mint"]
 }subgraph cluster_1927_IERC20Upgradeable {
 label = "IERC20Upgradeable"
-"1927_totalSupply" [label="totalSupply"]
-"1927_transfer" [label="transfer"]
 "1927_allowance" [label="allowance"]
-"1927_balanceOf" [label="balanceOf"]
+"1927_transfer" [label="transfer"]
 "1927_transferFrom" [label="transferFrom"]
+"1927_totalSupply" [label="totalSupply"]
 "1927_approve" [label="approve"]
+"1927_balanceOf" [label="balanceOf"]
 }subgraph cluster_solidity {
 label = "[Solidity]"
 }

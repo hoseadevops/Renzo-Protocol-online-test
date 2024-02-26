@@ -1,14 +1,14 @@
 strict digraph {
 subgraph cluster_4534_IOperatorDelegator {
 label = "IOperatorDelegator"
-"4534_startWithdrawal" [label="startWithdrawal"]
-"4534_stakeEth" [label="stakeEth"]
+"4534_getTokenBalanceFromStrategy" [label="getTokenBalanceFromStrategy"]
 "4534_completeWithdrawal" [label="completeWithdrawal"]
-"4534_eigenPod" [label="eigenPod"]
 "4534_deposit" [label="deposit"]
 "4534_getStakedETHBalance" [label="getStakedETHBalance"]
+"4534_startWithdrawal" [label="startWithdrawal"]
 "4534_pendingUnstakedDelayedWithdrawalAmount" [label="pendingUnstakedDelayedWithdrawalAmount"]
-"4534_getTokenBalanceFromStrategy" [label="getTokenBalanceFromStrategy"]
+"4534_eigenPod" [label="eigenPod"]
+"4534_stakeEth" [label="stakeEth"]
 }subgraph cluster_solidity {
 label = "[Solidity]"
 }

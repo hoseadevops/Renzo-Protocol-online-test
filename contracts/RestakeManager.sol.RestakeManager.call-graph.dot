@@ -1,105 +1,105 @@
 strict digraph {
 subgraph cluster_1849_ReentrancyGuardUpgradeable {
 label = "ReentrancyGuardUpgradeable"
-"1849___ReentrancyGuard_init" [label="__ReentrancyGuard_init"]
-"1849___ReentrancyGuard_init_unchained" [label="__ReentrancyGuard_init_unchained"]
-"1849__nonReentrantAfter" [label="_nonReentrantAfter"]
-"1849__reentrancyGuardEntered" [label="_reentrancyGuardEntered"]
 "1849__nonReentrantBefore" [label="_nonReentrantBefore"]
-"1849___ReentrancyGuard_init" -> "1849_onlyInitializing"
+"1849___ReentrancyGuard_init_unchained" [label="__ReentrancyGuard_init_unchained"]
+"1849__reentrancyGuardEntered" [label="_reentrancyGuardEntered"]
+"1849__nonReentrantAfter" [label="_nonReentrantAfter"]
+"1849___ReentrancyGuard_init" [label="__ReentrancyGuard_init"]
 "1849___ReentrancyGuard_init" -> "1849___ReentrancyGuard_init_unchained"
+"1849___ReentrancyGuard_init" -> "1849_onlyInitializing"
 "1849___ReentrancyGuard_init_unchained" -> "1849_onlyInitializing"
 }subgraph cluster_1596_RestakeManager {
 label = "RestakeManager"
-"1596_constructor" [label="constructor"]
-"1596_slitherConstructorConstantVariables" [label="slitherConstructorConstantVariables"]
-"1596_addOperatorDelegator" [label="addOperatorDelegator"]
-"1596_setTokenTvlLimit" [label="setTokenTvlLimit"]
-"1596_setPaused" [label="setPaused"]
-"1596_stakeEthInOperatorDelegator" [label="stakeEthInOperatorDelegator"]
-"1596_calculateTVLs" [label="calculateTVLs"]
-"1596_getTotalRewardsEarned" [label="getTotalRewardsEarned"]
-"1596_chooseOperatorDelegatorForWithdraw" [label="chooseOperatorDelegatorForWithdraw"]
-"1596_setMaxDepositTVL" [label="setMaxDepositTVL"]
+"1596_setOperatorDelegatorAllocation" [label="setOperatorDelegatorAllocation"]
+"1596_getCollateralTokenIndex" [label="getCollateralTokenIndex"]
+"1596_depositETH" [label="depositETH"]
 "1596_removeOperatorDelegator" [label="removeOperatorDelegator"]
-"1596_addCollateralToken" [label="addCollateralToken"]
+"1596_slitherConstructorConstantVariables" [label="slitherConstructorConstantVariables"]
+"1596_chooseOperatorDelegatorForWithdraw" [label="chooseOperatorDelegatorForWithdraw"]
+"1596_setPaused" [label="setPaused"]
+"1596_setTokenTvlLimit" [label="setTokenTvlLimit"]
+"1596_setMaxDepositTVL" [label="setMaxDepositTVL"]
+"1596_getCollateralTokensLength" [label="getCollateralTokensLength"]
+"1596_initialize" [label="initialize"]
+"1596_getTotalRewardsEarned" [label="getTotalRewardsEarned"]
 "1596_chooseOperatorDelegatorForDeposit" [label="chooseOperatorDelegatorForDeposit"]
 "1596_getOperatorDelegatorsLength" [label="getOperatorDelegatorsLength"]
-"1596_removeCollateralToken" [label="removeCollateralToken"]
-"1596_deposit" [label="deposit"]
-"1596_initialize" [label="initialize"]
-"1596_getCollateralTokenIndex" [label="getCollateralTokenIndex"]
-"1596_getCollateralTokensLength" [label="getCollateralTokensLength"]
 "1596_depositTokenRewardsFromProtocol" [label="depositTokenRewardsFromProtocol"]
-"1596_setOperatorDelegatorAllocation" [label="setOperatorDelegatorAllocation"]
-"1596_depositETH" [label="depositETH"]
-"1596_setMaxDepositTVL" -> "1596_onlyRestakeManagerAdmin"
-"1596_deposit" -> "1596_notPaused"
-"1596_depositTokenRewardsFromProtocol" -> "1596_calculateTVLs"
-"1596_setOperatorDelegatorAllocation" -> "1596_onlyRestakeManagerAdmin"
-"1596_deposit" -> "1596_calculateTVLs"
+"1596_deposit" [label="deposit"]
+"1596_stakeEthInOperatorDelegator" [label="stakeEthInOperatorDelegator"]
+"1596_constructor" [label="constructor"]
+"1596_calculateTVLs" [label="calculateTVLs"]
+"1596_addCollateralToken" [label="addCollateralToken"]
+"1596_removeCollateralToken" [label="removeCollateralToken"]
+"1596_addOperatorDelegator" [label="addOperatorDelegator"]
 "1596_stakeEthInOperatorDelegator" -> "1596_onlyDepositQueue"
-"1596_removeCollateralToken" -> "1596_onlyRestakeManagerAdmin"
-"1596_depositETH" -> "1596_nonReentrant"
-"1596_initialize" -> "1596___ReentrancyGuard_init"
-"1596_setTokenTvlLimit" -> "1596_onlyRestakeManagerAdmin"
+"1596_depositETH" -> "1596_depositETH"
+"1596_depositETH" -> "1596_notPaused"
+"1596_setMaxDepositTVL" -> "1596_onlyRestakeManagerAdmin"
+"1596_initialize" -> "1596_initializer"
+"1596_deposit" -> "1596_nonReentrant"
+"1596_setPaused" -> "1596_onlyDepositWithdrawPauserAdmin"
 "1596_depositTokenRewardsFromProtocol" -> "1596_chooseOperatorDelegatorForDeposit"
+"1596_constructor" -> "1596__disableInitializers"
 "1596_deposit" -> "1596_chooseOperatorDelegatorForDeposit"
-"1596_addCollateralToken" -> "1596_onlyRestakeManagerAdmin"
+"1596_setOperatorDelegatorAllocation" -> "1596_onlyRestakeManagerAdmin"
+"1596_addOperatorDelegator" -> "1596_onlyRestakeManagerAdmin"
+"1596_deposit" -> "1596_calculateTVLs"
+"1596_depositTokenRewardsFromProtocol" -> "1596_calculateTVLs"
+"1596_initialize" -> "1596___ReentrancyGuard_init"
+"1596_setTokenTvlLimit" -> "1596_getCollateralTokenIndex"
+"1596_removeOperatorDelegator" -> "1596_onlyRestakeManagerAdmin"
 "1596_depositETH" -> "1596_calculateTVLs"
 "1596_deposit" -> "1596_deposit"
+"1596_addCollateralToken" -> "1596_onlyRestakeManagerAdmin"
+"1596_depositETH" -> "1596_nonReentrant"
 "1596_deposit" -> "1596_getCollateralTokenIndex"
-"1596_deposit" -> "1596_nonReentrant"
-"1596_initialize" -> "1596_initializer"
-"1596_constructor" -> "1596__disableInitializers"
-"1596_setPaused" -> "1596_onlyDepositWithdrawPauserAdmin"
-"1596_removeOperatorDelegator" -> "1596_onlyRestakeManagerAdmin"
-"1596_depositETH" -> "1596_notPaused"
 "1596_depositTokenRewardsFromProtocol" -> "1596_onlyDepositQueue"
-"1596_addOperatorDelegator" -> "1596_onlyRestakeManagerAdmin"
-"1596_depositETH" -> "1596_depositETH"
-"1596_setTokenTvlLimit" -> "1596_getCollateralTokenIndex"
+"1596_removeCollateralToken" -> "1596_onlyRestakeManagerAdmin"
+"1596_deposit" -> "1596_notPaused"
+"1596_setTokenTvlLimit" -> "1596_onlyRestakeManagerAdmin"
 }subgraph cluster_3397_IRestakeManager {
 label = "IRestakeManager"
-"3397_depositQueue" [label="depositQueue"]
 "3397_calculateTVLs" [label="calculateTVLs"]
 "3397_stakeEthInOperatorDelegator" [label="stakeEthInOperatorDelegator"]
 "3397_depositTokenRewardsFromProtocol" [label="depositTokenRewardsFromProtocol"]
+"3397_depositQueue" [label="depositQueue"]
 }subgraph cluster_1765_Initializable {
 label = "Initializable"
-"1765__getInitializedVersion" [label="_getInitializedVersion"]
 "1765__disableInitializers" [label="_disableInitializers"]
 "1765__isInitializing" [label="_isInitializing"]
+"1765__getInitializedVersion" [label="_getInitializedVersion"]
 }subgraph cluster_solidity {
 label = "[Solidity]"
 "revert InvalidTokenDecimals(uint8,uint8)" 
-"revert InvalidZeroInput()" 
-"revert AlreadyAdded()" 
 "revert OverMaxBasisPoints()" 
-"require(bool,string)" 
 "revert NotFound()" 
-"revert MaxTVLReached()" 
-"revert MaxTokenTVLReached()" 
+"require(bool,string)" 
 "balance(address)" 
-"1596_depositETH" -> "revert MaxTVLReached()"
-"1849__nonReentrantBefore" -> "require(bool,string)"
-"1596_removeOperatorDelegator" -> "revert NotFound()"
-"1596_removeCollateralToken" -> "revert NotFound()"
-"1596_deposit" -> "revert MaxTokenTVLReached()"
-"1596_addOperatorDelegator" -> "revert AlreadyAdded()"
-"1596_getCollateralTokenIndex" -> "revert NotFound()"
-"1765__disableInitializers" -> "require(bool,string)"
-"1596_stakeEthInOperatorDelegator" -> "revert NotFound()"
-"1596_addOperatorDelegator" -> "revert OverMaxBasisPoints()"
-"1596_calculateTVLs" -> "balance(address)"
-"1596_setOperatorDelegatorAllocation" -> "revert OverMaxBasisPoints()"
-"1596_chooseOperatorDelegatorForDeposit" -> "revert NotFound()"
-"1596_setOperatorDelegatorAllocation" -> "revert NotFound()"
-"1596_addCollateralToken" -> "revert InvalidTokenDecimals(uint8,uint8)"
-"1596_getTotalRewardsEarned" -> "balance(address)"
-"1596_deposit" -> "revert MaxTVLReached()"
+"revert AlreadyAdded()" 
+"revert MaxTokenTVLReached()" 
+"revert InvalidZeroInput()" 
+"revert MaxTVLReached()" 
 "1596_chooseOperatorDelegatorForWithdraw" -> "revert NotFound()"
-"1596_setOperatorDelegatorAllocation" -> "revert InvalidZeroInput()"
+"1765__disableInitializers" -> "require(bool,string)"
+"1596_getCollateralTokenIndex" -> "revert NotFound()"
+"1596_chooseOperatorDelegatorForDeposit" -> "revert NotFound()"
+"1596_depositETH" -> "revert MaxTVLReached()"
+"1596_removeCollateralToken" -> "revert NotFound()"
+"1596_removeOperatorDelegator" -> "revert NotFound()"
+"1596_stakeEthInOperatorDelegator" -> "revert NotFound()"
+"1596_addCollateralToken" -> "revert InvalidTokenDecimals(uint8,uint8)"
 "1596_addCollateralToken" -> "revert AlreadyAdded()"
+"1596_setOperatorDelegatorAllocation" -> "revert OverMaxBasisPoints()"
+"1596_setOperatorDelegatorAllocation" -> "revert InvalidZeroInput()"
+"1596_calculateTVLs" -> "balance(address)"
+"1596_addOperatorDelegator" -> "revert OverMaxBasisPoints()"
+"1849__nonReentrantBefore" -> "require(bool,string)"
+"1596_setOperatorDelegatorAllocation" -> "revert NotFound()"
+"1596_deposit" -> "revert MaxTokenTVLReached()"
+"1596_deposit" -> "revert MaxTVLReached()"
+"1596_getTotalRewardsEarned" -> "balance(address)"
+"1596_addOperatorDelegator" -> "revert AlreadyAdded()"
 }
 }

@@ -1,26 +1,26 @@
 strict digraph {
 subgraph cluster_5795_IPausable {
 label = "IPausable"
-"5795_unpause" [label="unpause"]
-"5795_paused" [label="paused"]
 "5795_pauserRegistry" [label="pauserRegistry"]
-"5795_pauseAll" [label="pauseAll"]
-"5795_pause" [label="pause"]
 "5795_setPauserRegistry" [label="setPauserRegistry"]
+"5795_paused" [label="paused"]
+"5795_unpause" [label="unpause"]
+"5795_pause" [label="pause"]
+"5795_pauseAll" [label="pauseAll"]
 }subgraph cluster_5158_IEigenPodManager {
 label = "IEigenPodManager"
-"5158_createPod" [label="createPod"]
-"5158_stake" [label="stake"]
-"5158_ownerToPod" [label="ownerToPod"]
-"5158_getPod" [label="getPod"]
 "5158_updateBeaconChainOracle" [label="updateBeaconChainOracle"]
-"5158_getBeaconChainStateRoot" [label="getBeaconChainStateRoot"]
-"5158_strategyManager" [label="strategyManager"]
-"5158_slasher" [label="slasher"]
-"5158_hasPod" [label="hasPod"]
-"5158_recordOvercommittedBeaconChainETH" [label="recordOvercommittedBeaconChainETH"]
-"5158_beaconChainOracle" [label="beaconChainOracle"]
+"5158_stake" [label="stake"]
+"5158_getPod" [label="getPod"]
 "5158_restakeBeaconChainETH" [label="restakeBeaconChainETH"]
+"5158_createPod" [label="createPod"]
+"5158_ownerToPod" [label="ownerToPod"]
+"5158_recordOvercommittedBeaconChainETH" [label="recordOvercommittedBeaconChainETH"]
+"5158_strategyManager" [label="strategyManager"]
+"5158_hasPod" [label="hasPod"]
+"5158_getBeaconChainStateRoot" [label="getBeaconChainStateRoot"]
+"5158_slasher" [label="slasher"]
+"5158_beaconChainOracle" [label="beaconChainOracle"]
 "5158_withdrawRestakedBeaconChainETH" [label="withdrawRestakedBeaconChainETH"]
 }subgraph cluster_solidity {
 label = "[Solidity]"

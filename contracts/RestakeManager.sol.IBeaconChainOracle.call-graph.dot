@@ -1,17 +1,17 @@
 strict digraph {
 subgraph cluster_4938_IBeaconChainOracle {
 label = "IBeaconChainOracle"
-"4938_threshold" [label="threshold"]
-"4938_hasVoted" [label="hasVoted"]
+"4938_latestConfirmedOracleBlockNumber" [label="latestConfirmedOracleBlockNumber"]
+"4938_setThreshold" [label="setThreshold"]
+"4938_beaconStateRootAtBlockNumber" [label="beaconStateRootAtBlockNumber"]
 "4938_isOracleSigner" [label="isOracleSigner"]
-"4938_totalOracleSigners" [label="totalOracleSigners"]
+"4938_threshold" [label="threshold"]
+"4938_removeOracleSigners" [label="removeOracleSigners"]
+"4938_hasVoted" [label="hasVoted"]
+"4938_addOracleSigners" [label="addOracleSigners"]
 "4938_stateRootVotes" [label="stateRootVotes"]
 "4938_voteForBeaconChainStateRoot" [label="voteForBeaconChainStateRoot"]
-"4938_beaconStateRootAtBlockNumber" [label="beaconStateRootAtBlockNumber"]
-"4938_setThreshold" [label="setThreshold"]
-"4938_addOracleSigners" [label="addOracleSigners"]
-"4938_latestConfirmedOracleBlockNumber" [label="latestConfirmedOracleBlockNumber"]
-"4938_removeOracleSigners" [label="removeOracleSigners"]
+"4938_totalOracleSigners" [label="totalOracleSigners"]
 }subgraph cluster_solidity {
 label = "[Solidity]"
 }

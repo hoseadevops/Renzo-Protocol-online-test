@@ -1,9 +1,9 @@
 strict digraph {
 subgraph cluster_3872_IERC20PermitUpgradeable {
 label = "IERC20PermitUpgradeable"
+"3872_DOMAIN_SEPARATOR" [label="DOMAIN_SEPARATOR"]
 "3872_nonces" [label="nonces"]
 "3872_permit" [label="permit"]
-"3872_DOMAIN_SEPARATOR" [label="DOMAIN_SEPARATOR"]
 }subgraph cluster_solidity {
 label = "[Solidity]"
 }

@@ -1,16 +1,16 @@
 strict digraph {
 subgraph cluster_2381_IERC20 {
 label = "IERC20"
-"2381_approve" [label="approve"]
 "2381_transferFrom" [label="transferFrom"]
-"2381_balanceOf" [label="balanceOf"]
 "2381_transfer" [label="transfer"]
-"2381_allowance" [label="allowance"]
+"2381_balanceOf" [label="balanceOf"]
 "2381_totalSupply" [label="totalSupply"]
+"2381_allowance" [label="allowance"]
+"2381_approve" [label="approve"]
 }subgraph cluster_2406_IERC20Metadata {
 label = "IERC20Metadata"
-"2406_symbol" [label="symbol"]
 "2406_decimals" [label="decimals"]
+"2406_symbol" [label="symbol"]
 "2406_name" [label="name"]
 }subgraph cluster_solidity {
 label = "[Solidity]"

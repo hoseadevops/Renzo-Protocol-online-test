@@ -1,11 +1,11 @@
 strict digraph {
 subgraph cluster_4605_IRenzoOracle {
 label = "IRenzoOracle"
-"4605_lookupTokenAmountFromValue" [label="lookupTokenAmountFromValue"]
-"4605_lookupTokenValues" [label="lookupTokenValues"]
 "4605_lookupTokenValue" [label="lookupTokenValue"]
+"4605_lookupTokenValues" [label="lookupTokenValues"]
 "4605_calculateRedeemAmount" [label="calculateRedeemAmount"]
 "4605_calculateMintAmount" [label="calculateMintAmount"]
+"4605_lookupTokenAmountFromValue" [label="lookupTokenAmountFromValue"]
 }subgraph cluster_solidity {
 label = "[Solidity]"
 }
