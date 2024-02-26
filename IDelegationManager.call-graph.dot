@@ -1,0 +1,19 @@
+strict digraph {
+subgraph cluster_6131_IDelegationManager {
+label = "IDelegationManager"
+"6131_decreaseDelegatedShares" [label="decreaseDelegatedShares"]
+"6131_increaseDelegatedShares" [label="increaseDelegatedShares"]
+"6131_operatorShares" [label="operatorShares"]
+"6131_isNotDelegated" [label="isNotDelegated"]
+"6131_delegationTerms" [label="delegationTerms"]
+"6131_isOperator" [label="isOperator"]
+"6131_delegatedTo" [label="delegatedTo"]
+"6131_isDelegated" [label="isDelegated"]
+"6131_undelegate" [label="undelegate"]
+"6131_registerAsOperator" [label="registerAsOperator"]
+"6131_delegateToBySignature" [label="delegateToBySignature"]
+"6131_delegateTo" [label="delegateTo"]
+}subgraph cluster_solidity {
+label = "[Solidity]"
+}
+}

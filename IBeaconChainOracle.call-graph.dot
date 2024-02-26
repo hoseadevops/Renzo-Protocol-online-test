@@ -1,0 +1,18 @@
+strict digraph {
+subgraph cluster_5912_IBeaconChainOracle {
+label = "IBeaconChainOracle"
+"5912_latestConfirmedOracleBlockNumber" [label="latestConfirmedOracleBlockNumber"]
+"5912_hasVoted" [label="hasVoted"]
+"5912_stateRootVotes" [label="stateRootVotes"]
+"5912_removeOracleSigners" [label="removeOracleSigners"]
+"5912_addOracleSigners" [label="addOracleSigners"]
+"5912_setThreshold" [label="setThreshold"]
+"5912_threshold" [label="threshold"]
+"5912_beaconStateRootAtBlockNumber" [label="beaconStateRootAtBlockNumber"]
+"5912_isOracleSigner" [label="isOracleSigner"]
+"5912_totalOracleSigners" [label="totalOracleSigners"]
+"5912_voteForBeaconChainStateRoot" [label="voteForBeaconChainStateRoot"]
+}subgraph cluster_solidity {
+label = "[Solidity]"
+}
+}

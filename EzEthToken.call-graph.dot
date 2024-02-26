@@ -1,0 +1,112 @@
+strict digraph {
+subgraph cluster_1319_ERC20Upgradeable {
+label = "ERC20Upgradeable"
+"1319_transfer" [label="transfer"]
+"1319___ERC20_init" [label="__ERC20_init"]
+"1319__transfer" [label="_transfer"]
+"1319_symbol" [label="symbol"]
+"1319___ERC20_init_unchained" [label="__ERC20_init_unchained"]
+"1319__afterTokenTransfer" [label="_afterTokenTransfer"]
+"1319_decreaseAllowance" [label="decreaseAllowance"]
+"1319_increaseAllowance" [label="increaseAllowance"]
+"1319__beforeTokenTransfer" [label="_beforeTokenTransfer"]
+"1319_totalSupply" [label="totalSupply"]
+"1319_transferFrom" [label="transferFrom"]
+"1319__mint" [label="_mint"]
+"1319__burn" [label="_burn"]
+"1319_approve" [label="approve"]
+"1319__spendAllowance" [label="_spendAllowance"]
+"1319_balanceOf" [label="balanceOf"]
+"1319_name" [label="name"]
+"1319_allowance" [label="allowance"]
+"1319_decimals" [label="decimals"]
+"1319__approve" [label="_approve"]
+"1319_decreaseAllowance" -> "1319_allowance"
+"1319_transferFrom" -> "1319__transfer"
+"1319_approve" -> "1319__approve"
+"1319_transfer" -> "1319__msgSender"
+"1319__burn" -> "1319__afterTokenTransfer"
+"1319__burn" -> "1319__beforeTokenTransfer"
+"1319___ERC20_init" -> "1319_onlyInitializing"
+"1319__spendAllowance" -> "1319_allowance"
+"1319_transferFrom" -> "1319__msgSender"
+"1319__transfer" -> "1319__afterTokenTransfer"
+"1319_decreaseAllowance" -> "1319__approve"
+"1319__transfer" -> "1319__beforeTokenTransfer"
+"1319_increaseAllowance" -> "1319__approve"
+"1319_transferFrom" -> "1319__spendAllowance"
+"1319___ERC20_init" -> "1319___ERC20_init_unchained"
+"1319__mint" -> "1319__afterTokenTransfer"
+"1319__spendAllowance" -> "1319__approve"
+"1319_approve" -> "1319__msgSender"
+"1319___ERC20_init_unchained" -> "1319_onlyInitializing"
+"1319_increaseAllowance" -> "1319__msgSender"
+"1319_increaseAllowance" -> "1319_allowance"
+"1319__mint" -> "1319__beforeTokenTransfer"
+"1319_decreaseAllowance" -> "1319__msgSender"
+"1319_transfer" -> "1319__transfer"
+}subgraph cluster_1422_IERC20MetadataUpgradeable {
+label = "IERC20MetadataUpgradeable"
+"1422_decimals" [label="decimals"]
+"1422_name" [label="name"]
+"1422_symbol" [label="symbol"]
+}subgraph cluster_623_Initializable {
+label = "Initializable"
+"623__getInitializedVersion" [label="_getInitializedVersion"]
+"623__disableInitializers" [label="_disableInitializers"]
+"623__isInitializing" [label="_isInitializing"]
+}subgraph cluster_10937_EzEthToken {
+label = "EzEthToken"
+"10937_setPaused" [label="setPaused"]
+"10937_mint" [label="mint"]
+"10937_name" [label="name"]
+"10937_symbol" [label="symbol"]
+"10937_initialize" [label="initialize"]
+"10937_constructor" [label="constructor"]
+"10937_burn" [label="burn"]
+"10937__beforeTokenTransfer" [label="_beforeTokenTransfer"]
+"10937_initialize" -> "10937_initializer"
+"10937_setPaused" -> "10937_onlyTokenAdmin"
+"10937_mint" -> "10937__mint"
+"10937_burn" -> "10937__burn"
+"10937__beforeTokenTransfer" -> "10937__beforeTokenTransfer"
+"10937_constructor" -> "10937__disableInitializers"
+"10937_mint" -> "10937_onlyMinterBurner"
+"10937_burn" -> "10937_onlyMinterBurner"
+"10937_initialize" -> "10937___ERC20_init"
+}subgraph cluster_1397_IERC20Upgradeable {
+label = "IERC20Upgradeable"
+"1397_approve" [label="approve"]
+"1397_allowance" [label="allowance"]
+"1397_transfer" [label="transfer"]
+"1397_totalSupply" [label="totalSupply"]
+"1397_transferFrom" [label="transferFrom"]
+"1397_balanceOf" [label="balanceOf"]
+}subgraph cluster_10969_IEzEthToken {
+label = "IEzEthToken"
+"10969_burn" [label="burn"]
+"10969_mint" [label="mint"]
+}subgraph cluster_2206_ContextUpgradeable {
+label = "ContextUpgradeable"
+"2206___Context_init" [label="__Context_init"]
+"2206__msgData" [label="_msgData"]
+"2206___Context_init_unchained" [label="__Context_init_unchained"]
+"2206__msgSender" [label="_msgSender"]
+"2206___Context_init" -> "2206_onlyInitializing"
+"2206___Context_init_unchained" -> "2206_onlyInitializing"
+}subgraph cluster_solidity {
+label = "[Solidity]"
+"revert ContractPaused()" 
+"revert InvalidZeroInput()" 
+"require(bool,string)" 
+"10937_initialize" -> "revert InvalidZeroInput()"
+"1319__approve" -> "require(bool,string)"
+"1319__spendAllowance" -> "require(bool,string)"
+"1319_decreaseAllowance" -> "require(bool,string)"
+"1319__mint" -> "require(bool,string)"
+"1319__burn" -> "require(bool,string)"
+"10937__beforeTokenTransfer" -> "revert ContractPaused()"
+"623__disableInitializers" -> "require(bool,string)"
+"1319__transfer" -> "require(bool,string)"
+}
+}

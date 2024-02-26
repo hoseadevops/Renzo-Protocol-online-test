@@ -1,0 +1,56 @@
+strict digraph {
+subgraph cluster_5786_DepositQueue {
+label = "DepositQueue"
+"5786_stakeEthFromQueue" [label="stakeEthFromQueue"]
+"5786_depositETHFromProtocol" [label="depositETHFromProtocol"]
+"5786_initialize" [label="initialize"]
+"5786_sweepERC20" [label="sweepERC20"]
+"5786_setRestakeManager" [label="setRestakeManager"]
+"5786_receive" [label="receive"]
+"5786_setFeeConfig" [label="setFeeConfig"]
+"5786_constructor" [label="constructor"]
+"5786_setRestakeManager" -> "5786_onlyRestakeManagerAdmin"
+"5786_receive" -> "5786_nonReentrant"
+"5786_stakeEthFromQueue" -> "5786_onlyNativeEthRestakeAdmin"
+"5786_initialize" -> "5786_initializer"
+"5786_sweepERC20" -> "5786_onlyERC20RewardsAdmin"
+"5786_constructor" -> "5786__disableInitializers"
+"5786_setFeeConfig" -> "5786_onlyRestakeManagerAdmin"
+"5786_depositETHFromProtocol" -> "5786_onlyRestakeManager"
+"5786_initialize" -> "5786___ReentrancyGuard_init"
+}subgraph cluster_5826_IDepositQueue {
+label = "IDepositQueue"
+"5826_depositETHFromProtocol" [label="depositETHFromProtocol"]
+"5826_totalEarned" [label="totalEarned"]
+}subgraph cluster_707_ReentrancyGuardUpgradeable {
+label = "ReentrancyGuardUpgradeable"
+"707___ReentrancyGuard_init" [label="__ReentrancyGuard_init"]
+"707__nonReentrantAfter" [label="_nonReentrantAfter"]
+"707__reentrancyGuardEntered" [label="_reentrancyGuardEntered"]
+"707__nonReentrantBefore" [label="_nonReentrantBefore"]
+"707___ReentrancyGuard_init_unchained" [label="__ReentrancyGuard_init_unchained"]
+"707___ReentrancyGuard_init" -> "707_onlyInitializing"
+"707___ReentrancyGuard_init_unchained" -> "707_onlyInitializing"
+"707___ReentrancyGuard_init" -> "707___ReentrancyGuard_init_unchained"
+}subgraph cluster_623_Initializable {
+label = "Initializable"
+"623__getInitializedVersion" [label="_getInitializedVersion"]
+"623__disableInitializers" [label="_disableInitializers"]
+"623__isInitializing" [label="_isInitializing"]
+}subgraph cluster_solidity {
+label = "[Solidity]"
+"revert TransferFailed()" 
+"revert InvalidZeroInput()" 
+"revert OverMaxBasisPoints()" 
+"require(bool,string)" 
+"balance(address)" 
+"5786_initialize" -> "revert InvalidZeroInput()"
+"5786_stakeEthFromQueue" -> "balance(address)"
+"5786_receive" -> "revert TransferFailed()"
+"5786_setFeeConfig" -> "revert InvalidZeroInput()"
+"5786_setFeeConfig" -> "revert OverMaxBasisPoints()"
+"5786_setRestakeManager" -> "revert InvalidZeroInput()"
+"707__nonReentrantBefore" -> "require(bool,string)"
+"623__disableInitializers" -> "require(bool,string)"
+}
+}

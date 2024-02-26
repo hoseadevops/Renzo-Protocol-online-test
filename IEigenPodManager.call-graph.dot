@@ -1,0 +1,28 @@
+strict digraph {
+subgraph cluster_6457_IEigenPodManager {
+label = "IEigenPodManager"
+"6457_hasPod" [label="hasPod"]
+"6457_updateBeaconChainOracle" [label="updateBeaconChainOracle"]
+"6457_getBeaconChainStateRoot" [label="getBeaconChainStateRoot"]
+"6457_createPod" [label="createPod"]
+"6457_restakeBeaconChainETH" [label="restakeBeaconChainETH"]
+"6457_recordOvercommittedBeaconChainETH" [label="recordOvercommittedBeaconChainETH"]
+"6457_withdrawRestakedBeaconChainETH" [label="withdrawRestakedBeaconChainETH"]
+"6457_stake" [label="stake"]
+"6457_slasher" [label="slasher"]
+"6457_strategyManager" [label="strategyManager"]
+"6457_ownerToPod" [label="ownerToPod"]
+"6457_beaconChainOracle" [label="beaconChainOracle"]
+"6457_getPod" [label="getPod"]
+}subgraph cluster_6506_IPausable {
+label = "IPausable"
+"6506_unpause" [label="unpause"]
+"6506_pauserRegistry" [label="pauserRegistry"]
+"6506_pauseAll" [label="pauseAll"]
+"6506_setPauserRegistry" [label="setPauserRegistry"]
+"6506_pause" [label="pause"]
+"6506_paused" [label="paused"]
+}subgraph cluster_solidity {
+label = "[Solidity]"
+}
+}

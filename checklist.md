@@ -461,9 +461,9 @@ Parameter EzEthToken.initialize(IRoleManager)._roleManager (contracts/token/EzEt
 Parameter EzEthToken.setPaused(bool)._paused (contracts/token/EzEthToken.sol#56) is not in mixedCase
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions
 INFO:Detectors:
-Variable RestakeManager.deposit(IERC20,uint256,uint256)._collateralToken (contracts/RestakeManager.sol#495) is too similar to RestakeManagerStorageV1.collateralTokens (contracts/RestakeManagerStorage.sol#56)
 Variable RestakeManager.getCollateralTokenIndex(IERC20)._collateralToken (contracts/RestakeManager.sol#452) is too similar to RestakeManagerStorageV1.collateralTokens (contracts/RestakeManagerStorage.sol#56)
 Variable RestakeManager.deposit(IERC20,uint256)._collateralToken (contracts/RestakeManager.sol#474) is too similar to RestakeManagerStorageV1.collateralTokens (contracts/RestakeManagerStorage.sol#56)
+Variable RestakeManager.deposit(IERC20,uint256,uint256)._collateralToken (contracts/RestakeManager.sol#495) is too similar to RestakeManagerStorageV1.collateralTokens (contracts/RestakeManagerStorage.sol#56)
 Variable RestakeManager.setOperatorDelegatorAllocation(IOperatorDelegator,uint256)._operatorDelegator (contracts/RestakeManager.sol#204) is too similar to RestakeManagerStorageV1.operatorDelegators (contracts/RestakeManagerStorage.sol#48)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-too-similar
 INFO:Detectors:

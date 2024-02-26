@@ -1,0 +1,105 @@
+strict digraph {
+subgraph cluster_8168_IRestakeManager {
+label = "IRestakeManager"
+"8168_calculateTVLs" [label="calculateTVLs"]
+"8168_stakeEthInOperatorDelegator" [label="stakeEthInOperatorDelegator"]
+"8168_depositTokenRewardsFromProtocol" [label="depositTokenRewardsFromProtocol"]
+"8168_depositQueue" [label="depositQueue"]
+}subgraph cluster_707_ReentrancyGuardUpgradeable {
+label = "ReentrancyGuardUpgradeable"
+"707___ReentrancyGuard_init" [label="__ReentrancyGuard_init"]
+"707__nonReentrantAfter" [label="_nonReentrantAfter"]
+"707__reentrancyGuardEntered" [label="_reentrancyGuardEntered"]
+"707__nonReentrantBefore" [label="_nonReentrantBefore"]
+"707___ReentrancyGuard_init_unchained" [label="__ReentrancyGuard_init_unchained"]
+"707___ReentrancyGuard_init" -> "707_onlyInitializing"
+"707___ReentrancyGuard_init_unchained" -> "707_onlyInitializing"
+"707___ReentrancyGuard_init" -> "707___ReentrancyGuard_init_unchained"
+}subgraph cluster_10652_RestakeManager {
+label = "RestakeManager"
+"10652_getOperatorDelegatorsLength" [label="getOperatorDelegatorsLength"]
+"10652_slitherConstructorConstantVariables" [label="slitherConstructorConstantVariables"]
+"10652_setOperatorDelegatorAllocation" [label="setOperatorDelegatorAllocation"]
+"10652_depositTokenRewardsFromProtocol" [label="depositTokenRewardsFromProtocol"]
+"10652_chooseOperatorDelegatorForDeposit" [label="chooseOperatorDelegatorForDeposit"]
+"10652_stakeEthInOperatorDelegator" [label="stakeEthInOperatorDelegator"]
+"10652_removeCollateralToken" [label="removeCollateralToken"]
+"10652_setPaused" [label="setPaused"]
+"10652_getCollateralTokenIndex" [label="getCollateralTokenIndex"]
+"10652_removeOperatorDelegator" [label="removeOperatorDelegator"]
+"10652_setMaxDepositTVL" [label="setMaxDepositTVL"]
+"10652_constructor" [label="constructor"]
+"10652_chooseOperatorDelegatorForWithdraw" [label="chooseOperatorDelegatorForWithdraw"]
+"10652_addOperatorDelegator" [label="addOperatorDelegator"]
+"10652_initialize" [label="initialize"]
+"10652_depositETH" [label="depositETH"]
+"10652_getTotalRewardsEarned" [label="getTotalRewardsEarned"]
+"10652_setTokenTvlLimit" [label="setTokenTvlLimit"]
+"10652_getCollateralTokensLength" [label="getCollateralTokensLength"]
+"10652_addCollateralToken" [label="addCollateralToken"]
+"10652_deposit" [label="deposit"]
+"10652_calculateTVLs" [label="calculateTVLs"]
+"10652_deposit" -> "10652_calculateTVLs"
+"10652_stakeEthInOperatorDelegator" -> "10652_onlyDepositQueue"
+"10652_initialize" -> "10652___ReentrancyGuard_init"
+"10652_initialize" -> "10652_initializer"
+"10652_setOperatorDelegatorAllocation" -> "10652_onlyRestakeManagerAdmin"
+"10652_depositTokenRewardsFromProtocol" -> "10652_chooseOperatorDelegatorForDeposit"
+"10652_setMaxDepositTVL" -> "10652_onlyRestakeManagerAdmin"
+"10652_setTokenTvlLimit" -> "10652_getCollateralTokenIndex"
+"10652_depositETH" -> "10652_nonReentrant"
+"10652_depositTokenRewardsFromProtocol" -> "10652_onlyDepositQueue"
+"10652_depositETH" -> "10652_calculateTVLs"
+"10652_removeCollateralToken" -> "10652_onlyRestakeManagerAdmin"
+"10652_deposit" -> "10652_chooseOperatorDelegatorForDeposit"
+"10652_deposit" -> "10652_deposit"
+"10652_removeOperatorDelegator" -> "10652_onlyRestakeManagerAdmin"
+"10652_deposit" -> "10652_getCollateralTokenIndex"
+"10652_addOperatorDelegator" -> "10652_onlyRestakeManagerAdmin"
+"10652_deposit" -> "10652_notPaused"
+"10652_depositTokenRewardsFromProtocol" -> "10652_calculateTVLs"
+"10652_addCollateralToken" -> "10652_onlyRestakeManagerAdmin"
+"10652_setPaused" -> "10652_onlyDepositWithdrawPauserAdmin"
+"10652_depositETH" -> "10652_depositETH"
+"10652_depositETH" -> "10652_notPaused"
+"10652_setTokenTvlLimit" -> "10652_onlyRestakeManagerAdmin"
+"10652_constructor" -> "10652__disableInitializers"
+"10652_deposit" -> "10652_nonReentrant"
+}subgraph cluster_623_Initializable {
+label = "Initializable"
+"623__getInitializedVersion" [label="_getInitializedVersion"]
+"623__disableInitializers" [label="_disableInitializers"]
+"623__isInitializing" [label="_isInitializing"]
+}subgraph cluster_solidity {
+label = "[Solidity]"
+"revert NotFound()" 
+"revert InvalidZeroInput()" 
+"revert MaxTVLReached()" 
+"revert OverMaxBasisPoints()" 
+"require(bool,string)" 
+"revert InvalidTokenDecimals(uint8,uint8)" 
+"revert MaxTokenTVLReached()" 
+"balance(address)" 
+"revert AlreadyAdded()" 
+"10652_removeOperatorDelegator" -> "revert NotFound()"
+"10652_stakeEthInOperatorDelegator" -> "revert NotFound()"
+"10652_addOperatorDelegator" -> "revert OverMaxBasisPoints()"
+"10652_getCollateralTokenIndex" -> "revert NotFound()"
+"623__disableInitializers" -> "require(bool,string)"
+"10652_chooseOperatorDelegatorForWithdraw" -> "revert NotFound()"
+"10652_setOperatorDelegatorAllocation" -> "revert OverMaxBasisPoints()"
+"707__nonReentrantBefore" -> "require(bool,string)"
+"10652_deposit" -> "revert MaxTokenTVLReached()"
+"10652_deposit" -> "revert MaxTVLReached()"
+"10652_addOperatorDelegator" -> "revert AlreadyAdded()"
+"10652_depositETH" -> "revert MaxTVLReached()"
+"10652_setOperatorDelegatorAllocation" -> "revert InvalidZeroInput()"
+"10652_chooseOperatorDelegatorForDeposit" -> "revert NotFound()"
+"10652_setOperatorDelegatorAllocation" -> "revert NotFound()"
+"10652_calculateTVLs" -> "balance(address)"
+"10652_addCollateralToken" -> "revert InvalidTokenDecimals(uint8,uint8)"
+"10652_addCollateralToken" -> "revert AlreadyAdded()"
+"10652_getTotalRewardsEarned" -> "balance(address)"
+"10652_removeCollateralToken" -> "revert NotFound()"
+}
+}

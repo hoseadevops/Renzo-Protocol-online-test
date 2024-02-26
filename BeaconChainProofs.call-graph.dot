@@ -1,0 +1,16 @@
+strict digraph {
+subgraph cluster_7662_BeaconChainProofs {
+label = "BeaconChainProofs"
+"7662_verifyWithdrawalProofs" [label="verifyWithdrawalProofs"]
+"7662_verifyValidatorFields" [label="verifyValidatorFields"]
+"7662_verifyValidatorBalance" [label="verifyValidatorBalance"]
+"7662_getBalanceFromBalanceRoot" [label="getBalanceFromBalanceRoot"]
+"7662_slitherConstructorConstantVariables" [label="slitherConstructorConstantVariables"]
+}subgraph cluster_solidity {
+label = "[Solidity]"
+"require(bool,string)" 
+"7662_verifyValidatorFields" -> "require(bool,string)"
+"7662_verifyWithdrawalProofs" -> "require(bool,string)"
+"7662_verifyValidatorBalance" -> "require(bool,string)"
+}
+}

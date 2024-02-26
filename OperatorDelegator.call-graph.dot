@@ -1,0 +1,83 @@
+strict digraph {
+subgraph cluster_5239_OperatorDelegator {
+label = "OperatorDelegator"
+"5239_setDelegateAddress" [label="setDelegateAddress"]
+"5239_stakeEth" [label="stakeEth"]
+"5239_getTokenBalanceFromStrategy" [label="getTokenBalanceFromStrategy"]
+"5239_deposit" [label="deposit"]
+"5239_verifyWithdrawalCredentials" [label="verifyWithdrawalCredentials"]
+"5239_startDelayedWithdrawUnstakedETH" [label="startDelayedWithdrawUnstakedETH"]
+"5239_getStakedETHBalance" [label="getStakedETHBalance"]
+"5239_setTokenStrategy" [label="setTokenStrategy"]
+"5239_slitherConstructorConstantVariables" [label="slitherConstructorConstantVariables"]
+"5239_initialize" [label="initialize"]
+"5239_startWithdrawal" [label="startWithdrawal"]
+"5239_completeWithdrawal" [label="completeWithdrawal"]
+"5239_getStrategyIndex" [label="getStrategyIndex"]
+"5239_receive" [label="receive"]
+"5239_constructor" [label="constructor"]
+"5239_startWithdrawal" -> "5239_onlyRestakeManager"
+"5239_setDelegateAddress" -> "5239_nonReentrant"
+"5239_setDelegateAddress" -> "5239_onlyOperatorDelegatorAdmin"
+"5239_initialize" -> "5239___ReentrancyGuard_init"
+"5239_setTokenStrategy" -> "5239_onlyOperatorDelegatorAdmin"
+"5239_constructor" -> "5239__disableInitializers"
+"5239_startWithdrawal" -> "5239_nonReentrant"
+"5239_completeWithdrawal" -> "5239_onlyRestakeManager"
+"5239_verifyWithdrawalCredentials" -> "5239_onlyNativeEthRestakeAdmin"
+"5239_deposit" -> "5239_nonReentrant"
+"5239_setTokenStrategy" -> "5239_nonReentrant"
+"5239_startWithdrawal" -> "5239_getStrategyIndex"
+"5239_stakeEth" -> "5239_onlyRestakeManager"
+"5239_completeWithdrawal" -> "5239_nonReentrant"
+"5239_receive" -> "5239_nonReentrant"
+"5239_deposit" -> "5239_onlyRestakeManager"
+"5239_startDelayedWithdrawUnstakedETH" -> "5239_onlyNativeEthRestakeAdmin"
+"5239_initialize" -> "5239_initializer"
+}subgraph cluster_707_ReentrancyGuardUpgradeable {
+label = "ReentrancyGuardUpgradeable"
+"707___ReentrancyGuard_init" [label="__ReentrancyGuard_init"]
+"707__nonReentrantAfter" [label="_nonReentrantAfter"]
+"707__reentrancyGuardEntered" [label="_reentrancyGuardEntered"]
+"707__nonReentrantBefore" [label="_nonReentrantBefore"]
+"707___ReentrancyGuard_init_unchained" [label="__ReentrancyGuard_init_unchained"]
+"707___ReentrancyGuard_init" -> "707_onlyInitializing"
+"707___ReentrancyGuard_init_unchained" -> "707_onlyInitializing"
+"707___ReentrancyGuard_init" -> "707___ReentrancyGuard_init_unchained"
+}subgraph cluster_4380_IOperatorDelegator {
+label = "IOperatorDelegator"
+"4380_getStakedETHBalance" [label="getStakedETHBalance"]
+"4380_startWithdrawal" [label="startWithdrawal"]
+"4380_completeWithdrawal" [label="completeWithdrawal"]
+"4380_stakeEth" [label="stakeEth"]
+"4380_pendingUnstakedDelayedWithdrawalAmount" [label="pendingUnstakedDelayedWithdrawalAmount"]
+"4380_eigenPod" [label="eigenPod"]
+"4380_deposit" [label="deposit"]
+"4380_getTokenBalanceFromStrategy" [label="getTokenBalanceFromStrategy"]
+}subgraph cluster_623_Initializable {
+label = "Initializable"
+"623__getInitializedVersion" [label="_getInitializedVersion"]
+"623__disableInitializers" [label="_disableInitializers"]
+"623__isInitializing" [label="_isInitializing"]
+}subgraph cluster_solidity {
+label = "[Solidity]"
+"revert TransferFailed()" 
+"revert NotFound()" 
+"revert DelegateAddressAlreadySet()" 
+"revert InvalidZeroInput()" 
+"require(bool,string)" 
+"balance(address)" 
+"5239_deposit" -> "revert InvalidZeroInput()"
+"5239_getStakedETHBalance" -> "balance(address)"
+"5239_initialize" -> "revert InvalidZeroInput()"
+"5239_setDelegateAddress" -> "revert InvalidZeroInput()"
+"5239_setTokenStrategy" -> "revert InvalidZeroInput()"
+"5239_startWithdrawal" -> "revert InvalidZeroInput()"
+"623__disableInitializers" -> "require(bool,string)"
+"707__nonReentrantBefore" -> "require(bool,string)"
+"5239_receive" -> "revert TransferFailed()"
+"5239_getStrategyIndex" -> "revert NotFound()"
+"5239_setDelegateAddress" -> "revert DelegateAddressAlreadySet()"
+"5239_startDelayedWithdrawUnstakedETH" -> "balance(address)"
+}
+}

@@ -1,0 +1,28 @@
+strict digraph {
+subgraph cluster_7074_IStrategyManager {
+label = "IStrategyManager"
+"7074_withdrawalDelayBlocks" [label="withdrawalDelayBlocks"]
+"7074_completeQueuedWithdrawal" [label="completeQueuedWithdrawal"]
+"7074_queueWithdrawal" [label="queueWithdrawal"]
+"7074_stakerStrategyList" [label="stakerStrategyList"]
+"7074_addStrategiesToDepositWhitelist" [label="addStrategiesToDepositWhitelist"]
+"7074_stakerStrategyShares" [label="stakerStrategyShares"]
+"7074_stakerStrategyListLength" [label="stakerStrategyListLength"]
+"7074_calculateWithdrawalRoot" [label="calculateWithdrawalRoot"]
+"7074_depositIntoStrategy" [label="depositIntoStrategy"]
+"7074_slashQueuedWithdrawal" [label="slashQueuedWithdrawal"]
+"7074_recordOvercommittedBeaconChainETH" [label="recordOvercommittedBeaconChainETH"]
+"7074_delegation" [label="delegation"]
+"7074_getDeposits" [label="getDeposits"]
+"7074_beaconChainETHStrategy" [label="beaconChainETHStrategy"]
+"7074_depositBeaconChainETH" [label="depositBeaconChainETH"]
+"7074_numWithdrawalsQueued" [label="numWithdrawalsQueued"]
+"7074_slashShares" [label="slashShares"]
+"7074_completeQueuedWithdrawals" [label="completeQueuedWithdrawals"]
+"7074_slasher" [label="slasher"]
+"7074_removeStrategiesFromDepositWhitelist" [label="removeStrategiesFromDepositWhitelist"]
+"7074_depositIntoStrategyWithSignature" [label="depositIntoStrategyWithSignature"]
+}subgraph cluster_solidity {
+label = "[Solidity]"
+}
+}

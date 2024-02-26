@@ -1,0 +1,889 @@
+strict digraph {
+subgraph cluster_2435_StringsUpgradeable {
+label = "StringsUpgradeable"
+"2435_equal" [label="equal"]
+"2435_toHexString" [label="toHexString"]
+"2435_toString" [label="toString"]
+"2435_toHexString" -> "2435_toHexString"
+"2435_toString" -> "2435_toString"
+}subgraph cluster_6019_IDelayedWithdrawalRouter {
+label = "IDelayedWithdrawalRouter"
+"6019_userWithdrawalsLength" [label="userWithdrawalsLength"]
+"6019_withdrawalDelayBlocks" [label="withdrawalDelayBlocks"]
+"6019_claimDelayedWithdrawals" [label="claimDelayedWithdrawals"]
+"6019_userWithdrawals" [label="userWithdrawals"]
+"6019_getClaimableUserDelayedWithdrawals" [label="getClaimableUserDelayedWithdrawals"]
+"6019_createDelayedWithdrawal" [label="createDelayedWithdrawal"]
+"6019_userDelayedWithdrawalByIndex" [label="userDelayedWithdrawalByIndex"]
+"6019_canClaimDelayedWithdrawal" [label="canClaimDelayedWithdrawal"]
+"6019_setWithdrawalDelayBlocks" [label="setWithdrawalDelayBlocks"]
+"6019_getUserDelayedWithdrawals" [label="getUserDelayedWithdrawals"]
+}subgraph cluster_3462_SignedMathUpgradeable {
+label = "SignedMathUpgradeable"
+"3462_max" [label="max"]
+"3462_abs" [label="abs"]
+"3462_min" [label="min"]
+"3462_average" [label="average"]
+}subgraph cluster_3977_SafeERC20 {
+label = "SafeERC20"
+"3977__callOptionalReturn" [label="_callOptionalReturn"]
+"3977_safeApprove" [label="safeApprove"]
+"3977_safeIncreaseAllowance" [label="safeIncreaseAllowance"]
+"3977_safeTransferFrom" [label="safeTransferFrom"]
+"3977_safeDecreaseAllowance" [label="safeDecreaseAllowance"]
+"3977_safeTransfer" [label="safeTransfer"]
+"3977__callOptionalReturnBool" [label="_callOptionalReturnBool"]
+"3977_safePermit" [label="safePermit"]
+"3977_forceApprove" [label="forceApprove"]
+"3977_safeTransfer" -> "3977__callOptionalReturn"
+"3977_safeApprove" -> "3977__callOptionalReturn"
+"3977_forceApprove" -> "3977__callOptionalReturn"
+"3977_forceApprove" -> "3977__callOptionalReturnBool"
+"3977_safeTransferFrom" -> "3977__callOptionalReturn"
+"3977_safeIncreaseAllowance" -> "3977__callOptionalReturn"
+"3977_safeDecreaseAllowance" -> "3977__callOptionalReturn"
+}subgraph cluster_1422_IERC20MetadataUpgradeable {
+label = "IERC20MetadataUpgradeable"
+"1422_decimals" [label="decimals"]
+"1422_name" [label="name"]
+"1422_symbol" [label="symbol"]
+}subgraph cluster_6800_IStrategy {
+label = "IStrategy"
+"6800_explanation" [label="explanation"]
+"6800_totalShares" [label="totalShares"]
+"6800_withdraw" [label="withdraw"]
+"6800_userUnderlyingView" [label="userUnderlyingView"]
+"6800_sharesToUnderlying" [label="sharesToUnderlying"]
+"6800_underlyingToken" [label="underlyingToken"]
+"6800_underlyingToShares" [label="underlyingToShares"]
+"6800_userUnderlying" [label="userUnderlying"]
+"6800_sharesToUnderlyingView" [label="sharesToUnderlyingView"]
+"6800_underlyingToSharesView" [label="underlyingToSharesView"]
+"6800_deposit" [label="deposit"]
+}subgraph cluster_3601_IERC20Permit {
+label = "IERC20Permit"
+"3601_nonces" [label="nonces"]
+"3601_permit" [label="permit"]
+"3601_DOMAIN_SEPARATOR" [label="DOMAIN_SEPARATOR"]
+}subgraph cluster_5912_IBeaconChainOracle {
+label = "IBeaconChainOracle"
+"5912_latestConfirmedOracleBlockNumber" [label="latestConfirmedOracleBlockNumber"]
+"5912_hasVoted" [label="hasVoted"]
+"5912_stateRootVotes" [label="stateRootVotes"]
+"5912_removeOracleSigners" [label="removeOracleSigners"]
+"5912_addOracleSigners" [label="addOracleSigners"]
+"5912_totalOracleSigners" [label="totalOracleSigners"]
+"5912_threshold" [label="threshold"]
+"5912_beaconStateRootAtBlockNumber" [label="beaconStateRootAtBlockNumber"]
+"5912_isOracleSigner" [label="isOracleSigner"]
+"5912_setThreshold" [label="setThreshold"]
+"5912_voteForBeaconChainStateRoot" [label="voteForBeaconChainStateRoot"]
+}subgraph cluster_5786_DepositQueue {
+label = "DepositQueue"
+"5786_stakeEthFromQueue" [label="stakeEthFromQueue"]
+"5786_depositETHFromProtocol" [label="depositETHFromProtocol"]
+"5786_initialize" [label="initialize"]
+"5786_sweepERC20" [label="sweepERC20"]
+"5786_setRestakeManager" [label="setRestakeManager"]
+"5786_receive" [label="receive"]
+"5786_setFeeConfig" [label="setFeeConfig"]
+"5786_constructor" [label="constructor"]
+"5786_setRestakeManager" -> "5786_onlyRestakeManagerAdmin"
+"5786_receive" -> "5786_nonReentrant"
+"5786_stakeEthFromQueue" -> "5786_onlyNativeEthRestakeAdmin"
+"5786_initialize" -> "5786_initializer"
+"5786_sweepERC20" -> "5786_onlyERC20RewardsAdmin"
+"5786_constructor" -> "5786__disableInitializers"
+"5786_setFeeConfig" -> "5786_onlyRestakeManagerAdmin"
+"5786_depositETHFromProtocol" -> "5786_onlyRestakeManager"
+"5786_initialize" -> "5786___ReentrancyGuard_init"
+}subgraph cluster_4380_IOperatorDelegator {
+label = "IOperatorDelegator"
+"4380_completeWithdrawal" [label="completeWithdrawal"]
+"4380_stakeEth" [label="stakeEth"]
+"4380_getStakedETHBalance" [label="getStakedETHBalance"]
+"4380_startWithdrawal" [label="startWithdrawal"]
+"4380_pendingUnstakedDelayedWithdrawalAmount" [label="pendingUnstakedDelayedWithdrawalAmount"]
+"4380_eigenPod" [label="eigenPod"]
+"4380_deposit" [label="deposit"]
+"4380_getTokenBalanceFromStrategy" [label="getTokenBalanceFromStrategy"]
+}subgraph cluster_10652_RestakeManager {
+label = "RestakeManager"
+"10652_getOperatorDelegatorsLength" [label="getOperatorDelegatorsLength"]
+"10652_setOperatorDelegatorAllocation" [label="setOperatorDelegatorAllocation"]
+"10652_depositTokenRewardsFromProtocol" [label="depositTokenRewardsFromProtocol"]
+"10652_chooseOperatorDelegatorForDeposit" [label="chooseOperatorDelegatorForDeposit"]
+"10652_stakeEthInOperatorDelegator" [label="stakeEthInOperatorDelegator"]
+"10652_removeCollateralToken" [label="removeCollateralToken"]
+"10652_setPaused" [label="setPaused"]
+"10652_getCollateralTokenIndex" [label="getCollateralTokenIndex"]
+"10652_removeOperatorDelegator" [label="removeOperatorDelegator"]
+"10652_constructor" [label="constructor"]
+"10652_setMaxDepositTVL" [label="setMaxDepositTVL"]
+"10652_chooseOperatorDelegatorForWithdraw" [label="chooseOperatorDelegatorForWithdraw"]
+"10652_addOperatorDelegator" [label="addOperatorDelegator"]
+"10652_initialize" [label="initialize"]
+"10652_depositETH" [label="depositETH"]
+"10652_getTotalRewardsEarned" [label="getTotalRewardsEarned"]
+"10652_setTokenTvlLimit" [label="setTokenTvlLimit"]
+"10652_getCollateralTokensLength" [label="getCollateralTokensLength"]
+"10652_addCollateralToken" [label="addCollateralToken"]
+"10652_deposit" [label="deposit"]
+"10652_calculateTVLs" [label="calculateTVLs"]
+"10652_deposit" -> "10652_calculateTVLs"
+"10652_stakeEthInOperatorDelegator" -> "10652_onlyDepositQueue"
+"10652_initialize" -> "10652___ReentrancyGuard_init"
+"10652_initialize" -> "10652_initializer"
+"10652_setOperatorDelegatorAllocation" -> "10652_onlyRestakeManagerAdmin"
+"10652_depositTokenRewardsFromProtocol" -> "10652_chooseOperatorDelegatorForDeposit"
+"10652_setMaxDepositTVL" -> "10652_onlyRestakeManagerAdmin"
+"10652_setTokenTvlLimit" -> "10652_getCollateralTokenIndex"
+"10652_depositETH" -> "10652_nonReentrant"
+"10652_depositTokenRewardsFromProtocol" -> "10652_onlyDepositQueue"
+"10652_depositETH" -> "10652_calculateTVLs"
+"10652_removeCollateralToken" -> "10652_onlyRestakeManagerAdmin"
+"10652_deposit" -> "10652_chooseOperatorDelegatorForDeposit"
+"10652_deposit" -> "10652_deposit"
+"10652_removeOperatorDelegator" -> "10652_onlyRestakeManagerAdmin"
+"10652_deposit" -> "10652_getCollateralTokenIndex"
+"10652_addOperatorDelegator" -> "10652_onlyRestakeManagerAdmin"
+"10652_depositTokenRewardsFromProtocol" -> "10652_calculateTVLs"
+"10652_deposit" -> "10652_notPaused"
+"10652_addCollateralToken" -> "10652_onlyRestakeManagerAdmin"
+"10652_setPaused" -> "10652_onlyDepositWithdrawPauserAdmin"
+"10652_depositETH" -> "10652_depositETH"
+"10652_setTokenTvlLimit" -> "10652_onlyRestakeManagerAdmin"
+"10652_depositETH" -> "10652_notPaused"
+"10652_constructor" -> "10652__disableInitializers"
+"10652_deposit" -> "10652_nonReentrant"
+}subgraph cluster_3357_MathUpgradeable {
+label = "MathUpgradeable"
+"3357_sqrt" [label="sqrt"]
+"3357_log2" [label="log2"]
+"3357_log256" [label="log256"]
+"3357_mulDiv" [label="mulDiv"]
+"3357_max" [label="max"]
+"3357_log10" [label="log10"]
+"3357_ceilDiv" [label="ceilDiv"]
+"3357_average" [label="average"]
+"3357_min" [label="min"]
+"3357_sqrt" -> "3357_log2"
+"3357_mulDiv" -> "3357_mulDiv"
+"3357_sqrt" -> "3357_sqrt"
+"3357_log256" -> "3357_log256"
+"3357_log2" -> "3357_log2"
+"3357_sqrt" -> "3357_min"
+"3357_log10" -> "3357_log10"
+}subgraph cluster_2206_ContextUpgradeable {
+label = "ContextUpgradeable"
+"2206___Context_init" [label="__Context_init"]
+"2206__msgData" [label="_msgData"]
+"2206___Context_init_unchained" [label="__Context_init_unchained"]
+"2206__msgSender" [label="_msgSender"]
+"2206___Context_init" -> "2206_onlyInitializing"
+"2206___Context_init_unchained" -> "2206_onlyInitializing"
+}subgraph cluster_6172_IDelegationTerms {
+label = "IDelegationTerms"
+"6172_onDelegationReceived" [label="onDelegationReceived"]
+"6172_payForService" [label="payForService"]
+"6172_onDelegationWithdrawn" [label="onDelegationWithdrawn"]
+}subgraph cluster_8733_RenzoOracle {
+label = "RenzoOracle"
+"8733_setOracleAddress" [label="setOracleAddress"]
+"8733_lookupTokenValue" [label="lookupTokenValue"]
+"8733_calculateMintAmount" [label="calculateMintAmount"]
+"8733_initialize" [label="initialize"]
+"8733_constructor" [label="constructor"]
+"8733_calculateRedeemAmount" [label="calculateRedeemAmount"]
+"8733_lookupTokenValues" [label="lookupTokenValues"]
+"8733_lookupTokenAmountFromValue" [label="lookupTokenAmountFromValue"]
+"8733_lookupTokenValues" -> "8733_lookupTokenValue"
+"8733_setOracleAddress" -> "8733_nonReentrant"
+"8733_setOracleAddress" -> "8733_onlyOracleAdmin"
+"8733_constructor" -> "8733__disableInitializers"
+"8733_initialize" -> "8733___ReentrancyGuard_init"
+"8733_initialize" -> "8733_initializer"
+}subgraph cluster_7074_IStrategyManager {
+label = "IStrategyManager"
+"7074_withdrawalDelayBlocks" [label="withdrawalDelayBlocks"]
+"7074_completeQueuedWithdrawal" [label="completeQueuedWithdrawal"]
+"7074_queueWithdrawal" [label="queueWithdrawal"]
+"7074_stakerStrategyList" [label="stakerStrategyList"]
+"7074_addStrategiesToDepositWhitelist" [label="addStrategiesToDepositWhitelist"]
+"7074_stakerStrategyShares" [label="stakerStrategyShares"]
+"7074_stakerStrategyListLength" [label="stakerStrategyListLength"]
+"7074_calculateWithdrawalRoot" [label="calculateWithdrawalRoot"]
+"7074_depositIntoStrategy" [label="depositIntoStrategy"]
+"7074_slashQueuedWithdrawal" [label="slashQueuedWithdrawal"]
+"7074_recordOvercommittedBeaconChainETH" [label="recordOvercommittedBeaconChainETH"]
+"7074_getDeposits" [label="getDeposits"]
+"7074_delegation" [label="delegation"]
+"7074_beaconChainETHStrategy" [label="beaconChainETHStrategy"]
+"7074_numWithdrawalsQueued" [label="numWithdrawalsQueued"]
+"7074_depositBeaconChainETH" [label="depositBeaconChainETH"]
+"7074_slashShares" [label="slashShares"]
+"7074_slasher" [label="slasher"]
+"7074_completeQueuedWithdrawals" [label="completeQueuedWithdrawals"]
+"7074_removeStrategiesFromDepositWhitelist" [label="removeStrategiesFromDepositWhitelist"]
+"7074_depositIntoStrategyWithSignature" [label="depositIntoStrategyWithSignature"]
+}subgraph cluster_1319_ERC20Upgradeable {
+label = "ERC20Upgradeable"
+"1319_transfer" [label="transfer"]
+"1319___ERC20_init" [label="__ERC20_init"]
+"1319__transfer" [label="_transfer"]
+"1319_symbol" [label="symbol"]
+"1319___ERC20_init_unchained" [label="__ERC20_init_unchained"]
+"1319__afterTokenTransfer" [label="_afterTokenTransfer"]
+"1319_decreaseAllowance" [label="decreaseAllowance"]
+"1319_increaseAllowance" [label="increaseAllowance"]
+"1319__beforeTokenTransfer" [label="_beforeTokenTransfer"]
+"1319_totalSupply" [label="totalSupply"]
+"1319_transferFrom" [label="transferFrom"]
+"1319__mint" [label="_mint"]
+"1319__burn" [label="_burn"]
+"1319_approve" [label="approve"]
+"1319__spendAllowance" [label="_spendAllowance"]
+"1319_balanceOf" [label="balanceOf"]
+"1319_name" [label="name"]
+"1319_allowance" [label="allowance"]
+"1319_decimals" [label="decimals"]
+"1319__approve" [label="_approve"]
+"1319_decreaseAllowance" -> "1319_allowance"
+"1319_transferFrom" -> "1319__transfer"
+"1319_approve" -> "1319__approve"
+"1319_transfer" -> "1319__msgSender"
+"1319__burn" -> "1319__afterTokenTransfer"
+"1319__burn" -> "1319__beforeTokenTransfer"
+"1319___ERC20_init" -> "1319_onlyInitializing"
+"1319__spendAllowance" -> "1319_allowance"
+"1319_transferFrom" -> "1319__msgSender"
+"1319__transfer" -> "1319__afterTokenTransfer"
+"1319_decreaseAllowance" -> "1319__approve"
+"1319__transfer" -> "1319__beforeTokenTransfer"
+"1319_increaseAllowance" -> "1319__approve"
+"1319_transferFrom" -> "1319__spendAllowance"
+"1319___ERC20_init" -> "1319___ERC20_init_unchained"
+"1319__mint" -> "1319__afterTokenTransfer"
+"1319__spendAllowance" -> "1319__approve"
+"1319_approve" -> "1319__msgSender"
+"1319___ERC20_init_unchained" -> "1319_onlyInitializing"
+"1319_increaseAllowance" -> "1319__msgSender"
+"1319_increaseAllowance" -> "1319_allowance"
+"1319__mint" -> "1319__beforeTokenTransfer"
+"1319_decreaseAllowance" -> "1319__msgSender"
+"1319_transfer" -> "1319__transfer"
+}subgraph cluster_1834_SafeERC20Upgradeable {
+label = "SafeERC20Upgradeable"
+"1834_safeTransfer" [label="safeTransfer"]
+"1834_safeDecreaseAllowance" [label="safeDecreaseAllowance"]
+"1834_forceApprove" [label="forceApprove"]
+"1834__callOptionalReturnBool" [label="_callOptionalReturnBool"]
+"1834_safeTransferFrom" [label="safeTransferFrom"]
+"1834__callOptionalReturn" [label="_callOptionalReturn"]
+"1834_safeIncreaseAllowance" [label="safeIncreaseAllowance"]
+"1834_safePermit" [label="safePermit"]
+"1834_safeApprove" [label="safeApprove"]
+"1834_safeApprove" -> "1834__callOptionalReturn"
+"1834_forceApprove" -> "1834__callOptionalReturn"
+"1834_safeDecreaseAllowance" -> "1834__callOptionalReturn"
+"1834_safeTransferFrom" -> "1834__callOptionalReturn"
+"1834_safeTransfer" -> "1834__callOptionalReturn"
+"1834_forceApprove" -> "1834__callOptionalReturnBool"
+"1834_safeIncreaseAllowance" -> "1834__callOptionalReturn"
+}subgraph cluster_9003_RoleManager {
+label = "RoleManager"
+"9003_isRoleManagerAdmin" [label="isRoleManagerAdmin"]
+"9003_isNativeEthRestakeAdmin" [label="isNativeEthRestakeAdmin"]
+"9003_isERC20RewardsAdmin" [label="isERC20RewardsAdmin"]
+"9003_isOracleAdmin" [label="isOracleAdmin"]
+"9003_constructor" [label="constructor"]
+"9003_isRestakeManagerAdmin" [label="isRestakeManagerAdmin"]
+"9003_isDepositWithdrawPauser" [label="isDepositWithdrawPauser"]
+"9003_initialize" [label="initialize"]
+"9003_isTokenAdmin" [label="isTokenAdmin"]
+"9003_isEzETHMinterBurner" [label="isEzETHMinterBurner"]
+"9003_isOperatorDelegatorAdmin" [label="isOperatorDelegatorAdmin"]
+"9003_isEzETHMinterBurner" -> "9003_hasRole"
+"9003_isDepositWithdrawPauser" -> "9003_hasRole"
+"9003_initialize" -> "9003__grantRole"
+"9003_isRoleManagerAdmin" -> "9003_hasRole"
+"9003_isOracleAdmin" -> "9003_hasRole"
+"9003_isRestakeManagerAdmin" -> "9003_hasRole"
+"9003_isNativeEthRestakeAdmin" -> "9003_hasRole"
+"9003_initialize" -> "9003___AccessControl_init"
+"9003_isERC20RewardsAdmin" -> "9003_hasRole"
+"9003_isTokenAdmin" -> "9003_hasRole"
+"9003_initialize" -> "9003_initializer"
+"9003_constructor" -> "9003__disableInitializers"
+"9003_isOperatorDelegatorAdmin" -> "9003_hasRole"
+}subgraph cluster_45_AggregatorV3Interface {
+label = "AggregatorV3Interface"
+"45_latestRoundData" [label="latestRoundData"]
+"45_version" [label="version"]
+"45_description" [label="description"]
+"45_decimals" [label="decimals"]
+"45_getRoundData" [label="getRoundData"]
+}subgraph cluster_2479_ERC165Upgradeable {
+label = "ERC165Upgradeable"
+"2479___ERC165_init" [label="__ERC165_init"]
+"2479___ERC165_init_unchained" [label="__ERC165_init_unchained"]
+"2479_supportsInterface" [label="supportsInterface"]
+"2479___ERC165_init" -> "2479_onlyInitializing"
+"2479___ERC165_init_unchained" -> "2479_onlyInitializing"
+}subgraph cluster_1458_IERC20PermitUpgradeable {
+label = "IERC20PermitUpgradeable"
+"1458_permit" [label="permit"]
+"1458_nonces" [label="nonces"]
+"1458_DOMAIN_SEPARATOR" [label="DOMAIN_SEPARATOR"]
+}subgraph cluster_6706_ISlasher {
+label = "ISlasher"
+"6706_getMiddlewareTimesIndexServeUntilBlock" [label="getMiddlewareTimesIndexServeUntilBlock"]
+"6706_operatorToMiddlewareTimes" [label="operatorToMiddlewareTimes"]
+"6706_contractCanSlashOperatorUntilBlock" [label="contractCanSlashOperatorUntilBlock"]
+"6706_operatorWhitelistedContractsLinkedListEntry" [label="operatorWhitelistedContractsLinkedListEntry"]
+"6706_canSlash" [label="canSlash"]
+"6706_recordFirstStakeUpdate" [label="recordFirstStakeUpdate"]
+"6706_getCorrectValueForInsertAfter" [label="getCorrectValueForInsertAfter"]
+"6706_middlewareTimesLength" [label="middlewareTimesLength"]
+"6706_resetFrozenStatus" [label="resetFrozenStatus"]
+"6706_recordLastStakeUpdateAndRevokeSlashingAbility" [label="recordLastStakeUpdateAndRevokeSlashingAbility"]
+"6706_canWithdraw" [label="canWithdraw"]
+"6706_latestUpdateBlock" [label="latestUpdateBlock"]
+"6706_freezeOperator" [label="freezeOperator"]
+"6706_getMiddlewareTimesIndexBlock" [label="getMiddlewareTimesIndexBlock"]
+"6706_isFrozen" [label="isFrozen"]
+"6706_recordStakeUpdate" [label="recordStakeUpdate"]
+"6706_operatorWhitelistedContractsLinkedListSize" [label="operatorWhitelistedContractsLinkedListSize"]
+"6706_optIntoSlashing" [label="optIntoSlashing"]
+}subgraph cluster_8247_Lock {
+label = "Lock"
+"8247_withdraw" [label="withdraw"]
+"8247_constructor" [label="constructor"]
+}subgraph cluster_6457_IEigenPodManager {
+label = "IEigenPodManager"
+"6457_hasPod" [label="hasPod"]
+"6457_getBeaconChainStateRoot" [label="getBeaconChainStateRoot"]
+"6457_updateBeaconChainOracle" [label="updateBeaconChainOracle"]
+"6457_createPod" [label="createPod"]
+"6457_stake" [label="stake"]
+"6457_restakeBeaconChainETH" [label="restakeBeaconChainETH"]
+"6457_recordOvercommittedBeaconChainETH" [label="recordOvercommittedBeaconChainETH"]
+"6457_withdrawRestakedBeaconChainETH" [label="withdrawRestakedBeaconChainETH"]
+"6457_slasher" [label="slasher"]
+"6457_strategyManager" [label="strategyManager"]
+"6457_ownerToPod" [label="ownerToPod"]
+"6457_beaconChainOracle" [label="beaconChainOracle"]
+"6457_getPod" [label="getPod"]
+}subgraph cluster_10937_EzEthToken {
+label = "EzEthToken"
+"10937_setPaused" [label="setPaused"]
+"10937_mint" [label="mint"]
+"10937_name" [label="name"]
+"10937_symbol" [label="symbol"]
+"10937_initialize" [label="initialize"]
+"10937_constructor" [label="constructor"]
+"10937_burn" [label="burn"]
+"10937__beforeTokenTransfer" [label="_beforeTokenTransfer"]
+"10937_initialize" -> "10937_initializer"
+"10937_setPaused" -> "10937_onlyTokenAdmin"
+"10937_mint" -> "10937__mint"
+"10937_burn" -> "10937__burn"
+"10937__beforeTokenTransfer" -> "10937__beforeTokenTransfer"
+"10937_constructor" -> "10937__disableInitializers"
+"10937_mint" -> "10937_onlyMinterBurner"
+"10937_burn" -> "10937_onlyMinterBurner"
+"10937_initialize" -> "10937___ERC20_init"
+}subgraph cluster_2491_IERC165Upgradeable {
+label = "IERC165Upgradeable"
+"2491_supportsInterface" [label="supportsInterface"]
+}subgraph cluster_5826_IDepositQueue {
+label = "IDepositQueue"
+"5826_depositETHFromProtocol" [label="depositETHFromProtocol"]
+"5826_totalEarned" [label="totalEarned"]
+}subgraph cluster_707_ReentrancyGuardUpgradeable {
+label = "ReentrancyGuardUpgradeable"
+"707___ReentrancyGuard_init" [label="__ReentrancyGuard_init"]
+"707__nonReentrantAfter" [label="_nonReentrantAfter"]
+"707__reentrancyGuardEntered" [label="_reentrancyGuardEntered"]
+"707__nonReentrantBefore" [label="_nonReentrantBefore"]
+"707___ReentrancyGuard_init_unchained" [label="__ReentrancyGuard_init_unchained"]
+"707___ReentrancyGuard_init" -> "707_onlyInitializing"
+"707___ReentrancyGuard_init_unchained" -> "707_onlyInitializing"
+"707___ReentrancyGuard_init" -> "707___ReentrancyGuard_init_unchained"
+}subgraph cluster_7747_Endian {
+label = "Endian"
+"7747_fromLittleEndianUint64" [label="fromLittleEndianUint64"]
+}subgraph cluster_454_IAccessControlUpgradeable {
+label = "IAccessControlUpgradeable"
+"454_getRoleAdmin" [label="getRoleAdmin"]
+"454_grantRole" [label="grantRole"]
+"454_renounceRole" [label="renounceRole"]
+"454_revokeRole" [label="revokeRole"]
+"454_hasRole" [label="hasRole"]
+}subgraph cluster_6344_IEigenPod {
+label = "IEigenPod"
+"6344_verifyWithdrawalCredentialsAndBalance" [label="verifyWithdrawalCredentialsAndBalance"]
+"6344_mostRecentWithdrawalBlockNumber" [label="mostRecentWithdrawalBlockNumber"]
+"6344_provenPartialWithdrawal" [label="provenPartialWithdrawal"]
+"6344_withdrawBeforeRestaking" [label="withdrawBeforeRestaking"]
+"6344_REQUIRED_BALANCE_WEI" [label="REQUIRED_BALANCE_WEI"]
+"6344_podOwner" [label="podOwner"]
+"6344_withdrawRestakedBeaconChainETH" [label="withdrawRestakedBeaconChainETH"]
+"6344_verifyAndProcessWithdrawal" [label="verifyAndProcessWithdrawal"]
+"6344_delayedWithdrawalRouter" [label="delayedWithdrawalRouter"]
+"6344_verifyOvercommittedStake" [label="verifyOvercommittedStake"]
+"6344_hasRestaked" [label="hasRestaked"]
+"6344_REQUIRED_BALANCE_GWEI" [label="REQUIRED_BALANCE_GWEI"]
+"6344_initialize" [label="initialize"]
+"6344_eigenPodManager" [label="eigenPodManager"]
+"6344_stake" [label="stake"]
+"6344_validatorStatus" [label="validatorStatus"]
+"6344_restakedExecutionLayerGwei" [label="restakedExecutionLayerGwei"]
+}subgraph cluster_4307_Address {
+label = "Address"
+"4307_functionCall" [label="functionCall"]
+"4307_verifyCallResult" [label="verifyCallResult"]
+"4307_functionCallWithValue" [label="functionCallWithValue"]
+"4307_isContract" [label="isContract"]
+"4307_functionStaticCall" [label="functionStaticCall"]
+"4307_functionDelegateCall" [label="functionDelegateCall"]
+"4307__revert" [label="_revert"]
+"4307_verifyCallResultFromTarget" [label="verifyCallResultFromTarget"]
+"4307_sendValue" [label="sendValue"]
+"4307_functionCall" -> "4307_functionCallWithValue"
+"4307_verifyCallResultFromTarget" -> "4307__revert"
+"4307_functionDelegateCall" -> "4307_verifyCallResultFromTarget"
+"4307_functionStaticCall" -> "4307_verifyCallResultFromTarget"
+"4307_functionDelegateCall" -> "4307_functionDelegateCall"
+"4307_functionCallWithValue" -> "4307_verifyCallResultFromTarget"
+"4307_verifyCallResult" -> "4307__revert"
+"4307_functionCallWithValue" -> "4307_functionCallWithValue"
+"4307_functionStaticCall" -> "4307_functionStaticCall"
+"4307_verifyCallResultFromTarget" -> "4307_isContract"
+}subgraph cluster_3540_IERC20 {
+label = "IERC20"
+"3540_allowance" [label="allowance"]
+"3540_transferFrom" [label="transferFrom"]
+"3540_totalSupply" [label="totalSupply"]
+"3540_approve" [label="approve"]
+"3540_transfer" [label="transfer"]
+"3540_balanceOf" [label="balanceOf"]
+}subgraph cluster_10969_IEzEthToken {
+label = "IEzEthToken"
+"10969_burn" [label="burn"]
+"10969_mint" [label="mint"]
+}subgraph cluster_8033_Merkle {
+label = "Merkle"
+"8033_verifyInclusionKeccak" [label="verifyInclusionKeccak"]
+"8033_merkleizeSha256" [label="merkleizeSha256"]
+"8033_verifyInclusionSha256" [label="verifyInclusionSha256"]
+"8033_processInclusionProofSha256" [label="processInclusionProofSha256"]
+"8033_processInclusionProofKeccak" [label="processInclusionProofKeccak"]
+"8033_verifyInclusionSha256" -> "8033_processInclusionProofSha256"
+"8033_verifyInclusionKeccak" -> "8033_processInclusionProofKeccak"
+}subgraph cluster_8168_IRestakeManager {
+label = "IRestakeManager"
+"8168_calculateTVLs" [label="calculateTVLs"]
+"8168_stakeEthInOperatorDelegator" [label="stakeEthInOperatorDelegator"]
+"8168_depositTokenRewardsFromProtocol" [label="depositTokenRewardsFromProtocol"]
+"8168_depositQueue" [label="depositQueue"]
+}subgraph cluster_6506_IPausable {
+label = "IPausable"
+"6506_unpause" [label="unpause"]
+"6506_pauserRegistry" [label="pauserRegistry"]
+"6506_pauseAll" [label="pauseAll"]
+"6506_setPauserRegistry" [label="setPauserRegistry"]
+"6506_pause" [label="pause"]
+"6506_paused" [label="paused"]
+}subgraph cluster_3565_IERC20Metadata {
+label = "IERC20Metadata"
+"3565_symbol" [label="symbol"]
+"3565_decimals" [label="decimals"]
+"3565_name" [label="name"]
+}subgraph cluster_7662_BeaconChainProofs {
+label = "BeaconChainProofs"
+"7662_verifyValidatorBalance" [label="verifyValidatorBalance"]
+"7662_getBalanceFromBalanceRoot" [label="getBalanceFromBalanceRoot"]
+"7662_verifyWithdrawalProofs" [label="verifyWithdrawalProofs"]
+"7662_verifyValidatorFields" [label="verifyValidatorFields"]
+}subgraph cluster_623_Initializable {
+label = "Initializable"
+"623__getInitializedVersion" [label="_getInitializedVersion"]
+"623__disableInitializers" [label="_disableInitializers"]
+"623__isInitializing" [label="_isInitializing"]
+}subgraph cluster_8305_IRenzoOracle {
+label = "IRenzoOracle"
+"8305_calculateMintAmount" [label="calculateMintAmount"]
+"8305_lookupTokenValue" [label="lookupTokenValue"]
+"8305_lookupTokenAmountFromValue" [label="lookupTokenAmountFromValue"]
+"8305_lookupTokenValues" [label="lookupTokenValues"]
+"8305_calculateRedeemAmount" [label="calculateRedeemAmount"]
+}subgraph cluster_6131_IDelegationManager {
+label = "IDelegationManager"
+"6131_decreaseDelegatedShares" [label="decreaseDelegatedShares"]
+"6131_increaseDelegatedShares" [label="increaseDelegatedShares"]
+"6131_operatorShares" [label="operatorShares"]
+"6131_isNotDelegated" [label="isNotDelegated"]
+"6131_delegationTerms" [label="delegationTerms"]
+"6131_isOperator" [label="isOperator"]
+"6131_delegatedTo" [label="delegatedTo"]
+"6131_isDelegated" [label="isDelegated"]
+"6131_undelegate" [label="undelegate"]
+"6131_registerAsOperator" [label="registerAsOperator"]
+"6131_delegateToBySignature" [label="delegateToBySignature"]
+"6131_delegateTo" [label="delegateTo"]
+}subgraph cluster_2164_AddressUpgradeable {
+label = "AddressUpgradeable"
+"2164_functionDelegateCall" [label="functionDelegateCall"]
+"2164_verifyCallResult" [label="verifyCallResult"]
+"2164_isContract" [label="isContract"]
+"2164_functionCallWithValue" [label="functionCallWithValue"]
+"2164__revert" [label="_revert"]
+"2164_sendValue" [label="sendValue"]
+"2164_functionStaticCall" [label="functionStaticCall"]
+"2164_functionCall" [label="functionCall"]
+"2164_verifyCallResultFromTarget" [label="verifyCallResultFromTarget"]
+"2164_verifyCallResult" -> "2164__revert"
+"2164_verifyCallResultFromTarget" -> "2164_isContract"
+"2164_verifyCallResultFromTarget" -> "2164__revert"
+"2164_functionCall" -> "2164_functionCallWithValue"
+"2164_functionCallWithValue" -> "2164_functionCallWithValue"
+"2164_functionCallWithValue" -> "2164_verifyCallResultFromTarget"
+"2164_functionDelegateCall" -> "2164_verifyCallResultFromTarget"
+"2164_functionStaticCall" -> "2164_functionStaticCall"
+"2164_functionStaticCall" -> "2164_verifyCallResultFromTarget"
+"2164_functionDelegateCall" -> "2164_functionDelegateCall"
+}subgraph cluster_1397_IERC20Upgradeable {
+label = "IERC20Upgradeable"
+"1397_approve" [label="approve"]
+"1397_allowance" [label="allowance"]
+"1397_transferFrom" [label="transferFrom"]
+"1397_totalSupply" [label="totalSupply"]
+"1397_transfer" [label="transfer"]
+"1397_balanceOf" [label="balanceOf"]
+}subgraph cluster_5239_OperatorDelegator {
+label = "OperatorDelegator"
+"5239_setDelegateAddress" [label="setDelegateAddress"]
+"5239_stakeEth" [label="stakeEth"]
+"5239_getTokenBalanceFromStrategy" [label="getTokenBalanceFromStrategy"]
+"5239_deposit" [label="deposit"]
+"5239_verifyWithdrawalCredentials" [label="verifyWithdrawalCredentials"]
+"5239_startDelayedWithdrawUnstakedETH" [label="startDelayedWithdrawUnstakedETH"]
+"5239_getStakedETHBalance" [label="getStakedETHBalance"]
+"5239_setTokenStrategy" [label="setTokenStrategy"]
+"5239_initialize" [label="initialize"]
+"5239_completeWithdrawal" [label="completeWithdrawal"]
+"5239_startWithdrawal" [label="startWithdrawal"]
+"5239_getStrategyIndex" [label="getStrategyIndex"]
+"5239_receive" [label="receive"]
+"5239_constructor" [label="constructor"]
+"5239_startWithdrawal" -> "5239_onlyRestakeManager"
+"5239_setDelegateAddress" -> "5239_nonReentrant"
+"5239_startWithdrawal" -> "5239_nonReentrant"
+"5239_initialize" -> "5239___ReentrancyGuard_init"
+"5239_constructor" -> "5239__disableInitializers"
+"5239_completeWithdrawal" -> "5239_onlyRestakeManager"
+"5239_setTokenStrategy" -> "5239_onlyOperatorDelegatorAdmin"
+"5239_setDelegateAddress" -> "5239_onlyOperatorDelegatorAdmin"
+"5239_verifyWithdrawalCredentials" -> "5239_onlyNativeEthRestakeAdmin"
+"5239_receive" -> "5239_nonReentrant"
+"5239_setTokenStrategy" -> "5239_nonReentrant"
+"5239_startWithdrawal" -> "5239_getStrategyIndex"
+"5239_stakeEth" -> "5239_onlyRestakeManager"
+"5239_completeWithdrawal" -> "5239_nonReentrant"
+"5239_deposit" -> "5239_nonReentrant"
+"5239_deposit" -> "5239_onlyRestakeManager"
+"5239_startDelayedWithdrawUnstakedETH" -> "5239_onlyNativeEthRestakeAdmin"
+"5239_initialize" -> "5239_initializer"
+}subgraph cluster_8825_IRoleManager {
+label = "IRoleManager"
+"8825_isRestakeManagerAdmin" [label="isRestakeManagerAdmin"]
+"8825_isERC20RewardsAdmin" [label="isERC20RewardsAdmin"]
+"8825_isRoleManagerAdmin" [label="isRoleManagerAdmin"]
+"8825_isDepositWithdrawPauser" [label="isDepositWithdrawPauser"]
+"8825_isEzETHMinterBurner" [label="isEzETHMinterBurner"]
+"8825_isTokenAdmin" [label="isTokenAdmin"]
+"8825_isOperatorDelegatorAdmin" [label="isOperatorDelegatorAdmin"]
+"8825_isNativeEthRestakeAdmin" [label="isNativeEthRestakeAdmin"]
+"8825_isOracleAdmin" [label="isOracleAdmin"]
+}subgraph cluster_6524_IPauserRegistry {
+label = "IPauserRegistry"
+"6524_unpauser" [label="unpauser"]
+"6524_isPauser" [label="isPauser"]
+}subgraph cluster_381_AccessControlUpgradeable {
+label = "AccessControlUpgradeable"
+"381__setupRole" [label="_setupRole"]
+"381_renounceRole" [label="renounceRole"]
+"381__revokeRole" [label="_revokeRole"]
+"381__checkRole" [label="_checkRole"]
+"381___AccessControl_init" [label="__AccessControl_init"]
+"381_supportsInterface" [label="supportsInterface"]
+"381__setRoleAdmin" [label="_setRoleAdmin"]
+"381___AccessControl_init_unchained" [label="__AccessControl_init_unchained"]
+"381_getRoleAdmin" [label="getRoleAdmin"]
+"381_grantRole" [label="grantRole"]
+"381_hasRole" [label="hasRole"]
+"381_revokeRole" [label="revokeRole"]
+"381__grantRole" [label="_grantRole"]
+"381__revokeRole" -> "381__msgSender"
+"381_renounceRole" -> "381__msgSender"
+"381_revokeRole" -> "381_getRoleAdmin"
+"381__checkRole" -> "381_hasRole"
+"381_revokeRole" -> "381__revokeRole"
+"381__grantRole" -> "381__msgSender"
+"381__checkRole" -> "381__checkRole"
+"381_grantRole" -> "381__grantRole"
+"381__checkRole" -> "381__msgSender"
+"381___AccessControl_init_unchained" -> "381_onlyInitializing"
+"381__setRoleAdmin" -> "381_getRoleAdmin"
+"381_revokeRole" -> "381_onlyRole"
+"381__setupRole" -> "381__grantRole"
+"381__grantRole" -> "381_hasRole"
+"381_grantRole" -> "381_onlyRole"
+"381___AccessControl_init" -> "381_onlyInitializing"
+"381_grantRole" -> "381_getRoleAdmin"
+"381_supportsInterface" -> "381_supportsInterface"
+"381_renounceRole" -> "381__revokeRole"
+"381__revokeRole" -> "381_hasRole"
+}subgraph cluster_solidity {
+label = "[Solidity]"
+"staticcall(uint256,uint256,uint256,uint256,uint256,uint256)" 
+"mstore(uint256,uint256)" 
+"revert OraclePriceExpired()" 
+"revert NotFound()" 
+"revert InvalidZeroInput()" 
+"revert DelegateAddressAlreadySet()" 
+"revert OracleNotFound()" 
+"revert MismatchedArrayLengths()" 
+"abi.encodePacked()" 
+"balance(address)" 
+"byte(uint256,uint256)" 
+"revert MaxTVLReached()" 
+"gas()" 
+"require(bool,string)" 
+"abi.encodeWithSelector()" 
+"revert InvalidTokenAmount()" 
+"mstore8(uint256,uint256)" 
+"revert TransferFailed()" 
+"code(address)" 
+"revert(uint256,uint256)" 
+"sha256(bytes)" 
+"mulmod(uint256,uint256,uint256)" 
+"revert InvalidTokenDecimals(uint8,uint8)" 
+"revert MaxTokenTVLReached()" 
+"revert AlreadyAdded()" 
+"revert ContractPaused()" 
+"mload(uint256)" 
+"abi.decode()" 
+"type()" 
+"revert OverMaxBasisPoints()" 
+"keccak256(bytes)" 
+"revert(string)" 
+"keccak256(uint256,uint256)" 
+"revert InvalidOraclePrice()" 
+"8733_initialize" -> "revert InvalidZeroInput()"
+"381_supportsInterface" -> "type()"
+"1834_safeTransferFrom" -> "abi.encodeWithSelector()"
+"8033_processInclusionProofKeccak" -> "require(bool,string)"
+"5239_startDelayedWithdrawUnstakedETH" -> "balance(address)"
+"3977_safeTransfer" -> "abi.encodeWithSelector()"
+"381_renounceRole" -> "require(bool,string)"
+"10652_chooseOperatorDelegatorForWithdraw" -> "revert NotFound()"
+"5239_deposit" -> "revert InvalidZeroInput()"
+"1834_forceApprove" -> "abi.encodeWithSelector()"
+"5239_startWithdrawal" -> "revert InvalidZeroInput()"
+"1319__burn" -> "require(bool,string)"
+"2164__revert" -> "revert(uint256,uint256)"
+"3977__callOptionalReturn" -> "require(bool,string)"
+"2164__revert" -> "mload(uint256)"
+"1319__transfer" -> "require(bool,string)"
+"8733_setOracleAddress" -> "revert InvalidZeroInput()"
+"5786_stakeEthFromQueue" -> "balance(address)"
+"8033_processInclusionProofSha256" -> "mstore(uint256,uint256)"
+"10652_addOperatorDelegator" -> "revert AlreadyAdded()"
+"1834_safeDecreaseAllowance" -> "abi.encodeWithSelector()"
+"1319__spendAllowance" -> "require(bool,string)"
+"8733_setOracleAddress" -> "revert InvalidTokenDecimals(uint8,uint8)"
+"3977_safeApprove" -> "abi.encodeWithSelector()"
+"7662_verifyValidatorBalance" -> "require(bool,string)"
+"10652_depositETH" -> "revert MaxTVLReached()"
+"8247_withdraw" -> "require(bool,string)"
+"10652_chooseOperatorDelegatorForDeposit" -> "revert NotFound()"
+"4307__revert" -> "mload(uint256)"
+"8033_processInclusionProofKeccak" -> "keccak256(uint256,uint256)"
+"5786_setFeeConfig" -> "revert InvalidZeroInput()"
+"3357_mulDiv" -> "mulmod(uint256,uint256,uint256)"
+"1834__callOptionalReturnBool" -> "abi.decode()"
+"2435_toString" -> "byte(uint256,uint256)"
+"5239_getStrategyIndex" -> "revert NotFound()"
+"5239_getStakedETHBalance" -> "balance(address)"
+"2164_functionCallWithValue" -> "require(bool,string)"
+"1834_safePermit" -> "require(bool,string)"
+"4307_sendValue" -> "balance(address)"
+"1319__mint" -> "require(bool,string)"
+"10652_addOperatorDelegator" -> "revert OverMaxBasisPoints()"
+"1319_decreaseAllowance" -> "require(bool,string)"
+"10652_stakeEthInOperatorDelegator" -> "revert NotFound()"
+"8033_processInclusionProofKeccak" -> "mstore(uint256,uint256)"
+"3977_safeDecreaseAllowance" -> "require(bool,string)"
+"4307_verifyCallResultFromTarget" -> "require(bool,string)"
+"8033_processInclusionProofKeccak" -> "mload(uint256)"
+"8033_merkleizeSha256" -> "sha256(bytes)"
+"4307_functionCallWithValue" -> "balance(address)"
+"10652_deposit" -> "revert MaxTokenTVLReached()"
+"10652_setOperatorDelegatorAllocation" -> "revert InvalidZeroInput()"
+"4307__revert" -> "revert(uint256,uint256)"
+"2435_toString" -> "abi.encodePacked()"
+"10937__beforeTokenTransfer" -> "revert ContractPaused()"
+"10652_setOperatorDelegatorAllocation" -> "revert NotFound()"
+"1834_safeTransfer" -> "abi.encodeWithSelector()"
+"10652_addCollateralToken" -> "revert AlreadyAdded()"
+"10652_calculateTVLs" -> "balance(address)"
+"5786_receive" -> "revert TransferFailed()"
+"2435_toString" -> "mstore8(uint256,uint256)"
+"4307_functionCallWithValue" -> "require(bool,string)"
+"3977_safeIncreaseAllowance" -> "abi.encodeWithSelector()"
+"381__checkRole" -> "revert(string)"
+"2164_isContract" -> "code(address)"
+"1834__callOptionalReturn" -> "abi.decode()"
+"5786_initialize" -> "revert InvalidZeroInput()"
+"8033_processInclusionProofSha256" -> "gas()"
+"1834_safeDecreaseAllowance" -> "require(bool,string)"
+"8033_merkleizeSha256" -> "abi.encodePacked()"
+"3977__callOptionalReturn" -> "abi.decode()"
+"8733_lookupTokenValue" -> "revert InvalidOraclePrice()"
+"10652_getCollateralTokenIndex" -> "revert NotFound()"
+"2435_toHexString" -> "require(bool,string)"
+"8247_constructor" -> "require(bool,string)"
+"8733_lookupTokenAmountFromValue" -> "revert OracleNotFound()"
+"3977__callOptionalReturnBool" -> "abi.decode()"
+"5239_initialize" -> "revert InvalidZeroInput()"
+"1834_safeIncreaseAllowance" -> "abi.encodeWithSelector()"
+"3977_forceApprove" -> "abi.encodeWithSelector()"
+"3977_safeDecreaseAllowance" -> "abi.encodeWithSelector()"
+"8733_lookupTokenAmountFromValue" -> "revert OraclePriceExpired()"
+"2164_verifyCallResultFromTarget" -> "require(bool,string)"
+"707__nonReentrantBefore" -> "require(bool,string)"
+"8033_processInclusionProofSha256" -> "staticcall(uint256,uint256,uint256,uint256,uint256,uint256)"
+"8733_lookupTokenValues" -> "revert MismatchedArrayLengths()"
+"381__checkRole" -> "abi.encodePacked()"
+"4307_sendValue" -> "require(bool,string)"
+"8733_lookupTokenValue" -> "revert OracleNotFound()"
+"2164_sendValue" -> "require(bool,string)"
+"5786_setRestakeManager" -> "revert InvalidZeroInput()"
+"8247_withdraw" -> "balance(address)"
+"8733_calculateRedeemAmount" -> "revert InvalidTokenAmount()"
+"1834_safeApprove" -> "abi.encodeWithSelector()"
+"8733_lookupTokenValue" -> "revert OraclePriceExpired()"
+"1834_safeApprove" -> "require(bool,string)"
+"2435_equal" -> "keccak256(bytes)"
+"5786_setFeeConfig" -> "revert OverMaxBasisPoints()"
+"10652_removeOperatorDelegator" -> "revert NotFound()"
+"2479_supportsInterface" -> "type()"
+"2164_functionCallWithValue" -> "balance(address)"
+"9003_initialize" -> "revert InvalidZeroInput()"
+"1319__approve" -> "require(bool,string)"
+"3977_safeApprove" -> "require(bool,string)"
+"3357_mulDiv" -> "require(bool,string)"
+"4307__revert" -> "revert(string)"
+"8033_processInclusionProofSha256" -> "require(bool,string)"
+"623__disableInitializers" -> "require(bool,string)"
+"5239_setDelegateAddress" -> "revert DelegateAddressAlreadySet()"
+"8033_processInclusionProofSha256" -> "revert(uint256,uint256)"
+"10937_initialize" -> "revert InvalidZeroInput()"
+"10652_setOperatorDelegatorAllocation" -> "revert OverMaxBasisPoints()"
+"8733_lookupTokenAmountFromValue" -> "revert InvalidOraclePrice()"
+"2164_sendValue" -> "balance(address)"
+"7662_verifyWithdrawalProofs" -> "require(bool,string)"
+"7662_verifyValidatorFields" -> "require(bool,string)"
+"10652_deposit" -> "revert MaxTVLReached()"
+"8033_processInclusionProofSha256" -> "mload(uint256)"
+"8733_calculateMintAmount" -> "revert InvalidTokenAmount()"
+"5239_setTokenStrategy" -> "revert InvalidZeroInput()"
+"4307_isContract" -> "code(address)"
+"3977_safeTransferFrom" -> "abi.encodeWithSelector()"
+"10652_addCollateralToken" -> "revert InvalidTokenDecimals(uint8,uint8)"
+"1834__callOptionalReturn" -> "require(bool,string)"
+"2164__revert" -> "revert(string)"
+"5239_setDelegateAddress" -> "revert InvalidZeroInput()"
+"3977_safePermit" -> "require(bool,string)"
+"10652_getTotalRewardsEarned" -> "balance(address)"
+"10652_removeCollateralToken" -> "revert NotFound()"
+"5239_receive" -> "revert TransferFailed()"
+}"5239_receive" -> "8168_depositQueue"
+"5239_verifyWithdrawalCredentials" -> "7662_getBalanceFromBalanceRoot"
+"1834_safePermit" -> "1458_nonces"
+"10652_deposit" -> "8305_lookupTokenValue"
+"10652_depositTokenRewardsFromProtocol" -> "3977_safeApprove"
+"10652_addCollateralToken" -> "3565_decimals"
+"1834_safeIncreaseAllowance" -> "1397_allowance"
+"10652_getTotalRewardsEarned" -> "5826_totalEarned"
+"10652_deposit" -> "10969_totalSupply"
+"5239_startWithdrawal" -> "7074_numWithdrawalsQueued"
+"10652_depositTokenRewardsFromProtocol" -> "4380_deposit"
+"5239_stakeEth" -> "6457_stake"
+"5239_getTokenBalanceFromStrategy" -> "6800_userUnderlyingView"
+"5239_completeWithdrawal" -> "7074_completeQueuedWithdrawal"
+"10652_deposit" -> "4380_deposit"
+"8733_setOracleAddress" -> "45_decimals"
+"7662_getBalanceFromBalanceRoot" -> "7747_fromLittleEndianUint64"
+"10652_depositETH" -> "8305_calculateMintAmount"
+"2435_toHexString" -> "3357_log256"
+"5239_completeWithdrawal" -> "3540_balanceOf"
+"5786_stakeEthFromQueue" -> "8168_stakeEthInOperatorDelegator"
+"5239_completeWithdrawal" -> "3977_safeTransfer"
+"7662_verifyValidatorFields" -> "8033_verifyInclusionSha256"
+"7662_verifyValidatorFields" -> "8033_merkleizeSha256"
+"10652_stakeEthInOperatorDelegator" -> "4380_stakeEth"
+"3977_safePermit" -> "3601_nonces"
+"1834__callOptionalReturnBool" -> "2164_isContract"
+"10652_deposit" -> "3977_safeTransferFrom"
+"7662_verifyValidatorBalance" -> "8033_verifyInclusionSha256"
+"1834_safeApprove" -> "1397_allowance"
+"8733_lookupTokenAmountFromValue" -> "45_latestRoundData"
+"10652_calculateTVLs" -> "4380_getTokenBalanceFromStrategy"
+"10652_depositETH" -> "10969_mint"
+"3977_safeDecreaseAllowance" -> "3540_allowance"
+"7662_verifyWithdrawalProofs" -> "8033_verifyInclusionSha256"
+"10652_deposit" -> "8305_calculateMintAmount"
+"10652_deposit" -> "10969_mint"
+"5239_startWithdrawal" -> "7074_queueWithdrawal"
+"5239_initialize" -> "6457_createPod"
+"10652_getTotalRewardsEarned" -> "4380_eigenPod"
+"3977__callOptionalReturn" -> "4307_functionCall"
+"5239_deposit" -> "7074_depositIntoStrategy"
+"2435_toString" -> "3357_log10"
+"3977_safePermit" -> "3601_permit"
+"7662_verifyWithdrawalProofs" -> "8033_merkleizeSha256"
+"5239_setDelegateAddress" -> "6131_delegateTo"
+"5239_initialize" -> "6457_ownerToPod"
+"1834_safeDecreaseAllowance" -> "1397_allowance"
+"5239_verifyWithdrawalCredentials" -> "6344_verifyWithdrawalCredentialsAndBalance"
+"10652_deposit" -> "3977_safeApprove"
+"10652_getTotalRewardsEarned" -> "4380_pendingUnstakedDelayedWithdrawalAmount"
+"10652_getTotalRewardsEarned" -> "8305_lookupTokenValue"
+"5239_getStrategyIndex" -> "7074_stakerStrategyList"
+"10652_calculateTVLs" -> "8305_lookupTokenValue"
+"5786_sweepERC20" -> "3540_approve"
+"10652_depositETH" -> "5826_depositETHFromProtocol"
+"5239_getStrategyIndex" -> "7074_stakerStrategyListLength"
+"5239_deposit" -> "3977_safeTransferFrom"
+"1834__callOptionalReturn" -> "2164_functionCall"
+"10652_calculateTVLs" -> "4380_getStakedETHBalance"
+"5786_sweepERC20" -> "3540_balanceOf"
+"3977__callOptionalReturnBool" -> "4307_isContract"
+"3977_safeIncreaseAllowance" -> "3540_allowance"
+"8733_lookupTokenValue" -> "45_latestRoundData"
+"10652_depositTokenRewardsFromProtocol" -> "3977_safeTransferFrom"
+"3977_safeApprove" -> "3540_allowance"
+"5239_deposit" -> "3977_safeApprove"
+"10652_depositETH" -> "10969_totalSupply"
+"5786_sweepERC20" -> "3977_safeTransfer"
+"5786_sweepERC20" -> "8168_depositTokenRewardsFromProtocol"
+"5239_startWithdrawal" -> "6800_underlyingToSharesView"
+"381__checkRole" -> "2435_toHexString"
+"2435_toString" -> "3462_abs"
+"5239_startDelayedWithdrawUnstakedETH" -> "6344_withdrawBeforeRestaking"
+"5239_receive" -> "6344_delayedWithdrawalRouter"
+"1834_safePermit" -> "1458_permit"
+}

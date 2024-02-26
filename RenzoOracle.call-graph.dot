@@ -1,0 +1,66 @@
+strict digraph {
+subgraph cluster_8305_IRenzoOracle {
+label = "IRenzoOracle"
+"8305_calculateMintAmount" [label="calculateMintAmount"]
+"8305_lookupTokenValue" [label="lookupTokenValue"]
+"8305_lookupTokenAmountFromValue" [label="lookupTokenAmountFromValue"]
+"8305_lookupTokenValues" [label="lookupTokenValues"]
+"8305_calculateRedeemAmount" [label="calculateRedeemAmount"]
+}subgraph cluster_707_ReentrancyGuardUpgradeable {
+label = "ReentrancyGuardUpgradeable"
+"707___ReentrancyGuard_init" [label="__ReentrancyGuard_init"]
+"707__nonReentrantAfter" [label="_nonReentrantAfter"]
+"707__reentrancyGuardEntered" [label="_reentrancyGuardEntered"]
+"707__nonReentrantBefore" [label="_nonReentrantBefore"]
+"707___ReentrancyGuard_init_unchained" [label="__ReentrancyGuard_init_unchained"]
+"707___ReentrancyGuard_init" -> "707_onlyInitializing"
+"707___ReentrancyGuard_init_unchained" -> "707_onlyInitializing"
+"707___ReentrancyGuard_init" -> "707___ReentrancyGuard_init_unchained"
+}subgraph cluster_8733_RenzoOracle {
+label = "RenzoOracle"
+"8733_setOracleAddress" [label="setOracleAddress"]
+"8733_lookupTokenValue" [label="lookupTokenValue"]
+"8733_calculateMintAmount" [label="calculateMintAmount"]
+"8733_initialize" [label="initialize"]
+"8733_constructor" [label="constructor"]
+"8733_calculateRedeemAmount" [label="calculateRedeemAmount"]
+"8733_lookupTokenValues" [label="lookupTokenValues"]
+"8733_slitherConstructorConstantVariables" [label="slitherConstructorConstantVariables"]
+"8733_lookupTokenAmountFromValue" [label="lookupTokenAmountFromValue"]
+"8733_lookupTokenValues" -> "8733_lookupTokenValue"
+"8733_setOracleAddress" -> "8733_nonReentrant"
+"8733_setOracleAddress" -> "8733_onlyOracleAdmin"
+"8733_constructor" -> "8733__disableInitializers"
+"8733_initialize" -> "8733___ReentrancyGuard_init"
+"8733_initialize" -> "8733_initializer"
+}subgraph cluster_623_Initializable {
+label = "Initializable"
+"623__getInitializedVersion" [label="_getInitializedVersion"]
+"623__disableInitializers" [label="_disableInitializers"]
+"623__isInitializing" [label="_isInitializing"]
+}subgraph cluster_solidity {
+label = "[Solidity]"
+"revert OraclePriceExpired()" 
+"revert InvalidZeroInput()" 
+"revert OracleNotFound()" 
+"revert MismatchedArrayLengths()" 
+"require(bool,string)" 
+"revert InvalidTokenAmount()" 
+"revert InvalidTokenDecimals(uint8,uint8)" 
+"revert InvalidOraclePrice()" 
+"8733_setOracleAddress" -> "revert InvalidZeroInput()"
+"8733_lookupTokenAmountFromValue" -> "revert OracleNotFound()"
+"8733_calculateRedeemAmount" -> "revert InvalidTokenAmount()"
+"8733_lookupTokenValue" -> "revert OracleNotFound()"
+"8733_lookupTokenValue" -> "revert OraclePriceExpired()"
+"8733_calculateMintAmount" -> "revert InvalidTokenAmount()"
+"8733_lookupTokenAmountFromValue" -> "revert InvalidOraclePrice()"
+"8733_setOracleAddress" -> "revert InvalidTokenDecimals(uint8,uint8)"
+"8733_lookupTokenValue" -> "revert InvalidOraclePrice()"
+"8733_lookupTokenAmountFromValue" -> "revert OraclePriceExpired()"
+"707__nonReentrantBefore" -> "require(bool,string)"
+"8733_initialize" -> "revert InvalidZeroInput()"
+"623__disableInitializers" -> "require(bool,string)"
+"8733_lookupTokenValues" -> "revert MismatchedArrayLengths()"
+}
+}

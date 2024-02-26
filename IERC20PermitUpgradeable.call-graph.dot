@@ -1,0 +1,10 @@
+strict digraph {
+subgraph cluster_1458_IERC20PermitUpgradeable {
+label = "IERC20PermitUpgradeable"
+"1458_permit" [label="permit"]
+"1458_nonces" [label="nonces"]
+"1458_DOMAIN_SEPARATOR" [label="DOMAIN_SEPARATOR"]
+}subgraph cluster_solidity {
+label = "[Solidity]"
+}
+}

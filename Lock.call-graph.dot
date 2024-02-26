@@ -1,0 +1,14 @@
+strict digraph {
+subgraph cluster_8247_Lock {
+label = "Lock"
+"8247_withdraw" [label="withdraw"]
+"8247_constructor" [label="constructor"]
+}subgraph cluster_solidity {
+label = "[Solidity]"
+"require(bool,string)" 
+"balance(address)" 
+"8247_withdraw" -> "balance(address)"
+"8247_constructor" -> "require(bool,string)"
+"8247_withdraw" -> "require(bool,string)"
+}
+}

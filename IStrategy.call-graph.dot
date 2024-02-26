@@ -1,0 +1,18 @@
+strict digraph {
+subgraph cluster_6800_IStrategy {
+label = "IStrategy"
+"6800_explanation" [label="explanation"]
+"6800_userUnderlyingView" [label="userUnderlyingView"]
+"6800_withdraw" [label="withdraw"]
+"6800_totalShares" [label="totalShares"]
+"6800_sharesToUnderlying" [label="sharesToUnderlying"]
+"6800_underlyingToken" [label="underlyingToken"]
+"6800_underlyingToShares" [label="underlyingToShares"]
+"6800_userUnderlying" [label="userUnderlying"]
+"6800_sharesToUnderlyingView" [label="sharesToUnderlyingView"]
+"6800_underlyingToSharesView" [label="underlyingToSharesView"]
+"6800_deposit" [label="deposit"]
+}subgraph cluster_solidity {
+label = "[Solidity]"
+}
+}

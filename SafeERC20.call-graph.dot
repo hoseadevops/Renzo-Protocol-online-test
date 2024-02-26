@@ -1,0 +1,38 @@
+strict digraph {
+subgraph cluster_3977_SafeERC20 {
+label = "SafeERC20"
+"3977__callOptionalReturn" [label="_callOptionalReturn"]
+"3977_safeApprove" [label="safeApprove"]
+"3977_safeIncreaseAllowance" [label="safeIncreaseAllowance"]
+"3977_safeTransferFrom" [label="safeTransferFrom"]
+"3977_safeTransfer" [label="safeTransfer"]
+"3977__callOptionalReturnBool" [label="_callOptionalReturnBool"]
+"3977_safePermit" [label="safePermit"]
+"3977_forceApprove" [label="forceApprove"]
+"3977_safeDecreaseAllowance" [label="safeDecreaseAllowance"]
+"3977_safeTransfer" -> "3977__callOptionalReturn"
+"3977_safeApprove" -> "3977__callOptionalReturn"
+"3977_forceApprove" -> "3977__callOptionalReturn"
+"3977_forceApprove" -> "3977__callOptionalReturnBool"
+"3977_safeTransferFrom" -> "3977__callOptionalReturn"
+"3977_safeIncreaseAllowance" -> "3977__callOptionalReturn"
+"3977_safeDecreaseAllowance" -> "3977__callOptionalReturn"
+}subgraph cluster_solidity {
+label = "[Solidity]"
+"abi.decode()" 
+"require(bool,string)" 
+"abi.encodeWithSelector()" 
+"3977__callOptionalReturnBool" -> "abi.decode()"
+"3977_safeIncreaseAllowance" -> "abi.encodeWithSelector()"
+"3977_safeApprove" -> "require(bool,string)"
+"3977_forceApprove" -> "abi.encodeWithSelector()"
+"3977_safeApprove" -> "abi.encodeWithSelector()"
+"3977_safeDecreaseAllowance" -> "abi.encodeWithSelector()"
+"3977_safePermit" -> "require(bool,string)"
+"3977__callOptionalReturn" -> "abi.decode()"
+"3977__callOptionalReturn" -> "require(bool,string)"
+"3977_safeTransferFrom" -> "abi.encodeWithSelector()"
+"3977_safeDecreaseAllowance" -> "require(bool,string)"
+"3977_safeTransfer" -> "abi.encodeWithSelector()"
+}
+}

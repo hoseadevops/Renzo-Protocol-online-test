@@ -1,0 +1,25 @@
+strict digraph {
+subgraph cluster_6706_ISlasher {
+label = "ISlasher"
+"6706_getMiddlewareTimesIndexServeUntilBlock" [label="getMiddlewareTimesIndexServeUntilBlock"]
+"6706_operatorToMiddlewareTimes" [label="operatorToMiddlewareTimes"]
+"6706_contractCanSlashOperatorUntilBlock" [label="contractCanSlashOperatorUntilBlock"]
+"6706_operatorWhitelistedContractsLinkedListEntry" [label="operatorWhitelistedContractsLinkedListEntry"]
+"6706_canSlash" [label="canSlash"]
+"6706_recordFirstStakeUpdate" [label="recordFirstStakeUpdate"]
+"6706_getCorrectValueForInsertAfter" [label="getCorrectValueForInsertAfter"]
+"6706_middlewareTimesLength" [label="middlewareTimesLength"]
+"6706_resetFrozenStatus" [label="resetFrozenStatus"]
+"6706_recordLastStakeUpdateAndRevokeSlashingAbility" [label="recordLastStakeUpdateAndRevokeSlashingAbility"]
+"6706_canWithdraw" [label="canWithdraw"]
+"6706_latestUpdateBlock" [label="latestUpdateBlock"]
+"6706_freezeOperator" [label="freezeOperator"]
+"6706_getMiddlewareTimesIndexBlock" [label="getMiddlewareTimesIndexBlock"]
+"6706_isFrozen" [label="isFrozen"]
+"6706_recordStakeUpdate" [label="recordStakeUpdate"]
+"6706_operatorWhitelistedContractsLinkedListSize" [label="operatorWhitelistedContractsLinkedListSize"]
+"6706_optIntoSlashing" [label="optIntoSlashing"]
+}subgraph cluster_solidity {
+label = "[Solidity]"
+}
+}

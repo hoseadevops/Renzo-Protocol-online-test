@@ -1,0 +1,122 @@
+strict digraph {
+subgraph cluster_454_IAccessControlUpgradeable {
+label = "IAccessControlUpgradeable"
+"454_getRoleAdmin" [label="getRoleAdmin"]
+"454_grantRole" [label="grantRole"]
+"454_renounceRole" [label="renounceRole"]
+"454_revokeRole" [label="revokeRole"]
+"454_hasRole" [label="hasRole"]
+}subgraph cluster_9003_RoleManager {
+label = "RoleManager"
+"9003_isRoleManagerAdmin" [label="isRoleManagerAdmin"]
+"9003_isNativeEthRestakeAdmin" [label="isNativeEthRestakeAdmin"]
+"9003_isERC20RewardsAdmin" [label="isERC20RewardsAdmin"]
+"9003_isOracleAdmin" [label="isOracleAdmin"]
+"9003_constructor" [label="constructor"]
+"9003_isRestakeManagerAdmin" [label="isRestakeManagerAdmin"]
+"9003_isDepositWithdrawPauser" [label="isDepositWithdrawPauser"]
+"9003_initialize" [label="initialize"]
+"9003_slitherConstructorConstantVariables" [label="slitherConstructorConstantVariables"]
+"9003_isTokenAdmin" [label="isTokenAdmin"]
+"9003_isEzETHMinterBurner" [label="isEzETHMinterBurner"]
+"9003_isOperatorDelegatorAdmin" [label="isOperatorDelegatorAdmin"]
+"9003_isEzETHMinterBurner" -> "9003_hasRole"
+"9003_isDepositWithdrawPauser" -> "9003_hasRole"
+"9003_initialize" -> "9003__grantRole"
+"9003_isRoleManagerAdmin" -> "9003_hasRole"
+"9003_isOracleAdmin" -> "9003_hasRole"
+"9003_isRestakeManagerAdmin" -> "9003_hasRole"
+"9003_isNativeEthRestakeAdmin" -> "9003_hasRole"
+"9003_initialize" -> "9003___AccessControl_init"
+"9003_isERC20RewardsAdmin" -> "9003_hasRole"
+"9003_isTokenAdmin" -> "9003_hasRole"
+"9003_initialize" -> "9003_initializer"
+"9003_constructor" -> "9003__disableInitializers"
+"9003_isOperatorDelegatorAdmin" -> "9003_hasRole"
+}subgraph cluster_623_Initializable {
+label = "Initializable"
+"623__getInitializedVersion" [label="_getInitializedVersion"]
+"623__disableInitializers" [label="_disableInitializers"]
+"623__isInitializing" [label="_isInitializing"]
+}subgraph cluster_2479_ERC165Upgradeable {
+label = "ERC165Upgradeable"
+"2479___ERC165_init_unchained" [label="__ERC165_init_unchained"]
+"2479___ERC165_init" [label="__ERC165_init"]
+"2479_supportsInterface" [label="supportsInterface"]
+"2479___ERC165_init" -> "2479_onlyInitializing"
+"2479___ERC165_init_unchained" -> "2479_onlyInitializing"
+}subgraph cluster_8825_IRoleManager {
+label = "IRoleManager"
+"8825_isRestakeManagerAdmin" [label="isRestakeManagerAdmin"]
+"8825_isERC20RewardsAdmin" [label="isERC20RewardsAdmin"]
+"8825_isRoleManagerAdmin" [label="isRoleManagerAdmin"]
+"8825_isDepositWithdrawPauser" [label="isDepositWithdrawPauser"]
+"8825_isEzETHMinterBurner" [label="isEzETHMinterBurner"]
+"8825_isOperatorDelegatorAdmin" [label="isOperatorDelegatorAdmin"]
+"8825_isTokenAdmin" [label="isTokenAdmin"]
+"8825_isNativeEthRestakeAdmin" [label="isNativeEthRestakeAdmin"]
+"8825_isOracleAdmin" [label="isOracleAdmin"]
+}subgraph cluster_2491_IERC165Upgradeable {
+label = "IERC165Upgradeable"
+"2491_supportsInterface" [label="supportsInterface"]
+}subgraph cluster_381_AccessControlUpgradeable {
+label = "AccessControlUpgradeable"
+"381__setupRole" [label="_setupRole"]
+"381__checkRole" [label="_checkRole"]
+"381_grantRole" [label="grantRole"]
+"381_renounceRole" [label="renounceRole"]
+"381__revokeRole" [label="_revokeRole"]
+"381___AccessControl_init" [label="__AccessControl_init"]
+"381__setRoleAdmin" [label="_setRoleAdmin"]
+"381___AccessControl_init_unchained" [label="__AccessControl_init_unchained"]
+"381_hasRole" [label="hasRole"]
+"381_getRoleAdmin" [label="getRoleAdmin"]
+"381_revokeRole" [label="revokeRole"]
+"381_supportsInterface" [label="supportsInterface"]
+"381__grantRole" [label="_grantRole"]
+"381__revokeRole" -> "381__msgSender"
+"381_renounceRole" -> "381__msgSender"
+"381_revokeRole" -> "381_getRoleAdmin"
+"381__checkRole" -> "381_hasRole"
+"381_revokeRole" -> "381__revokeRole"
+"381__grantRole" -> "381__msgSender"
+"381__checkRole" -> "381__checkRole"
+"381_grantRole" -> "381__grantRole"
+"381__checkRole" -> "381__msgSender"
+"381___AccessControl_init_unchained" -> "381_onlyInitializing"
+"381__setRoleAdmin" -> "381_getRoleAdmin"
+"381_revokeRole" -> "381_onlyRole"
+"381__setupRole" -> "381__grantRole"
+"381__grantRole" -> "381_hasRole"
+"381_grantRole" -> "381_onlyRole"
+"381___AccessControl_init" -> "381_onlyInitializing"
+"381_supportsInterface" -> "381_supportsInterface"
+"381_grantRole" -> "381_getRoleAdmin"
+"381_renounceRole" -> "381__revokeRole"
+"381__revokeRole" -> "381_hasRole"
+}subgraph cluster_2206_ContextUpgradeable {
+label = "ContextUpgradeable"
+"2206___Context_init" [label="__Context_init"]
+"2206__msgData" [label="_msgData"]
+"2206___Context_init_unchained" [label="__Context_init_unchained"]
+"2206__msgSender" [label="_msgSender"]
+"2206___Context_init" -> "2206_onlyInitializing"
+"2206___Context_init_unchained" -> "2206_onlyInitializing"
+}subgraph cluster_solidity {
+label = "[Solidity]"
+"revert InvalidZeroInput()" 
+"type()" 
+"abi.encodePacked()" 
+"require(bool,string)" 
+"keccak256(bytes)" 
+"revert(string)" 
+"381_renounceRole" -> "require(bool,string)"
+"2479_supportsInterface" -> "type()"
+"9003_initialize" -> "revert InvalidZeroInput()"
+"9003_slitherConstructorConstantVariables" -> "keccak256(bytes)"
+"623__disableInitializers" -> "require(bool,string)"
+"381__checkRole" -> "revert(string)"
+"381_supportsInterface" -> "type()"
+"381__checkRole" -> "abi.encodePacked()"
+}
+}
