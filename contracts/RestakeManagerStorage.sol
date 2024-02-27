@@ -11,7 +11,7 @@ import "./Oracle/IRenzoOracle.sol";
 import "./Deposits/IDepositQueue.sol";
 import "./IRestakeManager.sol";
 
-abstract contract RestakeManagerStorageV1 is IRestakeManager {    
+abstract contract RestakeManagerStorageV1 is IRestakeManager {
     /// @dev reference to the RoleManager contract
     // 管理角色
     IRoleManager public roleManager;
@@ -35,7 +35,7 @@ abstract contract RestakeManagerStorageV1 is IRestakeManager {
         address withdrawer;                      // 提现地址
         IERC20 tokenToWithdraw;                  // 提现的 token 合约地址
         uint256 tokenAmountToWithdraw;           // 提现金额
-        IOperatorDelegator operatorDelegator;    // 代理操作者
+        IOperatorDelegator operatorDelegator;    // 运营商代理
         bool completed;                          // 是否完成
     }
 
@@ -44,12 +44,12 @@ abstract contract RestakeManagerStorageV1 is IRestakeManager {
     mapping(bytes32 => PendingWithdrawal) public pendingWithdrawals;
 
     /// @dev Stores the list of OperatorDelegators
-    // 代理操作者列表
+    // 运营商代理 列表
     IOperatorDelegator[] public operatorDelegators;
 
     /// @dev Mapping to store the allocations to each operatorDelegator
     /// Stored in basis points (e.g. 1% = 100)
-    /// 代理操作者分配额
+    /// 运营商代理 分配额
     mapping(IOperatorDelegator => uint256) public operatorDelegatorAllocations;
 
     /// @dev Stores the list of collateral tokens

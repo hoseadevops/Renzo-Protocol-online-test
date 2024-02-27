@@ -138,10 +138,10 @@ contract RestakeManager is
 
     
     /**
-     * // 代理操作者列表
+     * //运营商代理列表
      * IOperatorDelegator[] public operatorDelegators;
      * 
-     * // 代理操作者分配额
+     * //运营商代理分配额
      * mapping(IOperatorDelegator => uint256) public operatorDelegatorAllocations;
      **/
     /// @dev Allows a restake manager admin to add an OperatorDelegator to the list
@@ -162,7 +162,7 @@ contract RestakeManager is
         if(_allocationBasisPoints > (100 * BASIS_POINTS)) revert OverMaxBasisPoints();
 
         // Add it to the list
-        // 添加 代理操作者列表
+        // 添加运营商代理列表
         operatorDelegators.push(_newOperatorDelegator);
 
         emit OperatorDelegatorAdded(_newOperatorDelegator);
@@ -179,10 +179,10 @@ contract RestakeManager is
         );
     }
     /**
-     * // 代理操作者列表
+     * // 运营商代理 列表
      * IOperatorDelegator[] public operatorDelegators;
      * 
-     * // 代理操作者分配额
+     * // 运营商代理 分配额
      * mapping(IOperatorDelegator => uint256) public operatorDelegatorAllocations;
      * 替换法删除（顺序会变）
      **/
@@ -221,10 +221,10 @@ contract RestakeManager is
     }
 
     /**
-     * // 代理操作者列表
+     * //运营商代理列表
      * IOperatorDelegator[] public operatorDelegators;
      * 
-     * // 代理操作者分配额
+     * //运营商代理分配额
      * mapping(IOperatorDelegator => uint256) public operatorDelegatorAllocations;
      **/
     /// @dev Allows restake manager admin to set an OperatorDelegator allocation
@@ -346,13 +346,15 @@ contract RestakeManager is
         );
         uint256 totalTVL = 0;
 
-        // Iterate through the ODs
+        // Iterate through the ODs 
+        // 运营商代理数组 长度 operatorDelegators = 缩写：OD
         uint256 odLength = operatorDelegators.length;
         for (uint256 i = 0; i < odLength;) {
             // Track the TVL for this OD
             uint256 operatorTVL = 0;
 
             // Track the individual token TVLs for this OD - native ETH will be last item in the array
+            // 追踪 OD 的 单独的 token 的 TVL 包括 ETH
             uint256[] memory operatorValues = new uint256[](
                 collateralTokens.length + 1
             );
@@ -490,6 +492,9 @@ contract RestakeManager is
 
     /// @dev Finds the index of the collateral token in the list
     /// Reverts if the token is not found in the list
+    // // 抵押品token 列表
+    // IERC20[] public collateralTokens;
+    // 找抵押品token 的索引 没有则 revert
     function getCollateralTokenIndex(
         IERC20 _collateralToken
     ) public view returns (uint256) {
@@ -507,6 +512,8 @@ contract RestakeManager is
     }
 
     /**
+     * 存入 抵押品
+     * 
      * @notice  Deposits an ERC20 collateral token into the protocol
      * @dev     Convenience function to deposit without a referral ID and backwards compatibility
      * @param   _collateralToken  The address of the collateral ERC20 token to deposit
@@ -529,19 +536,25 @@ contract RestakeManager is
      *   - Calculate and mint the appropriate amount of ezETH back to the user
      * ezETH will get inflated proportional to the value they are depositing vs the value already in the protocol
      * The collateral token specified must be pre-configured to be allowed in the protocol
-     * @param   _collateralToken  The address of the collateral ERC20 token to deposit
+     * @param   _collateralToken  The address of the collateral ERC20 token to deposit 
      * @param   _amount The amount of the collateral token to deposit in base units
-     * @param   _referralId The referral ID to use for the deposit (can be 0 if none)
+     * @param   _referralId The referral ID to use for the deposit (can be 0 if none) 
      */
     function deposit(
-        IERC20 _collateralToken,
-        uint256 _amount,
-        uint256 _referralId
+        IERC20 _collateralToken, // 抵押品token 合约地址
+        uint256 _amount,         // 抵押金额
+        uint256 _referralId      // 推荐人ID （没有推荐人则为 0 ）
     ) public nonReentrant notPaused {
+        // 暂停 / 防重入
+
         // Verify collateral token is in the list - call will revert if not found
+        // 返回在抵押品数组中的索引 没有则 revert
         uint256 tokenIndex = getCollateralTokenIndex(_collateralToken);
 
         // Get the TVLs for each operator delegator and the total TVL
+        // 获取: 
+            // 总的TVL
+            // 每个 运营商代理 的 TVL
         (
             uint256[][] memory operatorDelegatorTokenTVLs,
             uint256[] memory operatorDelegatorTVLs,

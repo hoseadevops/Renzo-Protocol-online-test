@@ -16,6 +16,9 @@ contract RenzoOracle is
     ReentrancyGuardUpgradeable,
     RenzoOracleStorageV1
 {
+    //// @dev The mapping of supported token addresses to their respective Chainlink oracle address
+    //// mapping(IERC20 => AggregatorV3Interface) public tokenOracleLookup;
+
     /// @dev Error for invalid 0x0 address
     string constant INVALID_0_INPUT = "Invalid 0 input";
 
