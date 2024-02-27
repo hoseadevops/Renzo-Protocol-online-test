@@ -10,5 +10,6 @@ abstract contract RenzoOracleStorageV1 {
     IRoleManager public roleManager;
 
     /// @dev The mapping of supported token addresses to their respective Chainlink oracle address
+    /// 支持的代币地址与它们相应的 Chainlink Oracle 地址之间的映射
     mapping(IERC20 => AggregatorV3Interface) public tokenOracleLookup;
 }

@@ -19,7 +19,7 @@ abstract contract OperatorDelegatorStorageV1 is IOperatorDelegator{
     IRoleManager public roleManager;
 
     /// @dev The main strategy manager contract in EigenLayer
-    // EigenLayer strategyManager
+    // el strategyManager
     IStrategyManager public strategyManager;
 
     /// @dev the restake manager contract
@@ -28,7 +28,7 @@ abstract contract OperatorDelegatorStorageV1 is IOperatorDelegator{
 
     /// @dev The mapping of supported token addresses to their respective strategy addresses
     /// This will control which tokens are supported by the protocol
-    // token 到 EigenLayer 策略 的 映射
+    // token 到 el 策略 的 映射
     mapping(IERC20 => IStrategy) public tokenStrategyMapping;
 
     /// @dev The address to delegate tokens to in EigenLayer
@@ -41,6 +41,7 @@ abstract contract OperatorDelegatorStorageV1 is IOperatorDelegator{
     IEigenPodManager public eigenPodManager;
 
     /// @dev The EigenPod owned by this contract
+    /// el eigenPod
     IEigenPod public eigenPod;
 
     /// @dev Tracks the balance that was staked to validators but hasn't been restaked to EL yet

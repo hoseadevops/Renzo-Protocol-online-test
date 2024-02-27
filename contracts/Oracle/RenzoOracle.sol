@@ -17,8 +17,9 @@ contract RenzoOracle is
     RenzoOracleStorageV1
 {
     //// @dev The mapping of supported token addresses to their respective Chainlink oracle address
+    //// 支持的代币地址与它们相应的 Chainlink Oracle 地址之间的映射
     //// mapping(IERC20 => AggregatorV3Interface) public tokenOracleLookup;
-
+    
     /// @dev Error for invalid 0x0 address
     string constant INVALID_0_INPUT = "Invalid 0 input";
 
@@ -54,6 +55,8 @@ contract RenzoOracle is
 
     /// @dev Sets addresses for oracle lookup.  Permission gated to oracel admins only.
     /// Set to address 0x0 to disable lookups for the token.
+    /// 设置用于 Oracle 查询的地址 权限受限于 Oracle 管理员
+    /// 将地址设置为 0x0 以禁用对该代币的查询
     function setOracleAddress(IERC20 _token, AggregatorV3Interface _oracleAddress) external nonReentrant onlyOracleAdmin { 
         if(address(_token) == address(0x0)) revert InvalidZeroInput();
 
@@ -71,8 +74,18 @@ contract RenzoOracle is
         AggregatorV3Interface oracle = tokenOracleLookup[_token];
         if(address(oracle) == address(0x0)) revert OracleNotFound();
 
+        // chainlink AggregatorV3Interface latestRoundData
+        //
+        // roundId: 轮次ID。
+        // answer: 此特定数据源提供的数据。根据您选择的数据源，此答案可能提供资产价格、储备情况、NFT底价和其他类型的数据。
+        // startedAt: 轮次开始时的时间戳。
+        // updatedAt: 轮次更新时的时间戳。
+        // answeredInRound: 已弃用 - 以前用于当答案可能需要多轮计算时
+
         (, int256 price, , uint256 timestamp, ) = oracle.latestRoundData();
+        // 验证过期时间
         if(timestamp < block.timestamp - MAX_TIME_WINDOW) revert OraclePriceExpired();
+        // 价格有效性验证
         if(price <= 0) revert InvalidOraclePrice();
 
         // Price is times 10**18 ensure value amount is scaled
@@ -96,6 +109,9 @@ contract RenzoOracle is
     // @dev Given list of tokens and balances, return total value (assumes all lookups are denomintated in same underlying currency)
     /// The value returned will be denominated in the decimal precision of the lookup oracle
     /// (e.g. a value of 100 would return as 100 * 10^18)
+    // @dev 给定代币列表和余额，返回总价值（假设所有查找都以相同的基础货币计价）
+    /// 返回的值将以查找 Oracle 的小数精度为单位
+    /// （例如，一个值为 100 的结果将返回为 100 * 10^18）
     function lookupTokenValues(IERC20[] memory _tokens, uint256[] memory _balances) external view returns (uint256) {
         if(_tokens.length != _balances.length) revert MismatchedArrayLengths();
 
@@ -111,6 +127,8 @@ contract RenzoOracle is
     
     /// @dev Given amount of current protocol value, new value being added, and supply of ezETH, determine amount to mint
     /// Values should be denominated in the same underlying currency with the same decimal precision
+    /// @dev 给定当前协议价值、新增加的价值以及 ezETH 的供应量，确定要铸造的数量
+    /// 值应以相同的基础货币及相同的小数精度为单位
     function calculateMintAmount(uint256 _currentValueInProtocol, uint256 _newValueAdded, uint256 _existingEzETHSupply) external pure returns (uint256) {
         // For first mint, just return the new value added.
         // Checking both current value and existing supply to guard against gaming the initial mint
@@ -134,6 +152,7 @@ contract RenzoOracle is
     }
 
     // Given the amount of ezETH to burn, the supply of ezETH, and the total value in the protocol, determine amount of value to return to user    
+    // 给定要销毁的 ezETH 数量、ezETH 的供应量以及协议中的总价值，确定要返回给用户的价值数量
     function calculateRedeemAmount(uint256 _ezETHBeingBurned, uint256 _existingEzETHSupply, uint256 _currentValueInProtocol) external pure returns (uint256) {
       // This is just returning the percentage of TVL that matches the percentage of ezETH being burned 
       uint256 redeemAmount = (_currentValueInProtocol * _ezETHBeingBurned) / _existingEzETHSupply;

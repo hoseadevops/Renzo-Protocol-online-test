@@ -91,6 +91,7 @@ contract OperatorDelegator is
     }
 
     /// @dev Sets the strategy for a given token - setting strategy to 0x0 removes the ability to deposit and withdraw token
+    // 设置策略 允许设置给定代币的策略，用于指定将资金委托给的策略合约
     function setTokenStrategy(
         IERC20 _token,
         IStrategy _strategy
@@ -102,6 +103,7 @@ contract OperatorDelegator is
     }
 
     /// @dev Sets the address to delegate tokens to in EigenLayer -- THIS CAN ONLY BE SET ONCE
+    /// 设置委托地址 (setDelegateAddress)：设置要委托代币的地址，在 EigenLayer 中委托代币到指定地址。
     function setDelegateAddress(
         address _delegateAddress
     ) external nonReentrant onlyOperatorDelegatorAdmin {
@@ -120,6 +122,7 @@ contract OperatorDelegator is
     /// @dev Deposit tokens into the EigenLayer.  This call assumes any balance of tokens in this contract will be delegated
     /// so do not directly send tokens here or they will be delegated and attributed to the next caller.
     /// @return shares The amount of new shares in the `strategy` created as part of the action.
+    /// 款 (deposit)：将代币存入 EigenLayer 中，将代币转移到合约地址，并通过策略管理器进行存款操作。
     function deposit(
         IERC20 _token,
         uint256 _tokenAmount
@@ -160,6 +163,7 @@ contract OperatorDelegator is
     /// @dev Starts a withdrawal of a specific token from the EigenLayer.
     /// @param _token The token to withdraw from the EigenLayer.
     /// @param _tokenAmount The amount of tokens to withdraw.
+    /// 始提款 (startWithdrawal)：开始从 EigenLayer 中提取特定代币的提款流程，将提款交由策略管理器处理。
     function startWithdrawal(
         IERC20 _token,
         uint256 _tokenAmount
@@ -207,6 +211,7 @@ contract OperatorDelegator is
 
     /// @dev Completes a withdrawal of a specific token from the EigenLayer.
     /// The tokens withdrawn will be sent directly to the specified address
+    /// 完成提款 (completeWithdrawal)：完成从 EigenLayer 中提取特定代币的提款流程，将提取的代币发送到指定的地址。
     function completeWithdrawal(
         IStrategyManager.QueuedWithdrawal calldata _withdrawal,
         IERC20 _token,
@@ -236,6 +241,7 @@ contract OperatorDelegator is
     }
 
     /// @dev Gets the amount of ETH staked in the EigenLayer
+    /// @dev 获取在 EigenLayer 中抵押的以太币数量
     function getStakedETHBalance() external view returns (uint256) {
         // TODO: Once withdrawals are enabled, allow this to handle pending withdraws and a potential negative share balance in the EigenPodManager ownershares        
         // TODO: Once upgraded to M2, add back in staked verified ETH, e.g. + uint256(strategyManager.stakerStrategyShares(address(this), strategyManager.beaconChainETHStrategy()))
@@ -246,6 +252,8 @@ contract OperatorDelegator is
 
     /// @dev Stake ETH in the EigenLayer
     /// Only the Restake Manager should call this function
+    /// @dev 在 EigenLayer 中抵押以太币
+    /// 只有再委托管理器应该调用此函数
     function stakeEth(bytes calldata pubkey, bytes calldata signature, bytes32 depositDataRoot) external payable onlyRestakeManager {
         // Call the stake function in the EigenPodManager
         eigenPodManager.stake{value: msg.value}(pubkey, signature, depositDataRoot);
@@ -257,6 +265,9 @@ contract OperatorDelegator is
     /// @dev Verifies the withdrawal credentials for a withdrawal
     /// This will allow the EigenPodManager to verify the withdrawal credentials and credit the OD with shares
     /// Only the native eth restake admin should call this function
+    /// @dev 验证提款的凭证
+    /// 这将允许 EigenPodManager 验证提款的凭证并向 OD 发放份额
+    /// 只有本地 ETH 再委托管理员应该调用此函数
     function verifyWithdrawalCredentials(
         uint64 oracleBlockNumber,
         uint40 validatorIndex,
@@ -298,6 +309,10 @@ contract OperatorDelegator is
      *        This is an internal protocol function.
      * @dev Handle ETH sent to this contract - will get forwarded to the deposit queue for restaking as a protocol reward
     */
+    /// @notice 开始从 EigenPodManager 中延迟提取 ETH
+    /// @dev 在验证 EigenPod 之前，我们可以清理掉来自共识层验证者奖励的任何累积 ETH
+    /// 接收 ETH (receive)：合约接收以太币的功能，将接收的以太币转发到存款队列，用于再委托和奖励分发。  
+    /// 我们还希望跟踪延迟提取路由器中的金额，以便我们可以准确地跟踪 TVL 和奖励金额
     receive() external payable nonReentrant {      
 
         // If a payment comes in from the delayed withdrawal router, assume it is from the pending unstaked withdrawal 

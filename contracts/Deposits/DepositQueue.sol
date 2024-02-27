@@ -83,13 +83,16 @@ contract DepositQueue is Initializable, ReentrancyGuardUpgradeable, DepositQueue
     }
 
     /// @dev Sets the config for fees - if either value is set to 0 then fees are disabled
+    /// @dev 设置费用的配置 - 如果任一值设置为0，则禁用费用
     function setFeeConfig(address _feeAddress, uint256 _feeBasisPoints) external onlyRestakeManagerAdmin {
         // Verify address is set if basis points are non-zero
+        // 如果基点非零，则验证地址已设置
         if(_feeBasisPoints > 0) {
             if(_feeAddress == address(0x0)) revert InvalidZeroInput();
         }
 
         // Verify basis points are not over 100%
+        // 验证基点未超过100%
         if(_feeBasisPoints > 10000) revert OverMaxBasisPoints();
 
         feeAddress = _feeAddress;
@@ -99,6 +102,7 @@ contract DepositQueue is Initializable, ReentrancyGuardUpgradeable, DepositQueue
     }
 
     /// @dev Sets the address of the RestakeManager contract
+    /// @dev 设置RestakeManager合约的地址
     function setRestakeManager(IRestakeManager _restakeManager) external onlyRestakeManagerAdmin {
         if(address(_restakeManager) == address(0x0)) revert InvalidZeroInput();
 
@@ -109,6 +113,8 @@ contract DepositQueue is Initializable, ReentrancyGuardUpgradeable, DepositQueue
 
     /// @dev Handle ETH sent to the protocol through the RestakeManager - e.g. user deposits
     /// ETH will be stored here until used for a validator deposit
+    /// @dev 处理通过RestakeManager发送到协议的ETH - 例如，用户存款
+    /// ETH将在此存储，直到用于验证人存款
     function depositETHFromProtocol() external payable onlyRestakeManager {
         emit ETHDepositedFromProtocol(msg.value);
     }
@@ -117,9 +123,14 @@ contract DepositQueue is Initializable, ReentrancyGuardUpgradeable, DepositQueue
     /// ETH will be stored here until used for a validator deposit
     /// This should receive ETH from scenarios like Execution Layer Rewards and MEV from native staking
     /// Users should NOT send ETH directly to this contract unless they want to donate to existing ezETH holders
+    /// @dev 处理从协议外部发送到此合约的ETH - 例如，奖励
+    /// ETH将在此存储，直到用于验证人存款
+    /// 这应该从本机质押的情况接收ETH，例如执行层奖励和本机质押的MEV
+    /// 用户不应直接将ETH发送到此合约，除非他们想捐赠给现有的ezETH持有者
     receive() external payable nonReentrant { 
         uint256 feeAmount = 0;
         // Take protocol cut of rewards if enabled
+        // 如果启用，从奖励中获取协议费用
         if(feeAddress != address(0x0) && feeBasisPoints > 0) {
             feeAmount = msg.value * feeBasisPoints / 10000;
             (bool success, ) = feeAddress.call{value: feeAmount}("");
@@ -129,6 +140,7 @@ contract DepositQueue is Initializable, ReentrancyGuardUpgradeable, DepositQueue
         } 
 
         // Add to the total earned
+        // 将奖励总额增加
         totalEarned[address(0x0)] = totalEarned[address(0x0)] + msg.value - feeAmount;
 
         // Emit the rewards event
@@ -137,9 +149,12 @@ contract DepositQueue is Initializable, ReentrancyGuardUpgradeable, DepositQueue
 
     /// @dev Function called by ETH Restake Admin to start the restaking process in Native ETH
     /// Only callable by a permissioned account
+    /// @dev 由ETH Restake管理员调用的函数，以在本机ETH中开始重新质押过程
+    /// 仅可由授权帐户调用
     function stakeEthFromQueue(IOperatorDelegator operatorDelegator, bytes calldata pubkey, bytes calldata signature, bytes32 depositDataRoot) external onlyNativeEthRestakeAdmin {
 
         // Send the ETH and the params through to the restake manager
+        // 将ETH和参数发送到重新质押管理器
         restakeManager.stakeEthInOperatorDelegator{value: 32 ether}(operatorDelegator, pubkey, signature, depositDataRoot);
 
         emit ETHStakedFromQueue(operatorDelegator, pubkey, 32 ether, address(this).balance);
@@ -147,12 +162,14 @@ contract DepositQueue is Initializable, ReentrancyGuardUpgradeable, DepositQueue
 
     /// @dev Sweeps any accumulated ERC20 tokens in this contract to the RestakeManager
     /// Only callable by a permissioned account
+    /// @dev 将此合约中累积的任何ERC20令牌扫描到RestakeManager
     function sweepERC20(IERC20 token) external onlyERC20RewardsAdmin {
         uint256 balance = IERC20(token).balanceOf(address(this));
         if(balance > 0) {
             uint256 feeAmount = 0;
 
             // Sweep fees if configured
+            // 如果配置了手续费，则扫描手续费
             if(feeAddress != address(0x0) && feeBasisPoints > 0) {
                 feeAmount = balance * feeBasisPoints / 10000;
                 IERC20(token).safeTransfer(feeAddress, feeAmount);
@@ -161,10 +178,12 @@ contract DepositQueue is Initializable, ReentrancyGuardUpgradeable, DepositQueue
             }
 
             // Approve and deposit the rewards
+             // 批准并存入奖励
             token.approve(address(restakeManager), balance - feeAmount);
             restakeManager.depositTokenRewardsFromProtocol(token, balance - feeAmount);
 
             // Add to the total earned
+            // 将奖励总额增加
             totalEarned[address(token)] = totalEarned[address(token)] + balance - feeAmount;
 
             // Emit the rewards event
