@@ -184,6 +184,7 @@ contract RestakeManager is
      * 
      * // 代理操作者分配额
      * mapping(IOperatorDelegator => uint256) public operatorDelegatorAllocations;
+     * 替换法删除（顺序会变）
      **/
     /// @dev Allows a restake manager admin to remove an OperatorDelegator from the list
     function removeOperatorDelegator(
@@ -204,7 +205,7 @@ contract RestakeManager is
                 );
 
                 // Remove from list
-                // 清理数组
+                // 清理数组 替换掉最后一个元素
                 operatorDelegators[i] = operatorDelegators[
                     operatorDelegators.length - 1
                 ];
@@ -219,6 +220,13 @@ contract RestakeManager is
         revert NotFound();
     }
 
+    /**
+     * // 代理操作者列表
+     * IOperatorDelegator[] public operatorDelegators;
+     * 
+     * // 代理操作者分配额
+     * mapping(IOperatorDelegator => uint256) public operatorDelegatorAllocations;
+     **/
     /// @dev Allows restake manager admin to set an OperatorDelegator allocation
     function setOperatorDelegatorAllocation(
         IOperatorDelegator _operatorDelegator,
@@ -259,17 +267,23 @@ contract RestakeManager is
         maxDepositTVL = _maxDepositTVL;
     }
 
+    /*
+     * 抵押品token 列表
+     * IERC20[] public collateralTokens;
+     **/
     /// @dev Allows restake manager to add a collateral token
     function addCollateralToken(
         IERC20 _newCollateralToken
     ) external onlyRestakeManagerAdmin {
         // Ensure it is not already in the list
+        // 检查是否已经添加
         uint256 tokenLength = collateralTokens.length;
         for (uint256 i = 0; i < tokenLength;) {
             if( address(collateralTokens[i]) == address(_newCollateralToken)) revert AlreadyAdded();
             unchecked{++i;}
         }
 
+        // 验证精度是否 18位
         // Verify the token has 18 decimal precision - pricing calculations will be off otherwise
         if(IERC20Metadata(address(_newCollateralToken)).decimals() != 18) revert InvalidTokenDecimals(18, IERC20Metadata(address(_newCollateralToken)).decimals());
 
@@ -279,6 +293,11 @@ contract RestakeManager is
         emit CollateralTokenAdded(_newCollateralToken);
     }
 
+    /*
+     * 抵押品token 列表
+     * IERC20[] public collateralTokens;
+     * 替换法删除（顺序会变）
+     **/
     /// @dev Allows restake manager to remove a collateral token
     function removeCollateralToken(
         IERC20 _collateralTokenToRemove
@@ -313,6 +332,7 @@ contract RestakeManager is
     /// @return operatorDelegatorTokenTVLs Each OD's TVL indexed by operatorDelegators array by collateralTokens array
     /// @return operatorDelegatorTVLs Each OD's Total TVL in order of operatorDelegators array
     /// @return totalTVL The total TVL across all operator delegators.
+    /// 计算 TVL
     function calculateTVLs()
         public
         view
@@ -342,10 +362,12 @@ contract RestakeManager is
             uint256 tokenLength = collateralTokens.length;
             for (uint256 j = 0; j < tokenLength;) {
                 // Get the value of this token
+                // 调用 el 数据
                 uint256 operatorBalance = operatorDelegators[i]
                     .getTokenBalanceFromStrategy(collateralTokens[j]);
 
                 // Set the value in the array for this OD
+                // 通过 调用 el 设置 自己的预言机数据
                 operatorValues[j] = renzoOracle.lookupTokenValue(
                     collateralTokens[j],
                     operatorBalance

@@ -15,16 +15,20 @@ import "../IRestakeManager.sol";
 /// corruptions when upgrading.
 abstract contract OperatorDelegatorStorageV1 is IOperatorDelegator{
     /// @dev reference to the RoleManager contract
+    // roleManager
     IRoleManager public roleManager;
 
     /// @dev The main strategy manager contract in EigenLayer
+    // EigenLayer strategyManager
     IStrategyManager public strategyManager;
 
     /// @dev the restake manager contract
+    // restakeManager
     IRestakeManager public restakeManager;
 
     /// @dev The mapping of supported token addresses to their respective strategy addresses
     /// This will control which tokens are supported by the protocol
+    // token 到 EigenLayer 策略 的 映射
     mapping(IERC20 => IStrategy) public tokenStrategyMapping;
 
     /// @dev The address to delegate tokens to in EigenLayer
