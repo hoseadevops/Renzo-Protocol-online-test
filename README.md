@@ -1,6 +1,6 @@
-# RENZO 审计
+# RENZO 测试
 
-> RENZO 深度依赖 EL(EigenLayer)，RENZO 除了自己的风险问题，也会继承 EigenLayer 的风险，细审需要了解 EL 项目以及开放接口情况，知道这类项目的风险点才能知道基于EL的项目 如：RENZO 的风险（比如：稳定币清算流程、闪电贷，dex 的无偿损失、交易对LP等）深度调研一次EL后，之后基于EL的项目 则不在需要在 EL上耗费时间.
+> RENZO 深度依赖 EL(EigenLayer)
 
 ### 简介
 
