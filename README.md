@@ -38,6 +38,34 @@
         * Kelp: https://kelpdao.xyz/restake
         * eigenpie ：https://eigenpie.magpiexyz.connect-token.vip/
  
+### 测试代码
+
+* 合约
+    * Renzo ezETH Contract
+        * 主网代理合约地址：0xbf5495Efe5DB9ce00f80364C8B423567e58d2110
+        * 当前代理实现版本：0x1e756b7bcca7b26fb9d85344b3525f5559bbacb0
+    * Renzo Restake Manager Contract
+        * 主网代理合约地址：0x74a09653A083691711cF8215a6ab074BB4e99ef5
+        * 当前代理实现版本：0x6921c63fcf9796c9733690804e116be3520ba468
+    * OperatorDelegator
+        * 主网代理合约地址 0：0xbAf5f3A05BD7Af6f3a0BBA207803bf77e2657c8F
+        * 主网代理合约地址 1：0x0B1981a9Fcc24A445dE15141390d3E46DA0e425c
+        * 当前代理实现版本：0x85c211be9d3c8933eeeaa2f13d4f5970c76bf39d
+    * DepositQueue
+        * 主网代理合约地址：0xf2F305D14DCD8aaef887E0428B3c9534795D0d60
+        * 当前代理实现版本：0xc23535d7f3634634a1e2cf101863db64a7054410
+    * DelegationManager
+        * 主网代理合约地址：0x39053D51B77DC0d36036Fc1fCc8Cb819df8Ef37A
+        * 当前代理实现版本：0xf97E97649Da958d290e84E6D571c32F4b7F475e4
+    * RenzoOracle
+        * 主网代理合约地址：0x5a12796f7e7EBbbc8a402667d266d2e65A814042
+        * 当前代理实现版本：0x1cd98C9d4e570d138aeD4269dA6ffb821a56fca2
+* 依赖
+    * eigenlayer
+    * chainlink : AggregatorV3Interface
+
+
+
 ### Reference 
 
 * 以太坊官网 
