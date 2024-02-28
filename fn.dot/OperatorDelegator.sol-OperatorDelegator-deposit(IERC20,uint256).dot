@@ -1,0 +1,93 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->10;
+1[label="Node Type: IF 1
+
+EXPRESSION:
+address(tokenStrategyMapping[_token]) == address(0x0)
+
+IRs:
+REF_54(IStrategy) -> tokenStrategyMapping[_token]
+TMP_231 = CONVERT REF_54 to address
+TMP_232 = CONVERT 0 to address
+TMP_233(bool) = TMP_231 == TMP_232
+CONDITION TMP_233"];
+1->2[label="True"];
+1->3[label="False"];
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+revert InvalidZeroInput()()
+
+IRs:
+TMP_234(None) = SOLIDITY_CALL revert InvalidZeroInput()()"];
+2->3;
+3[label="Node Type: END_IF 3
+"];
+3->4;
+4[label="Node Type: IF 4
+
+EXPRESSION:
+_tokenAmount == 0
+
+IRs:
+TMP_235(bool) = _tokenAmount == 0
+CONDITION TMP_235"];
+4->5[label="True"];
+4->6[label="False"];
+5[label="Node Type: EXPRESSION 5
+
+EXPRESSION:
+revert InvalidZeroInput()()
+
+IRs:
+TMP_236(None) = SOLIDITY_CALL revert InvalidZeroInput()()"];
+5->6;
+6[label="Node Type: END_IF 6
+"];
+6->7;
+7[label="Node Type: EXPRESSION 7
+
+EXPRESSION:
+_token.safeTransferFrom(msg.sender,address(this),_tokenAmount)
+
+IRs:
+TMP_237 = CONVERT this to address
+LIBRARY_CALL, dest:SafeERC20, function:SafeERC20.safeTransferFrom(IERC20,address,address,uint256), arguments:['_token', 'msg.sender', 'TMP_237', '_tokenAmount'] "];
+7->8;
+8[label="Node Type: EXPRESSION 8
+
+EXPRESSION:
+_token.safeApprove(address(strategyManager),_tokenAmount)
+
+IRs:
+TMP_239 = CONVERT strategyManager to address
+LIBRARY_CALL, dest:SafeERC20, function:SafeERC20.safeApprove(IERC20,address,uint256), arguments:['_token', 'TMP_239', '_tokenAmount'] "];
+8->9;
+9[label="Node Type: RETURN 9
+
+EXPRESSION:
+strategyManager.depositIntoStrategy(tokenStrategyMapping[_token],_token,_tokenAmount)
+
+IRs:
+REF_58(IStrategy) -> tokenStrategyMapping[_token]
+TMP_241(uint256) = HIGH_LEVEL_CALL, dest:strategyManager(IStrategyManager), function:depositIntoStrategy, arguments:['REF_58', '_token', '_tokenAmount']  
+RETURN TMP_241"];
+10[label="Node Type: EXPRESSION 10
+
+EXPRESSION:
+nonReentrant()
+
+IRs:
+MODIFIER_CALL, ReentrancyGuardUpgradeable.nonReentrant()()"];
+10->11;
+11[label="Node Type: EXPRESSION 11
+
+EXPRESSION:
+onlyRestakeManager()
+
+IRs:
+MODIFIER_CALL, OperatorDelegator.onlyRestakeManager()()"];
+11->1;
+}

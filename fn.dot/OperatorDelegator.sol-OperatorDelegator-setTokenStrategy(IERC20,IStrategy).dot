@@ -1,0 +1,60 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->6;
+1[label="Node Type: IF 1
+
+EXPRESSION:
+address(_token) == address(0x0)
+
+IRs:
+TMP_212 = CONVERT _token to address
+TMP_213 = CONVERT 0 to address
+TMP_214(bool) = TMP_212 == TMP_213
+CONDITION TMP_214"];
+1->2[label="True"];
+1->3[label="False"];
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+revert InvalidZeroInput()()
+
+IRs:
+TMP_215(None) = SOLIDITY_CALL revert InvalidZeroInput()()"];
+2->3;
+3[label="Node Type: END_IF 3
+"];
+3->4;
+4[label="Node Type: EXPRESSION 4
+
+EXPRESSION:
+tokenStrategyMapping[_token] = _strategy
+
+IRs:
+REF_52(IStrategy) -> tokenStrategyMapping[_token]
+REF_52(IStrategy) (->tokenStrategyMapping) := _strategy(IStrategy)"];
+4->5;
+5[label="Node Type: EXPRESSION 5
+
+EXPRESSION:
+TokenStrategyUpdated(_token,_strategy)
+
+IRs:
+Emit TokenStrategyUpdated(_token,_strategy)"];
+6[label="Node Type: EXPRESSION 6
+
+EXPRESSION:
+nonReentrant()
+
+IRs:
+MODIFIER_CALL, ReentrancyGuardUpgradeable.nonReentrant()()"];
+6->7;
+7[label="Node Type: EXPRESSION 7
+
+EXPRESSION:
+onlyOperatorDelegatorAdmin()
+
+IRs:
+MODIFIER_CALL, OperatorDelegator.onlyOperatorDelegatorAdmin()()"];
+7->1;
+}

@@ -1,0 +1,47 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: EXPRESSION 1
+
+EXPRESSION:
+require(bool,string)(proof.length == 32 * ((BALANCE_TREE_HEIGHT + 1) + BEACON_STATE_FIELD_TREE_HEIGHT),BeaconChainProofs.verifyValidatorBalance: Proof has incorrect length)
+
+IRs:
+REF_93 -> LENGTH proof
+TMP_360(uint256) = BALANCE_TREE_HEIGHT (c)+ 1
+TMP_361(uint256) = TMP_360 (c)+ BEACON_STATE_FIELD_TREE_HEIGHT
+TMP_362(uint256) = 32 (c)* TMP_361
+TMP_363(bool) = REF_93 == TMP_362
+TMP_364(None) = SOLIDITY_CALL require(bool,string)(TMP_363,BeaconChainProofs.verifyValidatorBalance: Proof has incorrect length)"];
+1->2;
+2[label="Node Type: NEW VARIABLE 2
+
+EXPRESSION:
+balanceIndex = uint256(validatorIndex / 4)
+
+IRs:
+TMP_365(uint40) = validatorIndex (c)/ 4
+TMP_366 = CONVERT TMP_365 to uint256
+balanceIndex(uint256) := TMP_366(uint256)"];
+2->3;
+3[label="Node Type: EXPRESSION 3
+
+EXPRESSION:
+balanceIndex = (BALANCE_INDEX << (BALANCE_TREE_HEIGHT + 1)) | balanceIndex
+
+IRs:
+TMP_367(uint256) = BALANCE_TREE_HEIGHT (c)+ 1
+TMP_368(uint256) = BALANCE_INDEX << TMP_367
+TMP_369(uint256) = TMP_368 | balanceIndex
+balanceIndex(uint256) := TMP_369(uint256)"];
+3->4;
+4[label="Node Type: EXPRESSION 4
+
+EXPRESSION:
+require(bool,string)(Merkle.verifyInclusionSha256(proof,beaconStateRoot,balanceRoot,balanceIndex),BeaconChainProofs.verifyValidatorBalance: Invalid merkle proof)
+
+IRs:
+TMP_370(bool) = LIBRARY_CALL, dest:Merkle, function:Merkle.verifyInclusionSha256(bytes,bytes32,bytes32,uint256), arguments:['proof', 'beaconStateRoot', 'balanceRoot', 'balanceIndex'] 
+TMP_371(None) = SOLIDITY_CALL require(bool,string)(TMP_370,BeaconChainProofs.verifyValidatorBalance: Invalid merkle proof)"];
+}

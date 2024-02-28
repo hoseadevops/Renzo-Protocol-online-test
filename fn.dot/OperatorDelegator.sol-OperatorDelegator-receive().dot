@@ -1,0 +1,107 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->14;
+1[label="Node Type: IF 1
+
+EXPRESSION:
+msg.sender == address(eigenPod.delayedWithdrawalRouter())
+
+IRs:
+TMP_301(IDelayedWithdrawalRouter) = HIGH_LEVEL_CALL, dest:eigenPod(IEigenPod), function:delayedWithdrawalRouter, arguments:[]  
+TMP_302 = CONVERT TMP_301 to address
+TMP_303(bool) = msg.sender == TMP_302
+CONDITION TMP_303"];
+1->2[label="True"];
+1->6[label="False"];
+2[label="Node Type: IF 2
+
+EXPRESSION:
+msg.value <= pendingUnstakedDelayedWithdrawalAmount
+
+IRs:
+TMP_304(bool) = msg.value <= pendingUnstakedDelayedWithdrawalAmount
+CONDITION TMP_304"];
+2->3[label="True"];
+2->4[label="False"];
+3[label="Node Type: EXPRESSION 3
+
+EXPRESSION:
+pendingUnstakedDelayedWithdrawalAmount -= msg.value
+
+IRs:
+pendingUnstakedDelayedWithdrawalAmount(uint256) = pendingUnstakedDelayedWithdrawalAmount (c)- msg.value"];
+3->5;
+4[label="Node Type: EXPRESSION 4
+
+EXPRESSION:
+pendingUnstakedDelayedWithdrawalAmount = 0
+
+IRs:
+pendingUnstakedDelayedWithdrawalAmount(uint256) := 0(uint256)"];
+4->5;
+5[label="Node Type: END_IF 5
+"];
+5->6;
+6[label="Node Type: END_IF 6
+"];
+6->7;
+7[label="Node Type: NEW VARIABLE 7
+
+EXPRESSION:
+destination = address(restakeManager.depositQueue())
+
+IRs:
+TMP_305(IDepositQueue) = HIGH_LEVEL_CALL, dest:restakeManager(IRestakeManager), function:depositQueue, arguments:[]  
+TMP_306 = CONVERT TMP_305 to address
+destination(address) := TMP_306(address)"];
+7->8;
+8[label="Node Type: NEW VARIABLE 8
+"];
+8->9;
+9[label="Node Type: EXPRESSION 9
+
+EXPRESSION:
+(success) = destination.call{value: msg.value}()
+
+IRs:
+TUPLE_9(bool,bytes) = LOW_LEVEL_CALL, dest:destination, function:call, arguments:[''] value:msg.value 
+success(bool)= UNPACK TUPLE_9 index: 0 "];
+9->10;
+10[label="Node Type: IF 10
+
+EXPRESSION:
+! success
+
+IRs:
+TMP_307 = ! success 
+CONDITION TMP_307"];
+10->11[label="True"];
+10->12[label="False"];
+11[label="Node Type: EXPRESSION 11
+
+EXPRESSION:
+revert TransferFailed()()
+
+IRs:
+TMP_308(None) = SOLIDITY_CALL revert TransferFailed()()"];
+11->12;
+12[label="Node Type: END_IF 12
+"];
+12->13;
+13[label="Node Type: EXPRESSION 13
+
+EXPRESSION:
+RewardsForwarded(destination,msg.value)
+
+IRs:
+Emit RewardsForwarded(destination,msg.value)"];
+14[label="Node Type: EXPRESSION 14
+
+EXPRESSION:
+nonReentrant()
+
+IRs:
+MODIFIER_CALL, ReentrancyGuardUpgradeable.nonReentrant()()"];
+14->1;
+}

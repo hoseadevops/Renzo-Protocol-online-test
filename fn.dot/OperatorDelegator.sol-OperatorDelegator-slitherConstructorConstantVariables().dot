@@ -1,0 +1,9 @@
+digraph{
+0[label="Node Type: OTHER_ENTRYPOINT 0
+
+EXPRESSION:
+GWEI_TO_WEI = 1e9
+
+IRs:
+GWEI_TO_WEI(uint256) := 1000000000(uint256)"];
+}

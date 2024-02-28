@@ -1,0 +1,150 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->15;
+1[label="Node Type: IF 1
+
+EXPRESSION:
+address(tokenStrategyMapping[_token]) == address(0x0)
+
+IRs:
+REF_61(IStrategy) -> tokenStrategyMapping[_token]
+TMP_252 = CONVERT REF_61 to address
+TMP_253 = CONVERT 0 to address
+TMP_254(bool) = TMP_252 == TMP_253
+CONDITION TMP_254"];
+1->2[label="True"];
+1->3[label="False"];
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+revert InvalidZeroInput()()
+
+IRs:
+TMP_255(None) = SOLIDITY_CALL revert InvalidZeroInput()()"];
+2->3;
+3[label="Node Type: END_IF 3
+"];
+3->4;
+4[label="Node Type: NEW VARIABLE 4
+
+EXPRESSION:
+nonce = uint96(strategyManager.numWithdrawalsQueued(address(this)))
+
+IRs:
+TMP_256 = CONVERT this to address
+TMP_257(uint256) = HIGH_LEVEL_CALL, dest:strategyManager(IStrategyManager), function:numWithdrawalsQueued, arguments:['TMP_256']  
+TMP_258 = CONVERT TMP_257 to uint96
+nonce(uint96) := TMP_258(uint96)"];
+4->5;
+5[label="Node Type: NEW VARIABLE 5
+
+EXPRESSION:
+strategyIndexes = new uint256[](1)
+
+IRs:
+TMP_260uint256[])  = new uint256[](1)
+strategyIndexes(uint256[]) =  ['TMP_260(uint256[])']"];
+5->6;
+6[label="Node Type: EXPRESSION 6
+
+EXPRESSION:
+strategyIndexes[0] = getStrategyIndex(tokenStrategyMapping[_token])
+
+IRs:
+REF_63(uint256) -> strategyIndexes[0]
+REF_64(IStrategy) -> tokenStrategyMapping[_token]
+TMP_261(uint256) = INTERNAL_CALL, OperatorDelegator.getStrategyIndex(IStrategy)(REF_64)
+REF_63(uint256) (->strategyIndexes) := TMP_261(uint256)"];
+6->7;
+7[label="Node Type: NEW VARIABLE 7
+
+EXPRESSION:
+sharesToWithdraw = tokenStrategyMapping[_token].underlyingToSharesView(_tokenAmount)
+
+IRs:
+REF_65(IStrategy) -> tokenStrategyMapping[_token]
+TMP_262(uint256) = HIGH_LEVEL_CALL, dest:REF_65(IStrategy), function:underlyingToSharesView, arguments:['_tokenAmount']  
+sharesToWithdraw(uint256) := TMP_262(uint256)"];
+7->8;
+8[label="Node Type: NEW VARIABLE 8
+
+EXPRESSION:
+strategiesToWithdraw = new IStrategy[](1)
+
+IRs:
+TMP_264IStrategy[])  = new IStrategy[](1)
+strategiesToWithdraw(IStrategy[]) =  ['TMP_264(IStrategy[])']"];
+8->9;
+9[label="Node Type: EXPRESSION 9
+
+EXPRESSION:
+strategiesToWithdraw[0] = tokenStrategyMapping[_token]
+
+IRs:
+REF_67(IStrategy) -> strategiesToWithdraw[0]
+REF_68(IStrategy) -> tokenStrategyMapping[_token]
+REF_67(IStrategy) (->strategiesToWithdraw) := REF_68(IStrategy)"];
+9->10;
+10[label="Node Type: NEW VARIABLE 10
+
+EXPRESSION:
+amountsToWithdraw = new uint256[](1)
+
+IRs:
+TMP_266uint256[])  = new uint256[](1)
+amountsToWithdraw(uint256[]) =  ['TMP_266(uint256[])']"];
+10->11;
+11[label="Node Type: EXPRESSION 11
+
+EXPRESSION:
+amountsToWithdraw[0] = sharesToWithdraw
+
+IRs:
+REF_69(uint256) -> amountsToWithdraw[0]
+REF_69(uint256) (->amountsToWithdraw) := sharesToWithdraw(uint256)"];
+11->12;
+12[label="Node Type: NEW VARIABLE 12
+
+EXPRESSION:
+withdrawalRoot = strategyManager.queueWithdrawal(strategyIndexes,strategiesToWithdraw,amountsToWithdraw,address(this),false)
+
+IRs:
+TMP_267 = CONVERT this to address
+TMP_268(bytes32) = HIGH_LEVEL_CALL, dest:strategyManager(IStrategyManager), function:queueWithdrawal, arguments:['strategyIndexes', 'strategiesToWithdraw', 'amountsToWithdraw', 'TMP_267', 'False']  
+withdrawalRoot(bytes32) := TMP_268(bytes32)"];
+12->13;
+13[label="Node Type: EXPRESSION 13
+
+EXPRESSION:
+WithdrawStarted(withdrawalRoot,address(this),delegateAddress,address(this),nonce,block.number,strategiesToWithdraw,amountsToWithdraw)
+
+IRs:
+TMP_269 = CONVERT this to address
+TMP_270 = CONVERT this to address
+Emit WithdrawStarted(withdrawalRoot,TMP_269,delegateAddress,TMP_270,nonce,block.number,strategiesToWithdraw,amountsToWithdraw)"];
+13->14;
+14[label="Node Type: RETURN 14
+
+EXPRESSION:
+withdrawalRoot
+
+IRs:
+RETURN withdrawalRoot"];
+15[label="Node Type: EXPRESSION 15
+
+EXPRESSION:
+nonReentrant()
+
+IRs:
+MODIFIER_CALL, ReentrancyGuardUpgradeable.nonReentrant()()"];
+15->16;
+16[label="Node Type: EXPRESSION 16
+
+EXPRESSION:
+onlyRestakeManager()
+
+IRs:
+MODIFIER_CALL, OperatorDelegator.onlyRestakeManager()()"];
+16->1;
+}

@@ -1,0 +1,50 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: IF 1
+
+EXPRESSION:
+returndata.length > 0
+
+IRs:
+REF_49 -> LENGTH returndata
+TMP_165(bool) = REF_49 > 0
+CONDITION TMP_165"];
+1->2[label="True"];
+1->6[label="False"];
+2[label="Node Type: INLINE ASM 2
+"];
+2->3;
+3[label="Node Type: NEW VARIABLE 3
+"];
+3->4;
+4[label="Node Type: EXPRESSION 4
+
+EXPRESSION:
+returndata_size__revert_asm_0 = mload(uint256)(returndata)
+
+IRs:
+TMP_166(uint256) = SOLIDITY_CALL mload(uint256)(returndata)
+returndata_size__revert_asm_0(uint256) := TMP_166(uint256)"];
+4->5;
+5[label="Node Type: EXPRESSION 5
+
+EXPRESSION:
+revert(uint256,uint256)(32 + returndata,returndata_size__revert_asm_0)
+
+IRs:
+TMP_167(uint256) = 32 + returndata
+TMP_168(None) = SOLIDITY_CALL revert(uint256,uint256)(TMP_167,returndata_size__revert_asm_0)"];
+5->7;
+6[label="Node Type: EXPRESSION 6
+
+EXPRESSION:
+revert(string)(errorMessage)
+
+IRs:
+TMP_169(None) = SOLIDITY_CALL revert(string)(errorMessage)"];
+6->7;
+7[label="Node Type: END_IF 7
+"];
+}

@@ -1,0 +1,16 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: RETURN 1
+
+EXPRESSION:
+stakedButNotVerifiedEth + address(eigenPod).balance + pendingUnstakedDelayedWithdrawalAmount
+
+IRs:
+TMP_284 = CONVERT eigenPod to address
+TMP_285(uint256) = SOLIDITY_CALL balance(address)(TMP_284)
+TMP_286(uint256) = stakedButNotVerifiedEth (c)+ TMP_285
+TMP_287(uint256) = TMP_286 (c)+ pendingUnstakedDelayedWithdrawalAmount
+RETURN TMP_287"];
+}

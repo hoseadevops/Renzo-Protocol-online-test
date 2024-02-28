@@ -1,0 +1,77 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: NEW VARIABLE 1
+
+EXPRESSION:
+strategyLength = strategyManager.stakerStrategyListLength(address(this))
+
+IRs:
+TMP_244 = CONVERT this to address
+TMP_245(uint256) = HIGH_LEVEL_CALL, dest:strategyManager(IStrategyManager), function:stakerStrategyListLength, arguments:['TMP_244']  
+strategyLength(uint256) := TMP_245(uint256)"];
+1->4;
+2[label="Node Type: BEGIN_LOOP 2
+"];
+2->5;
+3[label="Node Type: END_LOOP 3
+"];
+3->10;
+4[label="Node Type: NEW VARIABLE 4
+
+EXPRESSION:
+i = 0
+
+IRs:
+i(uint256) := 0(uint256)"];
+4->2;
+5[label="Node Type: IF_LOOP 5
+
+EXPRESSION:
+i < strategyLength
+
+IRs:
+TMP_246(bool) = i < strategyLength
+CONDITION TMP_246"];
+5->6[label="True"];
+5->3[label="False"];
+6[label="Node Type: IF 6
+
+EXPRESSION:
+strategyManager.stakerStrategyList(address(this),i) == _strategy
+
+IRs:
+TMP_247 = CONVERT this to address
+TMP_248(IStrategy) = HIGH_LEVEL_CALL, dest:strategyManager(IStrategyManager), function:stakerStrategyList, arguments:['TMP_247', 'i']  
+TMP_249(bool) = TMP_248 == _strategy
+CONDITION TMP_249"];
+6->7[label="True"];
+6->8[label="False"];
+7[label="Node Type: RETURN 7
+
+EXPRESSION:
+i
+
+IRs:
+RETURN i"];
+8[label="Node Type: END_IF 8
+"];
+8->9;
+9[label="Node Type: EXPRESSION 9
+
+EXPRESSION:
+i ++
+
+IRs:
+TMP_250(uint256) := i(uint256)
+i(uint256) = i (c)+ 1"];
+9->5;
+10[label="Node Type: EXPRESSION 10
+
+EXPRESSION:
+revert NotFound()()
+
+IRs:
+TMP_251(None) = SOLIDITY_CALL revert NotFound()()"];
+}

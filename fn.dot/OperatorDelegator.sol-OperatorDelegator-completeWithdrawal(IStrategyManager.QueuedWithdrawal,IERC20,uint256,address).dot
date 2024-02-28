@@ -1,0 +1,56 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->5;
+1[label="Node Type: NEW VARIABLE 1
+
+EXPRESSION:
+tokens = new IERC20[](1)
+
+IRs:
+TMP_275IERC20[])  = new IERC20[](1)
+tokens(IERC20[]) =  ['TMP_275(IERC20[])']"];
+1->2;
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+tokens[0] = _token
+
+IRs:
+REF_71(IERC20) -> tokens[0]
+REF_71(IERC20) (->tokens) := _token(IERC20)"];
+2->3;
+3[label="Node Type: EXPRESSION 3
+
+EXPRESSION:
+strategyManager.completeQueuedWithdrawal(_withdrawal,tokens,_middlewareTimesIndex,true)
+
+IRs:
+HIGH_LEVEL_CALL, dest:strategyManager(IStrategyManager), function:completeQueuedWithdrawal, arguments:['_withdrawal', 'tokens', '_middlewareTimesIndex', 'True']  "];
+3->4;
+4[label="Node Type: EXPRESSION 4
+
+EXPRESSION:
+_token.safeTransfer(_sendToAddress,_token.balanceOf(address(this)))
+
+IRs:
+TMP_277 = CONVERT this to address
+TMP_278(uint256) = HIGH_LEVEL_CALL, dest:_token(IERC20), function:balanceOf, arguments:['TMP_277']  
+LIBRARY_CALL, dest:SafeERC20, function:SafeERC20.safeTransfer(IERC20,address,uint256), arguments:['_token', '_sendToAddress', 'TMP_278'] "];
+5[label="Node Type: EXPRESSION 5
+
+EXPRESSION:
+nonReentrant()
+
+IRs:
+MODIFIER_CALL, ReentrancyGuardUpgradeable.nonReentrant()()"];
+5->6;
+6[label="Node Type: EXPRESSION 6
+
+EXPRESSION:
+onlyRestakeManager()
+
+IRs:
+MODIFIER_CALL, OperatorDelegator.onlyRestakeManager()()"];
+6->1;
+}

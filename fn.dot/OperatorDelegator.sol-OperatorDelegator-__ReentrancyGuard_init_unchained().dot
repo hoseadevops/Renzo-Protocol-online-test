@@ -1,0 +1,20 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->2;
+1[label="Node Type: EXPRESSION 1
+
+EXPRESSION:
+_status = _NOT_ENTERED
+
+IRs:
+_status(uint256) := _NOT_ENTERED(uint256)"];
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+onlyInitializing()
+
+IRs:
+MODIFIER_CALL, Initializable.onlyInitializing()()"];
+2->1;
+}

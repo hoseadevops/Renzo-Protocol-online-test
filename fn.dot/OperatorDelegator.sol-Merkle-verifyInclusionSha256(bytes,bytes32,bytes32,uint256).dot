@@ -1,0 +1,14 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: RETURN 1
+
+EXPRESSION:
+processInclusionProofSha256(proof,leaf,index) == root
+
+IRs:
+TMP_467(bytes32) = INTERNAL_CALL, Merkle.processInclusionProofSha256(bytes,bytes32,uint256)(proof,leaf,index)
+TMP_468(bool) = TMP_467 == root
+RETURN TMP_468"];
+}

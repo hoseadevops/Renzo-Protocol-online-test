@@ -1,0 +1,28 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->3;
+1[label="Node Type: EXPRESSION 1
+
+EXPRESSION:
+eigenPodManager.stake{value: msg.value}(pubkey,signature,depositDataRoot)
+
+IRs:
+HIGH_LEVEL_CALL, dest:eigenPodManager(IEigenPodManager), function:stake, arguments:['pubkey', 'signature', 'depositDataRoot'] value:msg.value "];
+1->2;
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+stakedButNotVerifiedEth += msg.value
+
+IRs:
+stakedButNotVerifiedEth(uint256) = stakedButNotVerifiedEth (c)+ msg.value"];
+3[label="Node Type: EXPRESSION 3
+
+EXPRESSION:
+onlyRestakeManager()
+
+IRs:
+MODIFIER_CALL, OperatorDelegator.onlyRestakeManager()()"];
+3->1;
+}
