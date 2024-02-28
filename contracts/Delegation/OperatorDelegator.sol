@@ -125,10 +125,18 @@ contract OperatorDelegator is
         emit DelegationAddressUpdated(_delegateAddress);
     }
 
+
     /// @dev Deposit tokens into the EigenLayer.  This call assumes any balance of tokens in this contract will be delegated
     /// so do not directly send tokens here or they will be delegated and attributed to the next caller.
     /// @return shares The amount of new shares in the `strategy` created as part of the action.
-    /// 款 (deposit)：将代币存入 EigenLayer 中，将代币转移到合约地址，并通过策略管理器进行存款操作。
+    
+    /// token 到 EL（EigenLayer） 策略 的 映射
+    /// mapping(IERC20 => IStrategy) public tokenStrategyMapping;
+    /// EL（EigenLayer） strategyManager
+    /// IStrategyManager public strategyManager;
+
+    /// @dev 将代币存入EigenLayer。该调用假定此合约中的任何代币余额都将被委托，因此请勿直接将代币发送到此处，否则它们将被委托并归属于下一个调用者。
+    /// @return shares 作为操作的一部分在“strategy”中创建的新份额数量。
     function deposit(
         IERC20 _token,
         uint256 _tokenAmount

@@ -720,11 +720,11 @@ contract RestakeManager is
         );
 
         // Approve the tokens to the operator delegator
-        // 授权 当前 ERC20 给 运营商代理
+        // 授权 当前 ERC20 转入额度 给 运营商代理
         _token.safeApprove(address(operatorDelegator), _amount);
 
         // Deposit the tokens into EigenLayer
-        // 运营商代理 质押
+        // 调用 运营商代理 质押
         operatorDelegator.deposit(_token, _amount);
     }
 
