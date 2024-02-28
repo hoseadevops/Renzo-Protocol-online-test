@@ -115,7 +115,14 @@ contract OperatorDelegator is
     }
 
     /// @dev Sets the address to delegate tokens to in EigenLayer -- THIS CAN ONLY BE SET ONCE
+   
     /// 设置委托地址 (setDelegateAddress)：设置要委托代币的地址，在 EigenLayer 中委托代币到指定地址。
+    
+    /// EigenLayer delegateAddress 地址
+    /// address public delegateAddress;
+
+    /// EigenLayer delegationManager
+    /// IDelegationManager public delegationManager;
     function setDelegateAddress(
         address _delegateAddress
     ) external nonReentrant onlyOperatorDelegatorAdmin {
@@ -124,6 +131,7 @@ contract OperatorDelegator is
 
         delegateAddress = _delegateAddress;
 
+        /// EigenLayer delegationManager
         delegationManager.delegateTo(
             delegateAddress
         );
