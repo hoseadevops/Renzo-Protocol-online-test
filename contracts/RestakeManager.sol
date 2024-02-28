@@ -697,6 +697,7 @@ contract RestakeManager is
     ) external onlyDepositQueue {        
         
         // Get the TVLs for each operator delegator and the total TVL
+        // 获取每个运营商代理的 TVL 和 总TVL
         (
             ,
             uint256[] memory operatorDelegatorTVLs,
@@ -704,12 +705,14 @@ contract RestakeManager is
         ) = calculateTVLs();
 
         // Determine which operator delegator to use
+        // 确定使用哪个运营商代理
         IOperatorDelegator operatorDelegator = chooseOperatorDelegatorForDeposit(
                 operatorDelegatorTVLs,
                 totalTVL
             );
 
         // Transfer the tokens to this address
+        // ERC20 转入到 当前地址
         _token.safeTransferFrom(
             msg.sender,
             address(this),
@@ -717,9 +720,11 @@ contract RestakeManager is
         );
 
         // Approve the tokens to the operator delegator
+        // 授权 当前 ERC20 给 运营商代理
         _token.safeApprove(address(operatorDelegator), _amount);
 
         // Deposit the tokens into EigenLayer
+        // 运营商代理 质押
         operatorDelegator.deposit(_token, _amount);
     }
 
