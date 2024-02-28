@@ -8,8 +8,10 @@ import "./OperatorDelegatorStorage.sol";
 import "../EigenLayer/interfaces/IDelegationManager.sol";
 import "../Errors/Errors.sol";
 
-/// @dev 这个合约将负责与Eigenlayer交互 
 
+/// 运营商代理 主要与 EL 交互
+
+/// @dev 这个合约将负责与Eigenlayer交互 
 /// 每个部署的合同将被委派给一个特定的运营商 
 /// 该合约可以处理多个ERC20令牌，所有这些令牌都将被委托给同一个运营商 
 /// 每个支持的ERC20令牌将指向EL中的单个策略合约 
@@ -97,8 +99,11 @@ contract OperatorDelegator is
         eigenPod = IEigenPod(eigenPodManager.ownerToPod(address(this)));
     }
 
+    /// token 到 EL（EigenLayer） IStrategy 策略 的 mapping
+    /// mapping(IERC20 => IStrategy) public tokenStrategyMapping;
+
     /// @dev Sets the strategy for a given token - setting strategy to 0x0 removes the ability to deposit and withdraw token
-    // 设置策略 允许设置给定代币的策略，用于指定将资金委托给的策略合约
+    // 设置给定token 的策略 - 将策略设置为0x0 将 删除 "存入和取出" 令牌的功能
     function setTokenStrategy(
         IERC20 _token,
         IStrategy _strategy

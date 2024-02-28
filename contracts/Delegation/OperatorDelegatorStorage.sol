@@ -32,7 +32,7 @@ abstract contract OperatorDelegatorStorageV1 is IOperatorDelegator{
 
     /// @dev The mapping of supported token addresses to their respective strategy addresses
     /// This will control which tokens are supported by the protocol
-    // token 到 EL（EigenLayer） 策略 的 映射
+    // token 到 EL（EigenLayer） IStrategy 策略 的 映射
     mapping(IERC20 => IStrategy) public tokenStrategyMapping;
 
     /// @dev The address to delegate tokens to in EigenLayer

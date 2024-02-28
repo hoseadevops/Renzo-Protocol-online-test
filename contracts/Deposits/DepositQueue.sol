@@ -8,6 +8,8 @@ import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.
 import "../Errors/Errors.sol";
 
 
+// DepositQueue 质押队列 主要用于 ETH、和 ERC20 暂存、以及手续费收取、可作为入口调用 主合约 质押ETH 和 ERC20
+
 // 当用户存入原生以太币时，它会通过以太坊信标链验证节点进行质押。原生以太币会存放在DepositQueue合约中，
 // 直到达到32 ETH的最低要求。一旦达到最低要求，ETH将直接发送到信标链存款合约，并且提款凭证指向 EigenLayer中 的 EigenPod
 
@@ -107,6 +109,7 @@ contract DepositQueue is Initializable, ReentrancyGuardUpgradeable, DepositQueue
     }
 
     /// @dev Sets the address of the RestakeManager contract
+   
     /// @dev 设置RestakeManager合约的地址
     function setRestakeManager(IRestakeManager _restakeManager) external onlyRestakeManagerAdmin {
         if(address(_restakeManager) == address(0x0)) revert InvalidZeroInput();
@@ -118,8 +121,9 @@ contract DepositQueue is Initializable, ReentrancyGuardUpgradeable, DepositQueue
 
     /// @dev Handle ETH sent to the protocol through the RestakeManager - e.g. user deposits
     /// ETH will be stored here until used for a validator deposit
-    /// @dev 处理 通过 RestakeManager 发送过来ETH
-    /// 例如 : 用户 deposit ETH 将在此存储，直到用于 validator deposit（验证人质押）
+  
+    /// @dev 处理 : RestakeManager 发送过来ETH (只存储）
+    /// 例如 : 用户 deposit 的 ETH 将存储在此合约中，用于 validator deposit（以太坊 POS 验证人质押）
     function depositETHFromProtocol() external payable onlyRestakeManager {
         emit ETHDepositedFromProtocol(msg.value);
     }
@@ -129,14 +133,15 @@ contract DepositQueue is Initializable, ReentrancyGuardUpgradeable, DepositQueue
     /// This should receive ETH from scenarios like Execution Layer Rewards and MEV (Maximal Extractable Value) from native staking
     /// Users should NOT send ETH directly to this contract unless they want to donate to existing ezETH holders
     
-    /// @dev 处理从协议外部发送到此合约的ETH - 例如，奖励
-    /// ETH将在此存储，直到用于 validator deposit（验证人质押）
-    /// 这应该 从 以太坊执行层奖励 和 最大可提取价值（MEV）以太坊原生质押的 接收 ETH
-    /// 用户不应直接将ETH发送到此合约，除非他们想捐赠给现有的ezETH持有者
+    /// @dev 处理从协议外部发送到此合约的ETH - 例如，奖励（以太坊 质押挖矿奖励 和 执行 MEV奖励）
+    /// ETH 将存储在此，用于 validator deposit（以太坊 POS 验证人质押）
+    
+    /// 这应该 从 【以太坊执行层奖励 和 最大可提取价值（MEV）】 场景下 接收 ETH
+    /// 用户不应直接将 ETH 发送到此合约，除非他们想捐赠给现有的ezETH持有者
     receive() external payable nonReentrant { 
         uint256 feeAmount = 0;
         // Take protocol cut of rewards if enabled
-        // 如果启用（地址和百分比有一个为0 则不启用），从奖励中获取协议费用
+        // 手续费如果启用（地址和百分比有一个为0 则不启用），从奖励中获取协议费用
         if(feeAddress != address(0x0) && feeBasisPoints > 0) {
             feeAmount = msg.value * feeBasisPoints / 10000;
             (bool success, ) = feeAddress.call{value: feeAmount}("");
@@ -146,7 +151,7 @@ contract DepositQueue is Initializable, ReentrancyGuardUpgradeable, DepositQueue
         } 
 
         // Add to the total earned
-        // 将奖励总额增加
+        // 将"奖励" 总额增加
         totalEarned[address(0x0)] = totalEarned[address(0x0)] + msg.value - feeAmount;
 
         // Emit the rewards event
@@ -156,10 +161,9 @@ contract DepositQueue is Initializable, ReentrancyGuardUpgradeable, DepositQueue
     /// @dev Function called by ETH Restake Admin to start the restaking process in Native ETH
     /// Only callable by a permissioned account
 
-    /// @dev 管理员调用此函数，启动原生ETH的重质押过程
+    /// @dev 管理员调用此函数，启动原生ETH的 restake 重质押流程
     /// 仅可由授权帐户调用
-
-    /// 运营商代理、公钥、签名、质押根
+    /// 参数：运营商代理、公钥、签名、质押根
     function stakeEthFromQueue(IOperatorDelegator operatorDelegator, bytes calldata pubkey, bytes calldata signature, bytes32 depositDataRoot) external onlyNativeEthRestakeAdmin {
 
         // Send the ETH and the params through to the restake manager

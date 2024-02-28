@@ -21,7 +21,7 @@
         * Staked Frax Ethe sfrxETH
 
 * EL（EigenLayer ）项目 
-    * > 通过"在质押" 为 中间件（DA、bridge、sidechain、oracle..） 提供共享安全. 
+    * > 通过"在质押" 为 中间件（DA、bridge、sidechain、oracle、rullup..） 提供共享安全. 
     * 角色
         * Staker 质押者
         * Operator 运营商
