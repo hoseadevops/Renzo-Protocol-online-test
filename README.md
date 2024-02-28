@@ -38,26 +38,6 @@
         * Kelp: https://kelpdao.xyz/restake
         * eigenpie ：https://eigenpie.magpiexyz.connect-token.vip/
  
-
-### 预估
-
-* RENZO 大概需要 2周 
-* EL（EigenLayer）大概需要 3 周
-
-### 进度
-
-* TODO
-    * [ ] 版本一致 : 
-        * [x] RENZO 的 online 和 github 代码不一致 需要抓取online代码组装项目
-        * [ ] EL(EigenLayer) 
-    * [ ] 环境搭建 
-        * [x] RENZO: 、mock（EL、chainlink）、升级转本地测试
-        * [ ] EL（EigenLayer）
-    * [ ] 深度调研 : 以太坊pos质押（了解原生质押挖矿、提款权、罚没）；熟悉 EigenLayer（模型、架构、产品、代码）； 编码深度（upgrade、assembly)
-    * [ ] 测试脚本
-        * [ ] RENZO（正在进行）
-        * [ ] EL（EigenLayer）
-
 ### Reference 
 
 * 以太坊官网 
