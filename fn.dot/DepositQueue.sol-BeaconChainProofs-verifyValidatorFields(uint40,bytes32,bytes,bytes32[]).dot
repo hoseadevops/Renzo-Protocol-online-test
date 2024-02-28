@@ -1,0 +1,58 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: EXPRESSION 1
+
+EXPRESSION:
+require(bool,string)(validatorFields.length == 2 ** VALIDATOR_FIELD_TREE_HEIGHT,BeaconChainProofs.verifyValidatorFields: Validator fields has incorrect length)
+
+IRs:
+REF_65 -> LENGTH validatorFields
+TMP_297(uint256) = 2 (c)** VALIDATOR_FIELD_TREE_HEIGHT
+TMP_298(bool) = REF_65 == TMP_297
+TMP_299(None) = SOLIDITY_CALL require(bool,string)(TMP_298,BeaconChainProofs.verifyValidatorFields: Validator fields has incorrect length)"];
+1->2;
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+require(bool,string)(proof.length == 32 * ((VALIDATOR_TREE_HEIGHT + 1) + BEACON_STATE_FIELD_TREE_HEIGHT),BeaconChainProofs.verifyValidatorFields: Proof has incorrect length)
+
+IRs:
+REF_66 -> LENGTH proof
+TMP_300(uint256) = VALIDATOR_TREE_HEIGHT (c)+ 1
+TMP_301(uint256) = TMP_300 (c)+ BEACON_STATE_FIELD_TREE_HEIGHT
+TMP_302(uint256) = 32 (c)* TMP_301
+TMP_303(bool) = REF_66 == TMP_302
+TMP_304(None) = SOLIDITY_CALL require(bool,string)(TMP_303,BeaconChainProofs.verifyValidatorFields: Proof has incorrect length)"];
+2->3;
+3[label="Node Type: NEW VARIABLE 3
+
+EXPRESSION:
+index = (VALIDATOR_TREE_ROOT_INDEX << (VALIDATOR_TREE_HEIGHT + 1)) | uint256(validatorIndex)
+
+IRs:
+TMP_305(uint256) = VALIDATOR_TREE_HEIGHT (c)+ 1
+TMP_306(uint256) = VALIDATOR_TREE_ROOT_INDEX << TMP_305
+TMP_307 = CONVERT validatorIndex to uint256
+TMP_308(uint256) = TMP_306 | TMP_307
+index(uint256) := TMP_308(uint256)"];
+3->4;
+4[label="Node Type: NEW VARIABLE 4
+
+EXPRESSION:
+validatorRoot = Merkle.merkleizeSha256(validatorFields)
+
+IRs:
+TMP_309(bytes32) = LIBRARY_CALL, dest:Merkle, function:Merkle.merkleizeSha256(bytes32[]), arguments:['validatorFields'] 
+validatorRoot(bytes32) := TMP_309(bytes32)"];
+4->5;
+5[label="Node Type: EXPRESSION 5
+
+EXPRESSION:
+require(bool,string)(Merkle.verifyInclusionSha256(proof,beaconStateRoot,validatorRoot,index),BeaconChainProofs.verifyValidatorFields: Invalid merkle proof)
+
+IRs:
+TMP_310(bool) = LIBRARY_CALL, dest:Merkle, function:Merkle.verifyInclusionSha256(bytes,bytes32,bytes32,uint256), arguments:['proof', 'beaconStateRoot', 'validatorRoot', 'index'] 
+TMP_311(None) = SOLIDITY_CALL require(bool,string)(TMP_310,BeaconChainProofs.verifyValidatorFields: Invalid merkle proof)"];
+}

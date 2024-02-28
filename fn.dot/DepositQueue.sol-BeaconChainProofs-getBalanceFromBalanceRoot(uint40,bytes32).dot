@@ -1,0 +1,42 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: NEW VARIABLE 1
+
+EXPRESSION:
+bitShiftAmount = (validatorIndex % 4) * 64
+
+IRs:
+TMP_291(uint40) = validatorIndex % 4
+TMP_292(uint40) = TMP_291 (c)* 64
+bitShiftAmount(uint256) := TMP_292(uint40)"];
+1->2;
+2[label="Node Type: NEW VARIABLE 2
+
+EXPRESSION:
+validatorBalanceLittleEndian = bytes32((uint256(balanceRoot) << bitShiftAmount))
+
+IRs:
+TMP_293 = CONVERT balanceRoot to uint256
+TMP_294(uint256) = TMP_293 << bitShiftAmount
+TMP_295 = CONVERT TMP_294 to bytes32
+validatorBalanceLittleEndian(bytes32) := TMP_295(bytes32)"];
+2->3;
+3[label="Node Type: NEW VARIABLE 3
+
+EXPRESSION:
+validatorBalance = Endian.fromLittleEndianUint64(validatorBalanceLittleEndian)
+
+IRs:
+TMP_296(uint64) = LIBRARY_CALL, dest:Endian, function:Endian.fromLittleEndianUint64(bytes32), arguments:['validatorBalanceLittleEndian'] 
+validatorBalance(uint64) := TMP_296(uint64)"];
+3->4;
+4[label="Node Type: RETURN 4
+
+EXPRESSION:
+validatorBalance
+
+IRs:
+RETURN validatorBalance"];
+}

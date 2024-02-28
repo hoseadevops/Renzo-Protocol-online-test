@@ -1,0 +1,92 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->12;
+1[label="Node Type: IF 1
+
+EXPRESSION:
+_feeBasisPoints > 0
+
+IRs:
+TMP_192(bool) = _feeBasisPoints > 0
+CONDITION TMP_192"];
+1->2[label="True"];
+1->5[label="False"];
+2[label="Node Type: IF 2
+
+EXPRESSION:
+_feeAddress == address(0x0)
+
+IRs:
+TMP_193 = CONVERT 0 to address
+TMP_194(bool) = _feeAddress == TMP_193
+CONDITION TMP_194"];
+2->3[label="True"];
+2->4[label="False"];
+3[label="Node Type: EXPRESSION 3
+
+EXPRESSION:
+revert InvalidZeroInput()()
+
+IRs:
+TMP_195(None) = SOLIDITY_CALL revert InvalidZeroInput()()"];
+3->4;
+4[label="Node Type: END_IF 4
+"];
+4->5;
+5[label="Node Type: END_IF 5
+"];
+5->6;
+6[label="Node Type: IF 6
+
+EXPRESSION:
+_feeBasisPoints > 10000
+
+IRs:
+TMP_196(bool) = _feeBasisPoints > 10000
+CONDITION TMP_196"];
+6->7[label="True"];
+6->8[label="False"];
+7[label="Node Type: EXPRESSION 7
+
+EXPRESSION:
+revert OverMaxBasisPoints()()
+
+IRs:
+TMP_197(None) = SOLIDITY_CALL revert OverMaxBasisPoints()()"];
+7->8;
+8[label="Node Type: END_IF 8
+"];
+8->9;
+9[label="Node Type: EXPRESSION 9
+
+EXPRESSION:
+feeAddress = _feeAddress
+
+IRs:
+feeAddress(address) := _feeAddress(address)"];
+9->10;
+10[label="Node Type: EXPRESSION 10
+
+EXPRESSION:
+feeBasisPoints = _feeBasisPoints
+
+IRs:
+feeBasisPoints(uint256) := _feeBasisPoints(uint256)"];
+10->11;
+11[label="Node Type: EXPRESSION 11
+
+EXPRESSION:
+FeeConfigUpdated(_feeAddress,_feeBasisPoints)
+
+IRs:
+Emit FeeConfigUpdated(_feeAddress,_feeBasisPoints)"];
+12[label="Node Type: EXPRESSION 12
+
+EXPRESSION:
+onlyRestakeManagerAdmin()
+
+IRs:
+MODIFIER_CALL, DepositQueue.onlyRestakeManagerAdmin()()"];
+12->1;
+}

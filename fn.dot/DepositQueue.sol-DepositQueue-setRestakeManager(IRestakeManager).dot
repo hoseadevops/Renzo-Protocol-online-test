@@ -1,0 +1,51 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->6;
+1[label="Node Type: IF 1
+
+EXPRESSION:
+address(_restakeManager) == address(0x0)
+
+IRs:
+TMP_200 = CONVERT _restakeManager to address
+TMP_201 = CONVERT 0 to address
+TMP_202(bool) = TMP_200 == TMP_201
+CONDITION TMP_202"];
+1->2[label="True"];
+1->3[label="False"];
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+revert InvalidZeroInput()()
+
+IRs:
+TMP_203(None) = SOLIDITY_CALL revert InvalidZeroInput()()"];
+2->3;
+3[label="Node Type: END_IF 3
+"];
+3->4;
+4[label="Node Type: EXPRESSION 4
+
+EXPRESSION:
+restakeManager = _restakeManager
+
+IRs:
+restakeManager(IRestakeManager) := _restakeManager(IRestakeManager)"];
+4->5;
+5[label="Node Type: EXPRESSION 5
+
+EXPRESSION:
+RestakeManagerUpdated(_restakeManager)
+
+IRs:
+Emit RestakeManagerUpdated(_restakeManager)"];
+6[label="Node Type: EXPRESSION 6
+
+EXPRESSION:
+onlyRestakeManagerAdmin()
+
+IRs:
+MODIFIER_CALL, DepositQueue.onlyRestakeManagerAdmin()()"];
+6->1;
+}

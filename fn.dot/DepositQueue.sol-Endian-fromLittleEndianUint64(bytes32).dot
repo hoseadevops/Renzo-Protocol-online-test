@@ -1,0 +1,45 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: EXPRESSION 1
+
+EXPRESSION:
+n = uint64(uint256(lenum >> 192))
+
+IRs:
+TMP_372(bytes32) = lenum >> 192
+TMP_373 = CONVERT TMP_372 to uint256
+TMP_374 = CONVERT TMP_373 to uint64
+n(uint64) := TMP_374(uint64)"];
+1->2;
+2[label="Node Type: RETURN 2
+
+EXPRESSION:
+(n >> 56) | ((0x00FF000000000000 & n) >> 40) | ((0x0000FF0000000000 & n) >> 24) | ((0x000000FF00000000 & n) >> 8) | ((0x00000000FF000000 & n) << 8) | ((0x0000000000FF0000 & n) << 24) | ((0x000000000000FF00 & n) << 40) | ((0x00000000000000FF & n) << 56)
+
+IRs:
+TMP_375(uint64) = n >> 56
+TMP_376(uint256) = 71776119061217280 & n
+TMP_377(uint256) = TMP_376 >> 40
+TMP_378(uint64) = TMP_375 | TMP_377
+TMP_379(uint256) = 280375465082880 & n
+TMP_380(uint256) = TMP_379 >> 24
+TMP_381(uint64) = TMP_378 | TMP_380
+TMP_382(uint256) = 1095216660480 & n
+TMP_383(uint256) = TMP_382 >> 8
+TMP_384(uint64) = TMP_381 | TMP_383
+TMP_385(uint256) = 4278190080 & n
+TMP_386(uint256) = TMP_385 << 8
+TMP_387(uint64) = TMP_384 | TMP_386
+TMP_388(uint256) = 16711680 & n
+TMP_389(uint256) = TMP_388 << 24
+TMP_390(uint64) = TMP_387 | TMP_389
+TMP_391(uint256) = 65280 & n
+TMP_392(uint256) = TMP_391 << 40
+TMP_393(uint64) = TMP_390 | TMP_392
+TMP_394(uint256) = 255 & n
+TMP_395(uint256) = TMP_394 << 56
+TMP_396(uint64) = TMP_393 | TMP_395
+RETURN TMP_396"];
+}

@@ -1,0 +1,30 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->3;
+1[label="Node Type: EXPRESSION 1
+
+EXPRESSION:
+restakeManager.stakeEthInOperatorDelegator{value: 32000000000000000000}(operatorDelegator,pubkey,signature,depositDataRoot)
+
+IRs:
+HIGH_LEVEL_CALL, dest:restakeManager(IRestakeManager), function:stakeEthInOperatorDelegator, arguments:['operatorDelegator', 'pubkey', 'signature', 'depositDataRoot'] value:32000000000000000000 "];
+1->2;
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+ETHStakedFromQueue(operatorDelegator,pubkey,32000000000000000000,address(this).balance)
+
+IRs:
+TMP_229 = CONVERT this to address
+TMP_230(uint256) = SOLIDITY_CALL balance(address)(TMP_229)
+Emit ETHStakedFromQueue(operatorDelegator,pubkey,32000000000000000000,TMP_230)"];
+3[label="Node Type: EXPRESSION 3
+
+EXPRESSION:
+onlyNativeEthRestakeAdmin()
+
+IRs:
+MODIFIER_CALL, DepositQueue.onlyNativeEthRestakeAdmin()()"];
+3->1;
+}

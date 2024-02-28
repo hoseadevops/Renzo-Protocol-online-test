@@ -1,0 +1,29 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: IF 1
+
+EXPRESSION:
+! roleManager.isNativeEthRestakeAdmin(msg.sender)
+
+IRs:
+TMP_285(bool) = HIGH_LEVEL_CALL, dest:roleManager(IRoleManager), function:isNativeEthRestakeAdmin, arguments:['msg.sender']  
+TMP_286 = ! TMP_285 
+CONDITION TMP_286"];
+1->2[label="True"];
+1->3[label="False"];
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+revert NotNativeEthRestakeAdmin()()
+
+IRs:
+TMP_287(None) = SOLIDITY_CALL revert NotNativeEthRestakeAdmin()()"];
+2->3;
+3[label="Node Type: END_IF 3
+"];
+3->4;
+4[label="Node Type: _ 4
+"];
+}

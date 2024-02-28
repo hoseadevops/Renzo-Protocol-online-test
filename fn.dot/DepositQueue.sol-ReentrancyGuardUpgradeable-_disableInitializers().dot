@@ -1,0 +1,45 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: EXPRESSION 1
+
+EXPRESSION:
+require(bool,string)(! _initializing,Initializable: contract is initializing)
+
+IRs:
+TMP_27 = ! _initializing 
+TMP_28(None) = SOLIDITY_CALL require(bool,string)(TMP_27,Initializable: contract is initializing)"];
+1->2;
+2[label="Node Type: IF 2
+
+EXPRESSION:
+_initialized != type()(uint8).max
+
+IRs:
+TMP_30(uint8) := 255(uint8)
+TMP_31(bool) = _initialized != TMP_30
+CONDITION TMP_31"];
+2->3[label="True"];
+2->5[label="False"];
+3[label="Node Type: EXPRESSION 3
+
+EXPRESSION:
+_initialized = type()(uint8).max
+
+IRs:
+TMP_33(uint8) := 255(uint8)
+_initialized(uint8) := TMP_33(uint8)"];
+3->4;
+4[label="Node Type: EXPRESSION 4
+
+EXPRESSION:
+Initialized(type()(uint8).max)
+
+IRs:
+TMP_35(uint8) := 255(uint8)
+Emit Initialized(TMP_35)"];
+4->5;
+5[label="Node Type: END_IF 5
+"];
+}

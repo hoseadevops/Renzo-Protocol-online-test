@@ -1,0 +1,51 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->6;
+1[label="Node Type: EXPRESSION 1
+
+EXPRESSION:
+__ReentrancyGuard_init()
+
+IRs:
+INTERNAL_CALL, ReentrancyGuardUpgradeable.__ReentrancyGuard_init()()"];
+1->2;
+2[label="Node Type: IF 2
+
+EXPRESSION:
+address(_roleManager) == address(0x0)
+
+IRs:
+TMP_187 = CONVERT _roleManager to address
+TMP_188 = CONVERT 0 to address
+TMP_189(bool) = TMP_187 == TMP_188
+CONDITION TMP_189"];
+2->3[label="True"];
+2->4[label="False"];
+3[label="Node Type: EXPRESSION 3
+
+EXPRESSION:
+revert InvalidZeroInput()()
+
+IRs:
+TMP_190(None) = SOLIDITY_CALL revert InvalidZeroInput()()"];
+3->4;
+4[label="Node Type: END_IF 4
+"];
+4->5;
+5[label="Node Type: EXPRESSION 5
+
+EXPRESSION:
+roleManager = _roleManager
+
+IRs:
+roleManager(IRoleManager) := _roleManager(IRoleManager)"];
+6[label="Node Type: EXPRESSION 6
+
+EXPRESSION:
+initializer()
+
+IRs:
+MODIFIER_CALL, Initializable.initializer()()"];
+6->1;
+}
