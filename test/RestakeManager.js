@@ -16,7 +16,8 @@ describe("RestakeManager", function () {
         const RoleManager = await ethers.getContractFactory("RoleManager");
         const roleManager = await RoleManager.deploy();
         await roleManager.initialize(owner.address);
-
+        
+        // isRestakeManagerAdmin
         await roleManager.grantRole(await roleManager.RESTAKE_MANAGER_ADMIN(), owner.address);
         
         // ezETH

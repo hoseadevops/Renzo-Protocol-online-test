@@ -8,6 +8,10 @@ import "../EigenLayer/interfaces/IEigenPod.sol";
 import "./IOperatorDelegator.sol";
 import "../IRestakeManager.sol";
 
+/// @dev 该合约将保存所有合约的本地变量
+/// 在升级协议时，请继承该合约的V2版本，并将StorageManager改为继承后续版本。
+/// 这样可以确保在升级时不会发生存储布局损坏。
+
 /// @title OperatorDelegatorStorage
 /// @dev This contract will hold all local variables for the  Contract
 /// When upgrading the protocol, inherit from this contract on the V2 version and change the
@@ -19,7 +23,7 @@ abstract contract OperatorDelegatorStorageV1 is IOperatorDelegator{
     IRoleManager public roleManager;
 
     /// @dev The main strategy manager contract in EigenLayer
-    // el strategyManager
+    // EL（EigenLayer） strategyManager
     IStrategyManager public strategyManager;
 
     /// @dev the restake manager contract
@@ -28,7 +32,7 @@ abstract contract OperatorDelegatorStorageV1 is IOperatorDelegator{
 
     /// @dev The mapping of supported token addresses to their respective strategy addresses
     /// This will control which tokens are supported by the protocol
-    // token 到 el 策略 的 映射
+    // token 到 EL（EigenLayer） 策略 的 映射
     mapping(IERC20 => IStrategy) public tokenStrategyMapping;
 
     /// @dev The address to delegate tokens to in EigenLayer
@@ -37,11 +41,11 @@ abstract contract OperatorDelegatorStorageV1 is IOperatorDelegator{
     /// @dev the delegation manager contract
     IDelegationManager public delegationManager;
 
-    /// @dev the EigenLayer EigenPodManager contract
+    /// @dev the EL（EigenLayer） EigenPodManager contract
     IEigenPodManager public eigenPodManager;
 
     /// @dev The EigenPod owned by this contract
-    /// el eigenPod
+    /// EL（EigenLayer） eigenPod
     IEigenPod public eigenPod;
 
     /// @dev Tracks the balance that was staked to validators but hasn't been restaked to EL yet

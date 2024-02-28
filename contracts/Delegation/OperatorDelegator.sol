@@ -8,6 +8,12 @@ import "./OperatorDelegatorStorage.sol";
 import "../EigenLayer/interfaces/IDelegationManager.sol";
 import "../Errors/Errors.sol";
 
+/// @dev 这个合约将负责与Eigenlayer交互 
+/// 每个部署的合同将被委派给一个特定的运营商 
+/// 该合约可以处理多个ERC20令牌，所有这些令牌都将被委托给同一个运营商 
+/// 每个支持的ERC20令牌将指向EL中的单个策略合约 
+/// 只有RestakeManager应该与这个契约进行EL交互。
+
 /// @dev This contract will be responsible for interacting with Eigenlayer
 /// Each of these contracts deployed will be delegated to one specific operator
 /// This contract can handle multiple ERC20 tokens, all of which will be delegated to the same operator
@@ -21,20 +27,20 @@ contract OperatorDelegator is
     using SafeERC20 for IERC20;
     
     uint256 internal constant GWEI_TO_WEI = 1e9;
-
+    // token 对应的 eigenlayer 策略 更新事件
     event TokenStrategyUpdated(IERC20 token, IStrategy strategy);
     event DelegationAddressUpdated(address delegateAddress);
     event RewardsForwarded(address rewardDestination, uint256 amount);
-
+    // 提现开始事件
     event WithdrawStarted(
-        bytes32 withdrawRoot,
-        address staker,
-        address delegatedTo,
-        address withdrawer,
-        uint nonce,
-        uint startBlock,
-        IStrategy[] strategies,
-        uint256[] shares
+        bytes32 withdrawRoot,   // 
+        address staker,         // 质押者
+        address delegatedTo,    //
+        address withdrawer,     //
+        uint nonce,             //
+        uint startBlock,        //
+        IStrategy[] strategies, // 策略
+        uint256[] shares        // 
     );
 
     /// @dev Allows only a whitelisted address to configure the contract
