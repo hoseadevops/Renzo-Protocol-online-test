@@ -136,7 +136,7 @@ contract OperatorDelegator is
     /// IStrategyManager public strategyManager;
 
     /// @dev 将代币存入EigenLayer。该调用假定此合约中的任何代币余额都将被委托，因此请勿直接将代币发送到此处，否则它们将被委托并归属于下一个调用者。
-    /// @return shares 作为操作的一部分在“strategy”中创建的新份额数量。
+    /// @return shares 作为操作的一部分在 "strategy" 中创建的新份额数量
     function deposit(
         IERC20 _token,
         uint256 _tokenAmount
