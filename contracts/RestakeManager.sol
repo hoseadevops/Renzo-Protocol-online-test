@@ -137,13 +137,11 @@ contract RestakeManager is
     }
 
     
-    /**
-     * //运营商代理列表
-     * IOperatorDelegator[] public operatorDelegators;
-     * 
-     * //运营商代理分配额
-     * mapping(IOperatorDelegator => uint256) public operatorDelegatorAllocations;
-     **/
+    /// //运营商代理 列表
+    /// IOperatorDelegator[] public operatorDelegators;
+    /// //运营商代理 分配额
+    /// mapping(IOperatorDelegator => uint256) public operatorDelegatorAllocations;
+    /// 
     /// @dev Allows a restake manager admin to add an OperatorDelegator to the list
     function addOperatorDelegator(
         IOperatorDelegator _newOperatorDelegator,
@@ -178,14 +176,15 @@ contract RestakeManager is
             _allocationBasisPoints
         );
     }
-    /**
-     * // 运营商代理 列表
-     * IOperatorDelegator[] public operatorDelegators;
-     * 
-     * // 运营商代理 分配额
-     * mapping(IOperatorDelegator => uint256) public operatorDelegatorAllocations;
-     * 替换法删除（顺序会变）
-     **/
+
+    /// // 运营商代理 列表
+    /// IOperatorDelegator[] public operatorDelegators;
+    /// 
+    /// // 运营商代理 分配额
+    /// mapping(IOperatorDelegator => uint256) public operatorDelegatorAllocations;
+    /// 
+    /// // 替换法删除（顺序会变）
+    /// 
     /// @dev Allows a restake manager admin to remove an OperatorDelegator from the list
     function removeOperatorDelegator(
         IOperatorDelegator _operatorDelegatorToRemove
@@ -220,13 +219,13 @@ contract RestakeManager is
         revert NotFound();
     }
 
-    /**
-     * //运营商代理列表
-     * IOperatorDelegator[] public operatorDelegators;
-     * 
-     * //运营商代理分配额
-     * mapping(IOperatorDelegator => uint256) public operatorDelegatorAllocations;
-     **/
+    /// // 运营商代理 列表
+    /// IOperatorDelegator[] public operatorDelegators;
+    /// 
+    /// // 运营商代理 分配额
+    /// mapping(IOperatorDelegator => uint256) public operatorDelegatorAllocations;
+    /// 
+    /// 管理员设置 分配额
     /// @dev Allows restake manager admin to set an OperatorDelegator allocation
     function setOperatorDelegatorAllocation(
         IOperatorDelegator _operatorDelegator,
@@ -262,15 +261,15 @@ contract RestakeManager is
         );
     }
 
+    /// 设置存款的最大TVL。如果设置为0，则不强制执行存款
     /// @dev Allows a restake manager admin to set the max TVL for deposits.  If set to 0, no deposits will be enforced.
     function setMaxDepositTVL(uint256 _maxDepositTVL) external onlyRestakeManagerAdmin {
         maxDepositTVL = _maxDepositTVL;
     }
 
-    /*
-     * 抵押品token 列表
-     * IERC20[] public collateralTokens;
-     **/
+    /// 抵押品token 列表
+    /// IERC20[] public collateralTokens
+    /// 
     /// @dev Allows restake manager to add a collateral token
     function addCollateralToken(
         IERC20 _newCollateralToken
@@ -293,11 +292,11 @@ contract RestakeManager is
         emit CollateralTokenAdded(_newCollateralToken);
     }
 
-    /*
-     * 抵押品token 列表
-     * IERC20[] public collateralTokens;
-     * 替换法删除（顺序会变）
-     **/
+    /// 抵押品token 列表
+    /// IERC20[] public collateralTokens
+    /// 
+    /// 替换法删除（顺序会变）
+    /// 
     /// @dev Allows restake manager to remove a collateral token
     function removeCollateralToken(
         IERC20 _collateralTokenToRemove
@@ -323,27 +322,38 @@ contract RestakeManager is
         revert NotFound();
     }
 
+    /// 抵押品token 列表
+    /// IERC20[] public collateralTokens
+    /// 
+    /// 获取 抵押品数组长度
     /// @dev Get the length of the collateral tokens array
     function getCollateralTokensLength() external view returns (uint256) {
         return collateralTokens.length;
     }
 
+    /// @dev 此函数计算每个运营商委托者的每个代币的 TVL，每个 OD 的总 TVL，以及协议的总 TVL。
+    /// @return operatorDelegatorTokenTVLs 每个 OD 的 TVL，由 operatorDelegators 数组和 collateralTokens 数组索引
+    /// @return operatorDelegatorTVLs 按照 operatorDelegators 数组的顺序列出每个 OD 的总 TVL
+    /// @return totalTVL 所有运营商委托者的总 TVL
+
     /// @dev This function calculates the TVLs for each operator delegator by individual token, total for each OD, and total for the protocol.
     /// @return operatorDelegatorTokenTVLs Each OD's TVL indexed by operatorDelegators array by collateralTokens array
     /// @return operatorDelegatorTVLs Each OD's Total TVL in order of operatorDelegators array
     /// @return totalTVL The total TVL across all operator delegators.
-    /// 计算 TVL
     function calculateTVLs()
         public
         view
         returns (uint256[][] memory, uint256[] memory, uint256)
     {
+        // 每个 运营商代理 TVL 
         uint256[][] memory operatorDelegatorTokenTVLs = new uint256[][](
             operatorDelegators.length
         );
+        // 总 运营商代理 的 TVL
         uint256[] memory operatorDelegatorTVLs = new uint256[](
             operatorDelegators.length
         );
+        // 总 TVL
         uint256 totalTVL = 0;
 
         // Iterate through the ODs 
@@ -490,11 +500,13 @@ contract RestakeManager is
         revert NotFound();
     }
 
+    /// 抵押品token 列表
+    /// IERC20[] public collateralTokens;
+    ///
+    /// 找抵押品 token 的索引 没有则 revert
+    /// 
     /// @dev Finds the index of the collateral token in the list
     /// Reverts if the token is not found in the list
-    // // 抵押品token 列表
-    // IERC20[] public collateralTokens;
-    // 找抵押品token 的索引 没有则 revert
     function getCollateralTokenIndex(
         IERC20 _collateralToken
     ) public view returns (uint256) {
@@ -514,6 +526,12 @@ contract RestakeManager is
     /**
      * 存入 抵押品
      * 
+     * 
+     *  @notice 存入一个 ERC20 抵押代币到协议
+     *  @dev 便利函数，无需推荐 ID 和向后兼容
+     *  @param _collateralToken 要存入的抵押 ERC20 代币的地址
+     *  @param _amount 要存入的抵押代币的数量（以基本单位表示）
+
      * @notice  Deposits an ERC20 collateral token into the protocol
      * @dev     Convenience function to deposit without a referral ID and backwards compatibility
      * @param   _collateralToken  The address of the collateral ERC20 token to deposit
@@ -527,6 +545,21 @@ contract RestakeManager is
     }
 
     /**
+     * 
+     * @notice  存入 ERC20 抵押代币到协议
+     * @dev
+     * 发送方必须预先授权此合约将代币转移至协议
+     * 存款时，合约将执行以下操作：
+     *   - 确定要使用的运营商代理
+     *   - 将抵押代币转移到运营商代理，并存入 EigenLayer
+     *   - 计算并铸造适当数量的 ezETH 返回给用户
+     *     ezETH 将按用户存入价值与协议中已有价值的比例进行膨胀
+     * 指定的抵押代币必须预先配置为允许在协议中使用
+     * @param   _collateralToken  要存入的抵押 ERC20 代币的地址
+     * @param   _amount 要存入的抵押代币数量（以基本单位计）
+     * @param   _referralId 存款时要使用的推荐 ID（如果没有则为 0）
+     * 
+     * 
      * @notice  Deposits an ERC20 collateral token into the protocol
      * @dev
      * The msg.sender must pre-approve this contract to move the tokens into the protocol
@@ -562,6 +595,7 @@ contract RestakeManager is
         ) = calculateTVLs();
 
         // Get the value of the collateral token being deposited
+        // 获取抵押品token 指定数额的 价值
         uint256 collateralTokenValue = renzoOracle.lookupTokenValue(
             _collateralToken,
             _amount

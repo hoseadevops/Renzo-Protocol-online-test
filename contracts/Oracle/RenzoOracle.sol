@@ -53,10 +53,15 @@ contract RenzoOracle is
         roleManager = _roleManager;   
     }
 
-    /// @dev Sets addresses for oracle lookup.  Permission gated to oracel admins only.
-    /// Set to address 0x0 to disable lookups for the token.
+
     /// 设置用于 Oracle 查询的地址 权限受限于 Oracle 管理员
     /// 将地址设置为 0x0 以禁用对该代币的查询
+
+    /// 支持的代币地址与它们相应的 Chainlink Oracle 地址之间的映射
+    /// mapping(IERC20 => AggregatorV3Interface) public tokenOracleLookup;
+
+    /// @dev Sets addresses for oracle lookup.  Permission gated to oracel admins only.
+    /// Set to address 0x0 to disable lookups for the token.
     function setOracleAddress(IERC20 _token, AggregatorV3Interface _oracleAddress) external nonReentrant onlyOracleAdmin { 
         if(address(_token) == address(0x0)) revert InvalidZeroInput();
 
@@ -66,6 +71,10 @@ contract RenzoOracle is
         tokenOracleLookup[_token] = _oracleAddress;
         emit OracleAddressUpdated(_token, _oracleAddress);
     }
+
+    /// @dev 给定单个代币和余额，返回基础货币中资产的价值
+    /// 返回的价值将以查找预言机的小数精度计价
+    /// （例如，价值为100将返回为100 * 10^18）
 
     /// @dev Given a single token and balance, return value of the asset in underlying currency
     /// The value returned will be denominated in the decimal precision of the lookup oracle
@@ -92,6 +101,9 @@ contract RenzoOracle is
         return uint256(price) * _balance / SCALE_FACTOR;
     }
 
+    /// @dev 给定单个代币和价值，返回表示该价值所需的代币数量
+    /// 假设代币价值已经以与预言机相同的小数精度计价
+
     /// @dev Given a single token and value, return amount of tokens needed to represent that value
     /// Assumes the token value is already denominated in the same decimal precision as the oracle
     function lookupTokenAmountFromValue(IERC20 _token, uint256 _value) external view returns (uint256) {           
@@ -106,12 +118,13 @@ contract RenzoOracle is
         return _value * SCALE_FACTOR / uint256(price);
     }
 
-    // @dev Given list of tokens and balances, return total value (assumes all lookups are denomintated in same underlying currency)
-    /// The value returned will be denominated in the decimal precision of the lookup oracle
-    /// (e.g. a value of 100 would return as 100 * 10^18)
     // @dev 给定代币列表和余额，返回总价值（假设所有查找都以相同的基础货币计价）
     /// 返回的值将以查找 Oracle 的小数精度为单位
     /// （例如，一个值为 100 的结果将返回为 100 * 10^18）
+
+    // @dev Given list of tokens and balances, return total value (assumes all lookups are denomintated in same underlying currency)
+    /// The value returned will be denominated in the decimal precision of the lookup oracle
+    /// (e.g. a value of 100 would return as 100 * 10^18)
     function lookupTokenValues(IERC20[] memory _tokens, uint256[] memory _balances) external view returns (uint256) {
         if(_tokens.length != _balances.length) revert MismatchedArrayLengths();
 
@@ -125,10 +138,11 @@ contract RenzoOracle is
         return totalValue;
     }
     
-    /// @dev Given amount of current protocol value, new value being added, and supply of ezETH, determine amount to mint
-    /// Values should be denominated in the same underlying currency with the same decimal precision
     /// @dev 给定当前协议价值、新增加的价值以及 ezETH 的供应量，确定要铸造的数量
     /// 值应以相同的基础货币及相同的小数精度为单位
+
+    /// @dev Given amount of current protocol value, new value being added, and supply of ezETH, determine amount to mint
+    /// Values should be denominated in the same underlying currency with the same decimal precision
     function calculateMintAmount(uint256 _currentValueInProtocol, uint256 _newValueAdded, uint256 _existingEzETHSupply) external pure returns (uint256) {
         // For first mint, just return the new value added.
         // Checking both current value and existing supply to guard against gaming the initial mint
@@ -151,8 +165,9 @@ contract RenzoOracle is
         return mintAmount;
     }
 
-    // Given the amount of ezETH to burn, the supply of ezETH, and the total value in the protocol, determine amount of value to return to user    
     // 给定要销毁的 ezETH 数量、ezETH 的供应量以及协议中的总价值，确定要返回给用户的价值数量
+
+    // Given the amount of ezETH to burn, the supply of ezETH, and the total value in the protocol, determine amount of value to return to user    
     function calculateRedeemAmount(uint256 _ezETHBeingBurned, uint256 _existingEzETHSupply, uint256 _currentValueInProtocol) external pure returns (uint256) {
       // This is just returning the percentage of TVL that matches the percentage of ezETH being burned 
       uint256 redeemAmount = (_currentValueInProtocol * _ezETHBeingBurned) / _existingEzETHSupply;
