@@ -345,11 +345,13 @@ contract RestakeManager is
         view
         returns (uint256[][] memory, uint256[] memory, uint256)
     {
-        // 每个 运营商代理 TVL 
+        // 每个 运营商代理 下的 所有 token 的 TVL 
+        // operatorDelegatorTokenTVLs[OD_index][token] = TVL
         uint256[][] memory operatorDelegatorTokenTVLs = new uint256[][](
             operatorDelegators.length
         );
-        // 总 运营商代理 的 TVL
+        // 每个 运营商代理 的 总 TVL（ 不区分 token ）
+        // operatorDelegatorTVLs[OD_index] = TVL
         uint256[] memory operatorDelegatorTVLs = new uint256[](
             operatorDelegators.length
         );
@@ -357,29 +359,34 @@ contract RestakeManager is
         uint256 totalTVL = 0;
 
         // Iterate through the ODs 
-        // 运营商代理数组 长度 operatorDelegators = 缩写：OD
+        // 迭代运营商代理
+        
+        // odLength : 运营商代理数组 长度 operatorDelegators = 缩写：OD
         uint256 odLength = operatorDelegators.length;
         for (uint256 i = 0; i < odLength;) {
+
+            // 追踪 单个 运营商代理 的 TVL 
             // Track the TVL for this OD
             uint256 operatorTVL = 0;
 
+            // operatorValues : 追踪 运营商代理 中 单独的 Token 的 TVLs - 包括 ETH
             // Track the individual token TVLs for this OD - native ETH will be last item in the array
-            // 追踪 OD 的 单独的 token 的 TVL 包括 ETH
             uint256[] memory operatorValues = new uint256[](
                 collateralTokens.length + 1
             );
             operatorDelegatorTokenTVLs[i] = operatorValues;
 
+            // 迭代 质押 token 列表
             // Iterate through the tokens and get the value of each
             uint256 tokenLength = collateralTokens.length;
             for (uint256 j = 0; j < tokenLength;) {
                 // Get the value of this token
-                // 调用 el 数据
+                // 调用 EL（EigenLayer）获取数据； 获取 质押在策略中 token 的余额
                 uint256 operatorBalance = operatorDelegators[i]
                     .getTokenBalanceFromStrategy(collateralTokens[j]);
 
                 // Set the value in the array for this OD
-                // 通过 调用 el 设置 自己的预言机数据
+                // 通过预言机 查询 抵押 token 指定数量的 价值
                 operatorValues[j] = renzoOracle.lookupTokenValue(
                     collateralTokens[j],
                     operatorBalance
@@ -392,6 +399,7 @@ contract RestakeManager is
             }
 
             // Get the value of native ETH staked for the OD
+            // 获取 质押的ETH 余额
             uint256 operatorEthBalance = operatorDelegators[i].getStakedETHBalance();
 
             // Save it to the array for the OD
@@ -414,6 +422,9 @@ contract RestakeManager is
 
         return (operatorDelegatorTokenTVLs, operatorDelegatorTVLs, totalTVL);
     }
+
+    /// 这个函数挑选 TVL 低于阈值的 OperatorDelegator，或者返回列表中的第一个 OperatorDelegator。
+    /// @return 将要使用的 OperatorDelegator。
 
     /// @dev Picks the OperatorDelegator with the TVL below the threshold or returns the first one in the list
     /// @return The OperatorDelegator to use
@@ -448,6 +459,12 @@ contract RestakeManager is
         // Default to the first operator delegator
         return operatorDelegators[0];
     }
+
+    /// 这个函数确定要从中撤回的 OperatorDelegator。
+    /// 它将尝试使用 TVL 超过分配阈值且具有要提取的代币的 OD。
+    /// 如果没有 OD 的分配超过并具有要提取的代币，它将尝试找到一个具有要提取的代币的 OD。
+    /// 如果没有 OD 具有要提取的代币，它将恢复。
+    /// @return 将要使用的 OperatorDelegator。
 
     /// @dev Determines the OD to withdraw from
     /// It will try to use the OD with the TVL above the allocation threshold that has the tokens to withdraw
@@ -668,6 +685,11 @@ contract RestakeManager is
     }
 
     /**
+     * 
+     * @notice  允许用户将 ETH 存入协议，并获得相应的 ezETH
+     * @dev     发送到此函数的 ETH 金额将被发送到存款队列，稍后由验证者进行质押。一旦质押，它将存入 EigenLayer。
+     * @param   _referralId  存款时使用的推荐 ID（如果没有则为 0）
+     * 
      * @notice  Allows a user to deposit ETH into the protocol and get back ezETH
      * @dev     The amount of ETH sent into this function will be sent to the deposit queue to be 
      * staked later by a validator.  Once staked it will be deposited into EigenLayer.
@@ -703,6 +725,9 @@ contract RestakeManager is
         emit Deposit(msg.sender, IERC20(address(0x0)), msg.value, ezETHToMint, _referralId);
     }
 
+    /// @dev 由存款队列调用，将 ETH 质押给验证者
+    /// 仅可由存款队列调用
+
     /// @dev Called by the deposit queue to stake ETH to a validator
     /// Only callable by the deposit queue
     function stakeEthInOperatorDelegator(IOperatorDelegator operatorDelegator, bytes calldata pubkey, bytes calldata signature, bytes32 depositDataRoot) external payable onlyDepositQueue {
@@ -722,6 +747,10 @@ contract RestakeManager is
         // Call the OD to stake the ETH
         operatorDelegator.stakeEth{value: msg.value}(pubkey, signature, depositDataRoot);
     }
+
+
+    /// @dev 从存款队列存入 ERC20 代币奖励
+    /// 仅可由存款队列调用
 
     /// @dev Deposit ERC20 token rewards from the Deposit Queue
     /// Only callable by the deposit queue
@@ -762,7 +791,11 @@ contract RestakeManager is
         operatorDelegator.deposit(_token, _amount);
     }
 
-    /**
+    /*
+     * @notice  返回协议赚取的总奖励金额
+     * @dev     奖励包括质押的原生 ETH 和 EigenLayer 奖励（ETH + ERC20）
+     * @return  uint256  以 ETH 价格计价的协议赚取的总奖励金额
+ 
      * @notice  Returns the total amount of rewards earned by the protocol
      * @dev     Rewards include staking native ETH and EigenLayer rewards (ETH + ERC20s)
      * @return  uint256  The total amount of rewards earned by the protocol priced in ETH

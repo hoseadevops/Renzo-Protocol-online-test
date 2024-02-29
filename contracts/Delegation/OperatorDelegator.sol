@@ -274,7 +274,7 @@ contract OperatorDelegator is
         _token.safeTransfer(_sendToAddress, _token.balanceOf(address(this)));
     }
 
-    /// @dev 从股票数量中获取相关的令牌数量
+    /// @dev 获取质押在策略中的token 的 余额
 
     /// @dev Gets the underlying token amount from the amount of shares
     function getTokenBalanceFromStrategy(
@@ -292,6 +292,11 @@ contract OperatorDelegator is
         // TODO: Once upgraded to M2, add back in staked verified ETH, e.g. + uint256(strategyManager.stakerStrategyShares(address(this), strategyManager.beaconChainETHStrategy()))
         // TODO: once M2 is released, there is a possibility someone could call Verify() to try and mess up the TVL calcs (we would double count the stakedButNotVerifiedEth + actual verified ETH in the EigenPod)
         //       - we should track the validator node's verified status to ensure this doesn't happen
+
+        /// 一旦启用提款，需要允许此功能处理待处理的提款和 EigenPodManager 所有者份额中的潜在负份额。
+        /// 在升级到 M2 后，需要重新添加已验证的 ETH，例如：+ uint256(strategyManager.stakerStrategyShares(address(this), strategyManager.beaconChainETHStrategy()))。
+        /// 一旦 M2 发布，可能会有人调用 Verify() 来尝试干扰 TVL 计算（我们将在 EigenPod 中重复计算已质押但尚未验证的 ETH + 实际验证的 ETH）。
+        /// - 我们应该跟踪验证节点的验证状态，以确保这种情况不会发生。
         return stakedButNotVerifiedEth + address(eigenPod).balance + pendingUnstakedDelayedWithdrawalAmount;
     }
 
