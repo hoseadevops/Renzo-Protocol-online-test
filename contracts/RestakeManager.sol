@@ -452,7 +452,8 @@ contract RestakeManager is
 
             unchecked{++i;}
         }
-
+        
+        // 总质押 TVL + 在 质押队列中 暂存的 ETH
         // Get the value of native ETH held in the deposit queue and add it to the total TVL
         totalTVL += address(depositQueue).balance;
 
