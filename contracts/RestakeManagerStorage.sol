@@ -21,11 +21,11 @@ abstract contract RestakeManagerStorageV1 is IRestakeManager {
     IEzEthToken public ezETH;
 
     /// @dev reference to the strategyManager contract in EigenLayer
-    // EigenLayer 的 strategyManager
+    // EigenLayer (EL) 的 strategyManager
     IStrategyManager public strategyManager;
 
     /// @dev reference to the delegationManager contract in EigenLayer
-    // EigenLayer 的 delegationManager
+    // EigenLayer (EL) 的 delegationManager
     IDelegationManager public delegationManager;
 
     /// @dev data stored for a withdrawal
@@ -53,7 +53,7 @@ abstract contract RestakeManagerStorageV1 is IRestakeManager {
     mapping(IOperatorDelegator => uint256) public operatorDelegatorAllocations;
 
     /// @dev Stores the list of collateral tokens
-    // 抵押品token 列表
+    // 抵押品 token 列表
     IERC20[] public collateralTokens;
 
     /// @dev Reference to the oracle contract

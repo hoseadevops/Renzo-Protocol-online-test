@@ -126,20 +126,26 @@ contract RestakeManager is
         paused = false;
     }
 
+    /// 设置 暂停
+    ///
     /// @dev Allows a restake manager admin to set the paused state of the contract
     function setPaused(bool _paused) external onlyDepositWithdrawPauserAdmin {
         paused = _paused;
     }
-
+    
+    /// 获取 运营商代理 个数
+    /// 
     /// @dev Get the length of the operator delegators array
     function getOperatorDelegatorsLength() external view returns (uint256) {
         return operatorDelegators.length;
     }
 
-    
-    /// //运营商代理 列表
+    /// 管理 运营商代理 - 添加    
+    /// 
+    /// // 运营商代理 列表
     /// IOperatorDelegator[] public operatorDelegators;
-    /// //运营商代理 分配额
+    /// 
+    /// // 运营商代理 分配额
     /// mapping(IOperatorDelegator => uint256) public operatorDelegatorAllocations;
     /// 
     /// @dev Allows a restake manager admin to add an OperatorDelegator to the list
@@ -177,6 +183,8 @@ contract RestakeManager is
         );
     }
 
+    /// 管理 运营商代理 - 移除
+    /// 
     /// // 运营商代理 列表
     /// IOperatorDelegator[] public operatorDelegators;
     /// 
@@ -219,6 +227,8 @@ contract RestakeManager is
         revert NotFound();
     }
 
+    /// 管理 运营商代理 - 设置分配额
+    /// 
     /// // 运营商代理 列表
     /// IOperatorDelegator[] public operatorDelegators;
     /// 
@@ -231,10 +241,14 @@ contract RestakeManager is
         IOperatorDelegator _operatorDelegator,
         uint256 _allocationBasisPoints
     ) external onlyRestakeManagerAdmin {
+        // 验证运营商代理 不能为零地址
         if(address(_operatorDelegator) == address(0x0)) revert InvalidZeroInput();
+        
+        // 验证分配的基础点数：不可以 大于 100%
         if(_allocationBasisPoints > (100 * BASIS_POINTS)) revert OverMaxBasisPoints();
 
         // Ensure the OD is in the list to prevent mis-configuration
+        // 验证运营商代理存在
         bool foundOd = false;
         uint256 odLength = operatorDelegators.length;
         for (uint256 i = 0; i < odLength;) {
@@ -251,6 +265,7 @@ contract RestakeManager is
 
 
         // Set the allocation
+        // 设置 运营商代理  分配额
         operatorDelegatorAllocations[
             _operatorDelegator
         ] = _allocationBasisPoints;
@@ -261,37 +276,42 @@ contract RestakeManager is
         );
     }
 
-    /// 设置存款的最大TVL。如果设置为0，则不强制执行存款
+    /// 设置 质押 最大TVL。如果设置为0，则不检测最大质押数（即：质押的 TVL 无限制）
+    /// 
     /// @dev Allows a restake manager admin to set the max TVL for deposits.  If set to 0, no deposits will be enforced.
     function setMaxDepositTVL(uint256 _maxDepositTVL) external onlyRestakeManagerAdmin {
         maxDepositTVL = _maxDepositTVL;
     }
-
-    /// 抵押品token 列表
+    /// 管理抵押品 token - 添加
+    ///
+    /// 抵押品 token 列表
     /// IERC20[] public collateralTokens
     /// 
     /// @dev Allows restake manager to add a collateral token
     function addCollateralToken(
         IERC20 _newCollateralToken
     ) external onlyRestakeManagerAdmin {
-        // Ensure it is not already in the list
         // 检查是否已经添加
+        // Ensure it is not already in the list
         uint256 tokenLength = collateralTokens.length;
         for (uint256 i = 0; i < tokenLength;) {
             if( address(collateralTokens[i]) == address(_newCollateralToken)) revert AlreadyAdded();
             unchecked{++i;}
         }
 
-        // 验证精度是否 18位
+        // 验证精度是否18 位（抵押品 精度 decimals 必须等于 18 ）
         // Verify the token has 18 decimal precision - pricing calculations will be off otherwise
         if(IERC20Metadata(address(_newCollateralToken)).decimals() != 18) revert InvalidTokenDecimals(18, IERC20Metadata(address(_newCollateralToken)).decimals());
 
         // Add it to the list
+        // 添加到 抵押品 数组
         collateralTokens.push(_newCollateralToken);
 
         emit CollateralTokenAdded(_newCollateralToken);
     }
 
+    /// 管理抵押品 token - 移除
+    ///
     /// 抵押品token 列表
     /// IERC20[] public collateralTokens
     /// 
@@ -308,9 +328,11 @@ contract RestakeManager is
                 address(collateralTokens[i]) ==
                 address(_collateralTokenToRemove)
             ) {
+                // 将移除的抵押品索引值 替换为最后一个抵押品
                 collateralTokens[i] = collateralTokens[
                     collateralTokens.length - 1
                 ];
+                // 移除最后一个抵押品
                 collateralTokens.pop();
                 emit CollateralTokenRemoved(_collateralTokenToRemove);
                 return;
@@ -322,6 +344,8 @@ contract RestakeManager is
         revert NotFound();
     }
 
+    /// 获取抵押品 token 个数
+    ///
     /// 抵押品token 列表
     /// IERC20[] public collateralTokens
     /// 
@@ -331,6 +355,12 @@ contract RestakeManager is
         return collateralTokens.length;
     }
 
+    /// 计算 TVL（总锁定价值）
+    /// 
+    /// 每个 运营商代理 下的 所有 token 中 指定 token 的 TVL ==  operatorDelegatorTokenTVLs[OD_index][token] = TVL
+    /// 每个 运营商代理 下的 所有 token 的 总 TVL（ 不区分 token ）== operatorDelegatorTVLs[OD_index] = TVL
+    /// 所有 运营商代理  总 TVL == totalTVL
+    ///
     /// @dev 此函数计算每个运营商委托者的每个代币的 TVL，每个 OD 的总 TVL，以及协议的总 TVL。
     /// @return operatorDelegatorTokenTVLs 每个 OD 的 TVL，由 operatorDelegators 数组和 collateralTokens 数组索引
     /// @return operatorDelegatorTVLs 按照 operatorDelegators 数组的顺序列出每个 OD 的总 TVL
@@ -345,7 +375,7 @@ contract RestakeManager is
         view
         returns (uint256[][] memory, uint256[] memory, uint256)
     {
-        // 每个 运营商代理 下的 所有 token 的 TVL 
+        // 每个 运营商代理 下的 所有 token 中的指定 token 的 TVL 
         // operatorDelegatorTokenTVLs[OD_index][token] = TVL
         uint256[][] memory operatorDelegatorTokenTVLs = new uint256[][](
             operatorDelegators.length
