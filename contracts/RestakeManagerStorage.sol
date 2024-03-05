@@ -65,7 +65,7 @@ abstract contract RestakeManagerStorageV1 is IRestakeManager {
     bool public paused;
 
     /// @dev The max amount of TVL allowed.  If this is set to 0, no max TVL is enforced
-    // 允许的 最大 锁定总量
+    // 允许的 最大 的质押价值
     uint256 public maxDepositTVL;
 
     /// @dev Reference to the deposit queue contract
@@ -74,6 +74,6 @@ abstract contract RestakeManagerStorageV1 is IRestakeManager {
 }
 
 abstract contract RestakeManagerStorageV2 is RestakeManagerStorageV1 {    
-    // 抵押品Token 总锁定量 限额
+    // 抵押品Token 总锁定价值 限额
     mapping(IERC20 => uint256) public collateralTokenTvlLimits;
 }

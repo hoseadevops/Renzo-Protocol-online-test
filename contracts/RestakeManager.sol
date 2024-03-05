@@ -385,7 +385,7 @@ contract RestakeManager is
         uint256[] memory operatorDelegatorTVLs = new uint256[](
             operatorDelegators.length
         );
-        // 总 TVL
+        // operatorDelegatorTVLs 总和 = TVL 
         uint256 totalTVL = 0;
 
         // Iterate through the ODs 
