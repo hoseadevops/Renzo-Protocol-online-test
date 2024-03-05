@@ -23,9 +23,11 @@ contract RenzoOracle is
     /// @dev Error for invalid 0x0 address
     string constant INVALID_0_INPUT = "Invalid 0 input";
 
+    // 比例 基数
     // Scale factor for all values of prices
     uint256 constant SCALE_FACTOR = 10 ** 18;
 
+    /// 最大过期时间
     /// @dev The maxmimum staleness allowed for a price feed from chainlink
     uint256 constant MAX_TIME_WINDOW = 86400 + 60; // 24 hours + 60 seconds
 
@@ -54,28 +56,32 @@ contract RenzoOracle is
     }
 
 
-    /// 设置用于 Oracle 查询的地址 权限受限于 Oracle 管理员
+    /// 设置用于 指定 Token 的 Oracle 地址 (  权限受限于 Oracle 管理员 )
+    /// 
     /// 将地址设置为 0x0 以禁用对该代币的查询
-
+    /// 
     /// 支持的代币地址与它们相应的 Chainlink Oracle 地址之间的映射
     /// mapping(IERC20 => AggregatorV3Interface) public tokenOracleLookup;
-
+    /// 
     /// @dev Sets addresses for oracle lookup.  Permission gated to oracel admins only.
     /// Set to address 0x0 to disable lookups for the token.
     function setOracleAddress(IERC20 _token, AggregatorV3Interface _oracleAddress) external nonReentrant onlyOracleAdmin { 
         if(address(_token) == address(0x0)) revert InvalidZeroInput();
 
+        // 验证预言机精度必须为 18 
         // Verify that the pricing of the oracle is 18 decimals - pricing calculations will be off otherwise
         if(_oracleAddress.decimals() != 18) revert InvalidTokenDecimals(18, _oracleAddress.decimals());
 
         tokenOracleLookup[_token] = _oracleAddress;
         emit OracleAddressUpdated(_token, _oracleAddress);
     }
-
+    
+    /// 查询 抵押品 token 的 抵押数量 的 价值 （数量 * 单价 = 价值）
+    ///     
     /// @dev 给定单个代币和余额，返回基础货币中资产的价值
     /// 返回的价值将以查找预言机的小数精度计价
     /// （例如，价值为100将返回为100 * 10^18）
-
+    ///
     /// @dev Given a single token and balance, return value of the asset in underlying currency
     /// The value returned will be denominated in the decimal precision of the lookup oracle
     /// (e.g. a value of 100 would return as 100 * 10^18)
@@ -97,13 +103,14 @@ contract RenzoOracle is
         // 价格有效性验证
         if(price <= 0) revert InvalidOraclePrice();
 
+        // 获取的价值  / SCALE_FACTOR
         // Price is times 10**18 ensure value amount is scaled
         return uint256(price) * _balance / SCALE_FACTOR;
     }
 
     /// @dev 给定单个代币和价值，返回表示该价值所需的代币数量
     /// 假设代币价值已经以与预言机相同的小数精度计价
-
+    /// 
     /// @dev Given a single token and value, return amount of tokens needed to represent that value
     /// Assumes the token value is already denominated in the same decimal precision as the oracle
     function lookupTokenAmountFromValue(IERC20 _token, uint256 _value) external view returns (uint256) {           
@@ -117,7 +124,7 @@ contract RenzoOracle is
         // Price is times 10**18 ensure token amount is scaled
         return _value * SCALE_FACTOR / uint256(price);
     }
-    /// 
+    
     /// 抵押品 token 抵押数量 的 价值
     /// 
     /// @dev 给定代币列表和余额，返回总价值（假设所有查找都以相同的基础货币计价）
@@ -140,30 +147,38 @@ contract RenzoOracle is
         return totalValue;
     }
 
+    /// _currentValueInProtocol : totalTVL,
+    /// _newValueAdded          : collateralTokenValue  抵押品 token 抵押数量 的 价值（通过预言机: lookupTokenValue)
+    /// _existingEzETHSupply    : ezETH.totalSupply()
     /// 
-    /// totalTVL,
-    /// collateralTokenValue : 抵押品 token 抵押数量 的 价值（通过预言机: lookupTokenValues） 
-    /// ezETH.totalSupply()
-    ///
     /// 
     /// @dev 给定当前协议价值、新增加的价值以及 ezETH 的供应量，确定要铸造的数量
     /// 值应以相同的基础货币及相同的小数精度为单位
-    ///
+    /// 
     /// @dev Given amount of current protocol value, new value being added, and supply of ezETH, determine amount to mint
     /// Values should be denominated in the same underlying currency with the same decimal precision
     function calculateMintAmount(uint256 _currentValueInProtocol, uint256 _newValueAdded, uint256 _existingEzETHSupply) external pure returns (uint256) {
+
+        // 没有 TVL 或者 没有 ezETH 总量 则直接返回 价值
+        // 
         // For first mint, just return the new value added.
         // Checking both current value and existing supply to guard against gaming the initial mint
         if (_currentValueInProtocol == 0 || _existingEzETHSupply == 0) {
             return _newValueAdded; // value is priced in base units, so divide by scale factor
         }
         
+        // 计算存款后值的百分比
+        // 
         // Calculate the percentage of value after the deposit 
         uint256 inflationPercentaage = SCALE_FACTOR * _newValueAdded / (_currentValueInProtocol + _newValueAdded);
 
+        // 计算 总供应量
+        // 
         // Calculate the new supply
         uint256 newEzETHSupply = (_existingEzETHSupply * SCALE_FACTOR) / (SCALE_FACTOR - inflationPercentaage);
 
+        // 从新供应量中减去旧供应量，得到铸币厂的数量
+        // 
         // Subtract the old supply from the new supply to get the amount to mint
         uint256 mintAmount = newEzETHSupply - _existingEzETHSupply;
 
@@ -174,7 +189,7 @@ contract RenzoOracle is
     }
 
     // 给定要销毁的 ezETH 数量、ezETH 的供应量以及协议中的总价值，确定要返回给用户的价值数量
-
+    // 
     // Given the amount of ezETH to burn, the supply of ezETH, and the total value in the protocol, determine amount of value to return to user    
     function calculateRedeemAmount(uint256 _ezETHBeingBurned, uint256 _existingEzETHSupply, uint256 _currentValueInProtocol) external pure returns (uint256) {
       // This is just returning the percentage of TVL that matches the percentage of ezETH being burned 
