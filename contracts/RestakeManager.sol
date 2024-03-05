@@ -594,8 +594,7 @@ contract RestakeManager is
         IERC20 _collateralToken, // 抵押品token 合约地址
         uint256 _amount,         // 抵押金额
         uint256 _referralId      // 推荐人ID （没有推荐人则为 0 ）
-    ) public nonReentrant notPaused {
-        // 暂停 / 防重入
+    ) public nonReentrant notPaused { // 暂停 / 防重入
 
         // Verify collateral token is in the list - call will revert if not found
         // 返回在抵押品数组中的索引 没有则 revert
@@ -695,7 +694,7 @@ contract RestakeManager is
      * staked later by a validator.  Once staked it will be deposited into EigenLayer.
      * * @param   _referralId  The referral ID to use for the deposit (can be 0 if none)
      */
-    function depositETH(uint256 _referralId) public payable nonReentrant notPaused {
+    function depositETH(uint256 _referralId) public payable nonReentrant notPaused { // 暂停 / 防重入
         // Get the total TVL
         (
             ,
@@ -708,9 +707,11 @@ contract RestakeManager is
             revert MaxTVLReached();
         }
 
+        // 质押 ETH 到 质押队列（暂存） 
         // Deposit the ETH into the DepositQueue
         depositQueue.depositETHFromProtocol{value: msg.value}();
 
+        // 计算 mint 的 ezETH 数量
         // Calculate how much ezETH to mint
         uint256 ezETHToMint = renzoOracle.calculateMintAmount(
             totalTVL,
@@ -719,6 +720,7 @@ contract RestakeManager is
         );
 
         // Mint the ezETH
+        // 铸币 质押凭证
         ezETH.mint(msg.sender, ezETHToMint);
 
         // Emit the deposit event
