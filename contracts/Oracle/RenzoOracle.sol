@@ -117,12 +117,14 @@ contract RenzoOracle is
         // Price is times 10**18 ensure token amount is scaled
         return _value * SCALE_FACTOR / uint256(price);
     }
-
-    // @dev 给定代币列表和余额，返回总价值（假设所有查找都以相同的基础货币计价）
+    /// 
+    /// 抵押品 token 抵押数量 的 价值
+    /// 
+    /// @dev 给定代币列表和余额，返回总价值（假设所有查找都以相同的基础货币计价）
     /// 返回的值将以查找 Oracle 的小数精度为单位
-    /// （例如，一个值为 100 的结果将返回为 100 * 10^18）
-
-    // @dev Given list of tokens and balances, return total value (assumes all lookups are denomintated in same underlying currency)
+    /// 例如，一个值为 100 的结果将返回为 100 * 10^18
+    /// 
+    /// @dev Given list of tokens and balances, return total value (assumes all lookups are denomintated in same underlying currency)
     /// The value returned will be denominated in the decimal precision of the lookup oracle
     /// (e.g. a value of 100 would return as 100 * 10^18)
     function lookupTokenValues(IERC20[] memory _tokens, uint256[] memory _balances) external view returns (uint256) {
@@ -137,10 +139,16 @@ contract RenzoOracle is
 
         return totalValue;
     }
-    
+
+    /// 
+    /// totalTVL,
+    /// collateralTokenValue : 抵押品 token 抵押数量 的 价值（通过预言机: lookupTokenValues） 
+    /// ezETH.totalSupply()
+    ///
+    /// 
     /// @dev 给定当前协议价值、新增加的价值以及 ezETH 的供应量，确定要铸造的数量
     /// 值应以相同的基础货币及相同的小数精度为单位
-
+    ///
     /// @dev Given amount of current protocol value, new value being added, and supply of ezETH, determine amount to mint
     /// Values should be denominated in the same underlying currency with the same decimal precision
     function calculateMintAmount(uint256 _currentValueInProtocol, uint256 _newValueAdded, uint256 _existingEzETHSupply) external pure returns (uint256) {

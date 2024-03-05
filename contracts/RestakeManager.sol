@@ -355,11 +355,11 @@ contract RestakeManager is
         return collateralTokens.length;
     }
 
-    /// 计算 TVL（总锁定价值）
+    /// 计算 TVL（锁定价值）
     /// 
-    /// 每个 运营商代理 下的 所有 token 中 指定 token 的 TVL ==  operatorDelegatorTokenTVLs[OD_index][token_index] = TVL
-    /// 每个 运营商代理 下的 所有 token 的 总 TVL（ 不区分 token ）== operatorDelegatorTVLs[OD_index] = TVL
-    /// 所有 运营商代理  总 TVL == totalTVL
+    /// 所有 运营商代理 下的 每个 运营商代理 下的 所有 token 中 指定 token 的 TVL ==  operatorDelegatorTokenTVLs[OD_index][token_index] = TVL
+    /// 所有 运营商代理 下的 每个 运营商代理 下的 所有 token 的 总 TVL == operatorDelegatorTVLs[OD_index] = TVL
+    /// 所有 运营商代理 总 TVL == totalTVL
     ///
     /// @dev 此函数计算每个运营商委托者的每个代币的 TVL，每个 OD 的总 TVL，以及协议的总 TVL。
     /// @return operatorDelegatorTokenTVLs 每个 OD 的 TVL，由 operatorDelegators 数组和 collateralTokens 数组索引
@@ -459,8 +459,18 @@ contract RestakeManager is
 
         return (operatorDelegatorTokenTVLs, operatorDelegatorTVLs, totalTVL);
     }
-
-    /// 这个函数挑选 TVL 低于阈值的 OperatorDelegator，或者返回列表中的第一个 OperatorDelegator。
+    
+    /// 选择 运营商代理 进行质押 (只有一个 或 没有 tvls 的时候 只返回第一个； 或者 挑选 TVL 低于 阈值的 OperatorDelegator )
+    /// 
+    /// // 运营商代理 列表 （缩写：OD）
+    /// IOperatorDelegator[] public operatorDelegators;
+    /// 
+    /// // 运营商代理 分配额
+    /// mapping(IOperatorDelegator => uint256) public operatorDelegatorAllocations;
+    ///
+    /// tvls = operatorDelegatorTVLs[OD_index] = TVL
+    /// 
+    /// 这个函数挑选 TVL 低于 阈值的 OperatorDelegator，或者 返回列表中的第一个 OperatorDelegator。
     /// @return 将要使用的 OperatorDelegator。
 
     /// @dev Picks the OperatorDelegator with the TVL below the threshold or returns the first one in the list
@@ -469,17 +479,22 @@ contract RestakeManager is
         uint256[] memory tvls,
         uint256 totalTVL
     ) public view returns (IOperatorDelegator) {
+        
+        // 验证 运营商代理数组列表 不能为空
         // Ensure OperatorDelegator list is not empty
         if (operatorDelegators.length == 0) revert NotFound();
 
+        // 如果只有一个运营商代理 则直接返回
         // If there is only one operator delegator, return it
         if (operatorDelegators.length == 1) {
             return operatorDelegators[0];
         }
 
+        // 否则，查找TVL低于 阈值 的 运营商代理 
         // Otherwise, find the operator delegator with TVL below the threshold
         uint256 tvlLength = tvls.length;
         for (uint256 i = 0; i < tvlLength;) {
+            // 验证 单个运营商代理阈值 : OD_TVL : tvls[i] < total * {2}%
             if (
                 tvls[i] <
                 (operatorDelegatorAllocations[operatorDelegators[i]] *
@@ -497,6 +512,9 @@ contract RestakeManager is
         return operatorDelegators[0];
     }
 
+
+    /// TODO
+    ///
     /// 这个函数确定要从中撤回的 OperatorDelegator。
     /// 它将尝试使用 TVL 超过分配阈值且具有要提取的代币的 OD。
     /// 如果没有 OD 的分配超过并具有要提取的代币，它将尝试找到一个具有要提取的代币的 OD。
@@ -553,8 +571,9 @@ contract RestakeManager is
         // This token cannot be withdrawn
         revert NotFound();
     }
-
-    /// 抵押品token 列表
+    /// 获取 指定抵押品token 在 （抵押品 token 列表）中的 索引 (没有则 revert)
+    /// 
+    /// 抵押品 token 列表
     /// IERC20[] public collateralTokens;
     ///
     /// 找抵押品 token 的索引 没有则 revert
@@ -578,14 +597,13 @@ contract RestakeManager is
     }
 
     /**
-     * 存入 抵押品
-     * 
+     * 存入 抵押品 ( ERC20 )
      * 
      *  @notice 存入一个 ERC20 抵押代币到协议
      *  @dev 便利函数，无需推荐 ID 和向后兼容
      *  @param _collateralToken 要存入的抵押 ERC20 代币的地址
      *  @param _amount 要存入的抵押代币的数量（以基本单位表示）
-
+     * 
      * @notice  Deposits an ERC20 collateral token into the protocol
      * @dev     Convenience function to deposit without a referral ID and backwards compatibility
      * @param   _collateralToken  The address of the collateral ERC20 token to deposit
@@ -628,82 +646,93 @@ contract RestakeManager is
      * @param   _referralId The referral ID to use for the deposit (can be 0 if none) 
      */
     function deposit(
-        IERC20 _collateralToken, // 抵押品token 合约地址
-        uint256 _amount,         // 抵押金额
-        uint256 _referralId      // 推荐人ID （没有推荐人则为 0 ）
-    ) public nonReentrant notPaused { // 暂停 / 防重入
+        IERC20 _collateralToken,        // 抵押品 token 合约地址
+        uint256 _amount,                // 抵押金额
+        uint256 _referralId             // 推荐人ID （没有推荐人 则为:0 ）
+    ) public nonReentrant notPaused {   // 暂停 && 防重入
 
-        // Verify collateral token is in the list - call will revert if not found
         // 返回在抵押品数组中的索引 没有则 revert
+        // Verify collateral token is in the list - call will revert if not found
         uint256 tokenIndex = getCollateralTokenIndex(_collateralToken);
 
+        // operatorDelegatorTokenTVLs[OD_index][token_index] = TVL
+        // operatorDelegatorTVLs[OD_index] = TVL
+        // totalTVL
+        // 
         // Get the TVLs for each operator delegator and the total TVL
-        // 获取: 
-            // 总的TVL
-            // 每个 运营商代理 的 TVL
         (
             uint256[][] memory operatorDelegatorTokenTVLs,
             uint256[] memory operatorDelegatorTVLs,
             uint256 totalTVL
         ) = calculateTVLs();
 
+        // 获取 抵押品 token 抵押数量 的 价值（通过预言机）
         // Get the value of the collateral token being deposited
-        // 获取抵押品token 指定数额的 价值
         uint256 collateralTokenValue = renzoOracle.lookupTokenValue(
             _collateralToken,
             _amount
         );
 
+        // 验证质押价值限额 - 验证 质押token数量价值 加上已经质押的 是否超过 最大质押限额（质押限额 为 0 则没有限制）
         // Enforce TVL limit if set, 0 means the check is not enabled
         if(maxDepositTVL != 0 && totalTVL + collateralTokenValue > maxDepositTVL) {
             revert MaxTVLReached();
         }
-
+        
+        // 验证 单个质押token价值限额（为 0 则 没有限额）
         // Enforce individual token TVL limit if set, 0 means the check is not enabled
         if(collateralTokenTvlLimits[_collateralToken] != 0) {
 
+            // 追踪 当前token TVL
             // Track the current token's TVL
             uint256 currentTokenTVL = 0;
 
+            // 获取 所有 运营商代理中 当前token 的 TVL 和
             // For each OD, add up the token TVLs
             uint256 odLength = operatorDelegatorTokenTVLs.length;
             for (uint256 i = 0; i < odLength;) {
                 currentTokenTVL += operatorDelegatorTokenTVLs[i][tokenIndex];
                 unchecked{++i;}        
             }
-
+            
+            // 检测是否超过限额
             // Check if it is over the limit
             if(currentTokenTVL + collateralTokenValue > collateralTokenTvlLimits[_collateralToken])
                 revert MaxTokenTVLReached();
         }
 
-
+        // 选择 运营商代理 去 质押
         // Determine which operator delegator to use
         IOperatorDelegator operatorDelegator = chooseOperatorDelegatorForDeposit(
                 operatorDelegatorTVLs,
                 totalTVL
             );
-
+        
+        // 转入质押 token 到当前合约（ 需要先授权 approve ）
         // Transfer the collateral token to this address
         _collateralToken.safeTransferFrom(
             msg.sender,
             address(this),
             _amount
         );
-
+        
+        // 当前合约持有 抵押的 token 所以 授权 给 运营商代理
         // Approve the tokens to the operator delegator
         _collateralToken.safeApprove(address(operatorDelegator), _amount);
 
+        // 运营商代理 执行质押（抵押品，数量）
         // Call deposit on the operator delegator
         operatorDelegator.deposit(_collateralToken, _amount);
 
+        // 计算 兑换的 ezETH (通过预言机)
         // Calculate how much ezETH to mint
         uint256 ezETHToMint = renzoOracle.calculateMintAmount(
             totalTVL,
             collateralTokenValue,
             ezETH.totalSupply()
         );
-
+        
+        // 铸币 ezETH
         // Mint the ezETH
         ezETH.mint(msg.sender, ezETHToMint);
 

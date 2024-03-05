@@ -49,7 +49,7 @@ abstract contract RestakeManagerStorageV1 is IRestakeManager {
 
     /// @dev Mapping to store the allocations to each operatorDelegator
     /// Stored in basis points (e.g. 1% = 100)
-    /// 运营商代理 分配额
+    /// 运营商代理 分配额 ( <  10000 )
     mapping(IOperatorDelegator => uint256) public operatorDelegatorAllocations;
 
     /// @dev Stores the list of collateral tokens
