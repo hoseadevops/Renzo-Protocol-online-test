@@ -55,7 +55,6 @@ contract RenzoOracle is
         roleManager = _roleManager;   
     }
 
-
     /// 设置用于 指定 Token 的 Oracle 地址 (  权限受限于 Oracle 管理员 )
     /// 
     /// 将地址设置为 0x0 以禁用对该代币的查询
@@ -108,6 +107,7 @@ contract RenzoOracle is
         return uint256(price) * _balance / SCALE_FACTOR;
     }
 
+    /// TODO 
     /// @dev 给定单个代币和价值，返回表示该价值所需的代币数量
     /// 假设代币价值已经以与预言机相同的小数精度计价
     /// 
@@ -125,6 +125,7 @@ contract RenzoOracle is
         return _value * SCALE_FACTOR / uint256(price);
     }
     
+    /// TODO
     /// 抵押品 token 抵押数量 的 价值
     /// 
     /// @dev 给定代币列表和余额，返回总价值（假设所有查找都以相同的基础货币计价）
@@ -188,9 +189,10 @@ contract RenzoOracle is
         return mintAmount;
     }
 
-    // 给定要销毁的 ezETH 数量、ezETH 的供应量以及协议中的总价值，确定要返回给用户的价值数量
-    // 
-    // Given the amount of ezETH to burn, the supply of ezETH, and the total value in the protocol, determine amount of value to return to user    
+    /// TODO
+    /// 给定要销毁的 ezETH 数量、ezETH 的供应量以及协议中的总价值，确定要返回给用户的价值数量
+    /// 
+    /// Given the amount of ezETH to burn, the supply of ezETH, and the total value in the protocol, determine amount of value to return to user    
     function calculateRedeemAmount(uint256 _ezETHBeingBurned, uint256 _existingEzETHSupply, uint256 _currentValueInProtocol) external pure returns (uint256) {
       // This is just returning the percentage of TVL that matches the percentage of ezETH being burned 
       uint256 redeemAmount = (_currentValueInProtocol * _ezETHBeingBurned) / _existingEzETHSupply;
