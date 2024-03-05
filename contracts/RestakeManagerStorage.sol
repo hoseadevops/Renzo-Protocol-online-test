@@ -44,7 +44,7 @@ abstract contract RestakeManagerStorageV1 is IRestakeManager {
     mapping(bytes32 => PendingWithdrawal) public pendingWithdrawals;
 
     /// @dev Stores the list of OperatorDelegators
-    // 运营商代理 列表
+    // 运营商代理 列表 （缩写：OD）
     IOperatorDelegator[] public operatorDelegators;
 
     /// @dev Mapping to store the allocations to each operatorDelegator

@@ -357,7 +357,7 @@ contract RestakeManager is
 
     /// 计算 TVL（总锁定价值）
     /// 
-    /// 每个 运营商代理 下的 所有 token 中 指定 token 的 TVL ==  operatorDelegatorTokenTVLs[OD_index][token] = TVL
+    /// 每个 运营商代理 下的 所有 token 中 指定 token 的 TVL ==  operatorDelegatorTokenTVLs[OD_index][token_index] = TVL
     /// 每个 运营商代理 下的 所有 token 的 总 TVL（ 不区分 token ）== operatorDelegatorTVLs[OD_index] = TVL
     /// 所有 运营商代理  总 TVL == totalTVL
     ///
@@ -376,7 +376,7 @@ contract RestakeManager is
         returns (uint256[][] memory, uint256[] memory, uint256)
     {
         // 每个 运营商代理 下的 所有 token 中的指定 token 的 TVL 
-        // operatorDelegatorTokenTVLs[OD_index][token] = TVL
+        // operatorDelegatorTokenTVLs[OD_index][token_index] = TVL
         uint256[][] memory operatorDelegatorTokenTVLs = new uint256[][](
             operatorDelegators.length
         );
@@ -389,17 +389,18 @@ contract RestakeManager is
         uint256 totalTVL = 0;
 
         // Iterate through the ODs 
-        // 迭代运营商代理
+        // 迭代 运营商代理数组
         
-        // odLength : 运营商代理数组 长度 operatorDelegators = 缩写：OD
+        // odLength : 运营商代理数组长度  // operatorDelegators = 缩写：OD
         uint256 odLength = operatorDelegators.length;
+
         for (uint256 i = 0; i < odLength;) {
 
-            // 追踪 单个 运营商代理 的 TVL 
+            // 追踪 单个(当前索引) 运营商代理 的 TVL （ 下次循环重置为 0 ）
             // Track the TVL for this OD
             uint256 operatorTVL = 0;
 
-            // operatorValues : 追踪 运营商代理 中 单独的 Token 的 TVLs - 包括 ETH
+            // operatorValues : 追踪 运营商代理 中 单独的 Token 的 TVLs （ 包括 ETH : 追加到数组最后一个元素 ）
             // Track the individual token TVLs for this OD - native ETH will be last item in the array
             uint256[] memory operatorValues = new uint256[](
                 collateralTokens.length + 1
@@ -411,36 +412,41 @@ contract RestakeManager is
             uint256 tokenLength = collateralTokens.length;
             for (uint256 j = 0; j < tokenLength;) {
                 // Get the value of this token
-                // 调用 EL（EigenLayer）获取数据； 获取 质押在策略中 token 的余额
+                // 通过 运营商代理 调用 EL（EigenLayer）的 策略 获取：质押在 策略中 token 的余额数量
                 uint256 operatorBalance = operatorDelegators[i]
                     .getTokenBalanceFromStrategy(collateralTokens[j]);
 
                 // Set the value in the array for this OD
-                // 通过预言机 查询 抵押 token 指定数量的 价值
+                // 通过预言机 查询 抵押 token 的 EL质押数量 的 价值（EL 的 策略 中 token 的 TVL）
                 operatorValues[j] = renzoOracle.lookupTokenValue(
                     collateralTokens[j],
                     operatorBalance
                 );
 
                 // Add it to the total TVL for this OD
+                // 当前 运营商代理 的 总 TVL
                 operatorTVL += operatorValues[j];
 
                 unchecked{++j;}
             }
 
+            // 获取 质押的 ETH 余额
             // Get the value of native ETH staked for the OD
-            // 获取 质押的ETH 余额
             uint256 operatorEthBalance = operatorDelegators[i].getStakedETHBalance();
-
+            
+            // 记录 ETH 的 TVL
             // Save it to the array for the OD
             operatorValues[operatorValues.length - 1] = operatorEthBalance;
 
+            // 当前 运营商代理 的 总 TVL（追加 质押 ETH 的 TVL）
             // Add it to the total TVL for this OD
             operatorTVL += operatorEthBalance;
 
+            // 记录总的 TVL（累加单个 运营商代理总的TVL）
             // Add it to the total TVL for the protocol
             totalTVL += operatorTVL;
-
+            
+            // 记录 当前 运营商代理 的 TVL
             // Save the TVL for this OD
             operatorDelegatorTVLs[i] = operatorTVL;
 
