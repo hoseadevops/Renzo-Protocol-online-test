@@ -174,8 +174,8 @@ contract OperatorDelegator is
             );
     }
 
-    /// @dev 获取持股人策略列表中EigenLayer中特定策略的索引
-
+    /// @dev 获取 策略列表 EigenLayer中 特定策略的索引
+    ///
     /// @dev Gets the index of the specific strategy in EigenLayer in the staker's strategy list
     function getStrategyIndex(IStrategy _strategy) public view returns (uint256) {
         // Get the length of the strategy list for this contract
@@ -192,11 +192,11 @@ contract OperatorDelegator is
     }
 
     /// 开始提款 (startWithdrawal)：开始从 EigenLayer 中提取特定代币的提款流程，将提款交由策略管理器处理。
-
+    ///
     /// @dev 启动从 EigenLayer 提取特定代币的提现。
     /// @param _token 要从 EigenLayer 提取的代币。
     /// @param _tokenAmount 要提取的代币数量。    
-
+    ///
     /// @dev Starts a withdrawal of a specific token from the EigenLayer.
     /// @param _token The token to withdraw from the EigenLayer.
     /// @param _tokenAmount The amount of tokens to withdraw.
@@ -204,8 +204,10 @@ contract OperatorDelegator is
         IERC20 _token,
         uint256 _tokenAmount
     ) external nonReentrant onlyRestakeManager returns (bytes32) {
+        // 验证 抵押品 token 对应的 EL 策略是否设置了
         if(address(tokenStrategyMapping[_token]) == address(0x0)) revert InvalidZeroInput();
 
+        // 保存EL提现 nonce
         // Save the nonce before starting the withdrawal
         uint96 nonce = uint96(strategyManager.numWithdrawalsQueued(address(this)));
 
@@ -300,6 +302,7 @@ contract OperatorDelegator is
         return stakedButNotVerifiedEth + address(eigenPod).balance + pendingUnstakedDelayedWithdrawalAmount;
     }
 
+    /// 
     /// @dev 在 EigenLayer 中抵押以太币
     /// 只有再委托管理器应该调用此函数
 

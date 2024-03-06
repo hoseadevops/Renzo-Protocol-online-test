@@ -750,6 +750,7 @@ contract RestakeManager is
     }
 
     /**
+     * 质押 ETH
      * 
      * @notice  允许用户将 ETH 存入协议，并获得相应的 ezETH
      * @dev     发送到此函数的 ETH 金额将被发送到存款队列，稍后由验证者进行质押。一旦质押，它将存入 EigenLayer。
@@ -768,6 +769,7 @@ contract RestakeManager is
             uint256 totalTVL
         ) = calculateTVLs();
 
+        // 验证质押价值限额 - 验证 质押token数量价值 加上已经质押的 是否超过 最大质押限额（质押限额 为 0 则没有限制）
         // Enforce TVL limit if set
         if(maxDepositTVL != 0 && totalTVL + msg.value > maxDepositTVL) {
             revert MaxTVLReached();
@@ -793,12 +795,15 @@ contract RestakeManager is
         emit Deposit(msg.sender, IERC20(address(0x0)), msg.value, ezETHToMint, _referralId);
     }
 
+    /// 质押 ETH 到运营商代理中
+    /// 
     /// @dev 由存款队列调用，将 ETH 质押给验证者
     /// 仅可由存款队列调用
-
+    /// 
     /// @dev Called by the deposit queue to stake ETH to a validator
     /// Only callable by the deposit queue
     function stakeEthInOperatorDelegator(IOperatorDelegator operatorDelegator, bytes calldata pubkey, bytes calldata signature, bytes32 depositDataRoot) external payable onlyDepositQueue {
+        // 验证 是否有效的 运营商代理
         // Verify the OD is in the list
         bool found = false;
         uint256 odLength = operatorDelegators.length;
@@ -816,7 +821,7 @@ contract RestakeManager is
         operatorDelegator.stakeEth{value: msg.value}(pubkey, signature, depositDataRoot);
     }
 
-
+    /// TODO
     /// @dev 从存款队列存入 ERC20 代币奖励
     /// 仅可由存款队列调用
 
@@ -860,10 +865,13 @@ contract RestakeManager is
     }
 
     /*
+     * 
+     *
+     * 
      * @notice  返回协议赚取的总奖励金额
      * @dev     奖励包括质押的原生 ETH 和 EigenLayer 奖励（ETH + ERC20）
      * @return  uint256  以 ETH 价格计价的协议赚取的总奖励金额
- 
+     * 
      * @notice  Returns the total amount of rewards earned by the protocol
      * @dev     Rewards include staking native ETH and EigenLayer rewards (ETH + ERC20s)
      * @return  uint256  The total amount of rewards earned by the protocol priced in ETH

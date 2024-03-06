@@ -13,23 +13,23 @@ import "./IRestakeManager.sol";
 
 abstract contract RestakeManagerStorageV1 is IRestakeManager {
     /// @dev reference to the RoleManager contract
-    // 管理角色
+    /// 管理角色
     IRoleManager public roleManager;
 
     /// @dev reference to the ezETH token contract
-    // LRT token
+    /// LRT token
     IEzEthToken public ezETH;
 
     /// @dev reference to the strategyManager contract in EigenLayer
-    // EigenLayer (EL) 的 strategyManager
+    /// EigenLayer (EL) 的 strategyManager
     IStrategyManager public strategyManager;
 
     /// @dev reference to the delegationManager contract in EigenLayer
-    // EigenLayer (EL) 的 delegationManager
+    /// EigenLayer (EL) 的 delegationManager
     IDelegationManager public delegationManager;
 
     /// @dev data stored for a withdrawal
-    // 待提现
+    /// 待提现
     struct PendingWithdrawal {
         uint256 ezETHToBurn;                     // 待销毁的 LRT
         address withdrawer;                      // 提现地址
@@ -40,7 +40,7 @@ abstract contract RestakeManagerStorageV1 is IRestakeManager {
     }
 
     /// @dev mapping of pending withdrawals, indexed by the withdrawal root from EigenLayer
-    // 待提现列表
+    /// 待提现列表
     mapping(bytes32 => PendingWithdrawal) public pendingWithdrawals;
 
     /// @dev Stores the list of OperatorDelegators
@@ -53,7 +53,7 @@ abstract contract RestakeManagerStorageV1 is IRestakeManager {
     mapping(IOperatorDelegator => uint256) public operatorDelegatorAllocations;
 
     /// @dev Stores the list of collateral tokens
-    // 抵押品 token 列表
+    /// 抵押品 token 列表
     IERC20[] public collateralTokens;
 
     /// @dev Reference to the oracle contract
@@ -61,19 +61,19 @@ abstract contract RestakeManagerStorageV1 is IRestakeManager {
     IRenzoOracle public renzoOracle;
 
     /// @dev Controls pause state of contract
-    // 是否暂停
+    /// 是否暂停
     bool public paused;
 
     /// @dev The max amount of TVL allowed.  If this is set to 0, no max TVL is enforced
-    // 允许的 最大 的质押价值
+    /// 允许的 最大 的质押价值
     uint256 public maxDepositTVL;
 
     /// @dev Reference to the deposit queue contract
-    // 质押队列
+    /// 质押队列
     IDepositQueue public depositQueue;
 }
 
 abstract contract RestakeManagerStorageV2 is RestakeManagerStorageV1 {    
-    // 抵押品Token 总锁定价值 限额
+    /// 抵押品Token 总锁定价值 限额
     mapping(IERC20 => uint256) public collateralTokenTvlLimits;
 }

@@ -148,6 +148,8 @@ contract RenzoOracle is
         return totalValue;
     }
 
+    /// 计算铸币的 价值
+    /// 
     /// _currentValueInProtocol : totalTVL,
     /// _newValueAdded          : collateralTokenValue  抵押品 token 抵押数量 的 价值（通过预言机: lookupTokenValue)
     /// _existingEzETHSupply    : ezETH.totalSupply()
@@ -160,7 +162,7 @@ contract RenzoOracle is
     /// Values should be denominated in the same underlying currency with the same decimal precision
     function calculateMintAmount(uint256 _currentValueInProtocol, uint256 _newValueAdded, uint256 _existingEzETHSupply) external pure returns (uint256) {
 
-        // 没有 TVL 或者 没有 ezETH 总量 则直接返回 价值
+        // 没有 TVL 或者 没有 ezETH 总量 则直接返回（ 抵押数量的价值 ）
         // 
         // For first mint, just return the new value added.
         // Checking both current value and existing supply to guard against gaming the initial mint
@@ -168,12 +170,15 @@ contract RenzoOracle is
             return _newValueAdded; // value is priced in base units, so divide by scale factor
         }
         
-        // 计算存款后值的百分比
+        // 计算存款后 价值 的 百分比
         // 
         // Calculate the percentage of value after the deposit 
         uint256 inflationPercentaage = SCALE_FACTOR * _newValueAdded / (_currentValueInProtocol + _newValueAdded);
 
-        // 计算 总供应量
+        // inflationPercentaage = x * 40%
+        // newEzETHSupply = _existingEzETHSupply * x / (x - (x * 40%)) 
+        // newEzETHSupply = _existingEzETHSupply * x / (x * (1 - 40%))
+        // 
         // 
         // Calculate the new supply
         uint256 newEzETHSupply = (_existingEzETHSupply * SCALE_FACTOR) / (SCALE_FACTOR - inflationPercentaage);
