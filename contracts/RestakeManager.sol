@@ -866,8 +866,6 @@ contract RestakeManager is
 
     /*
      * 
-     *
-     * 
      * @notice  返回协议赚取的总奖励金额
      * @dev     奖励包括质押的原生 ETH 和 EigenLayer 奖励（ETH + ERC20）
      * @return  uint256  以 ETH 价格计价的协议赚取的总奖励金额

@@ -99,7 +99,7 @@ contract DepositQueue is Initializable, ReentrancyGuardUpgradeable, DepositQueue
         }
 
         // Verify basis points are not over 100%
-        // 验证基点未超过100%
+        // 验证基点不超过100%
         if(_feeBasisPoints > 10000) revert OverMaxBasisPoints();
 
         feeAddress = _feeAddress;
@@ -128,16 +128,16 @@ contract DepositQueue is Initializable, ReentrancyGuardUpgradeable, DepositQueue
         emit ETHDepositedFromProtocol(msg.value);
     }
 
+    /// @dev 处理从协议外部发送到此合约的ETH - 例如，奖励（以太坊 质押挖矿奖励 和 执行 MEV奖励）
+    /// ETH 将存储在此，用于 validator deposit（以太坊 POS 验证人质押）
+    /// 这应该 从 【以太坊执行层奖励 和 最大可提取价值（MEV）】 场景下 接收 ETH
+    /// 用户不应直接将 ETH 发送到此合约，除非他们想捐赠给现有的ezETH持有者
+    /// 
+    /// 
     /// @dev Handle ETH sent to this contract from outside the protocol - e.g. rewards
     /// ETH will be stored here until used for a validator deposit
     /// This should receive ETH from scenarios like Execution Layer Rewards and MEV (Maximal Extractable Value) from native staking
     /// Users should NOT send ETH directly to this contract unless they want to donate to existing ezETH holders
-    
-    /// @dev 处理从协议外部发送到此合约的ETH - 例如，奖励（以太坊 质押挖矿奖励 和 执行 MEV奖励）
-    /// ETH 将存储在此，用于 validator deposit（以太坊 POS 验证人质押）
-    
-    /// 这应该 从 【以太坊执行层奖励 和 最大可提取价值（MEV）】 场景下 接收 ETH
-    /// 用户不应直接将 ETH 发送到此合约，除非他们想捐赠给现有的ezETH持有者
     receive() external payable nonReentrant { 
         uint256 feeAmount = 0;
         // Take protocol cut of rewards if enabled
@@ -158,12 +158,13 @@ contract DepositQueue is Initializable, ReentrancyGuardUpgradeable, DepositQueue
         emit RewardsDeposited(IERC20(address(0x0)), msg.value - feeAmount);
     }
 
-    /// @dev Function called by ETH Restake Admin to start the restaking process in Native ETH
-    /// Only callable by a permissioned account
-
     /// @dev 管理员调用此函数，启动原生ETH的 restake 重质押流程
     /// 仅可由授权帐户调用
     /// 参数：运营商代理、公钥、签名、质押根
+    ///
+    /// 
+    /// @dev Function called by ETH Restake Admin to start the restaking process in Native ETH
+    /// Only callable by a permissioned account
     function stakeEthFromQueue(IOperatorDelegator operatorDelegator, bytes calldata pubkey, bytes calldata signature, bytes32 depositDataRoot) external onlyNativeEthRestakeAdmin {
 
         // Send the ETH and the params through to the restake manager

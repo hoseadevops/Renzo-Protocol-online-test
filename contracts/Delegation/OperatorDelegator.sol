@@ -99,11 +99,11 @@ contract OperatorDelegator is
         eigenPod = IEigenPod(eigenPodManager.ownerToPod(address(this)));
     }
 
+    /// 设置给定token 的策略 - 将策略设置为0x0 将 删除 "存入和取出" 令牌的功能
     /// token 到 EL（EigenLayer） IStrategy 策略 的 mapping
     /// mapping(IERC20 => IStrategy) public tokenStrategyMapping;
-
+    ///
     /// @dev Sets the strategy for a given token - setting strategy to 0x0 removes the ability to deposit and withdraw token
-    // 设置给定token 的策略 - 将策略设置为0x0 将 删除 "存入和取出" 令牌的功能
     function setTokenStrategy(
         IERC20 _token,
         IStrategy _strategy
